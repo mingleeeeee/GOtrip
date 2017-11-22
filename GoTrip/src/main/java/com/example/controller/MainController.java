@@ -22,6 +22,11 @@ public class MainController {
        ModelAndView model = new ModelAndView("Index/index");
        return model;
     }
+    @RequestMapping(value = {"/TourList"}, method = RequestMethod.GET)
+   public ModelAndView TourList(){
+    	ModelAndView model = new ModelAndView("Tour/TourList");
+	   return model;
+   }
     
 
 }
