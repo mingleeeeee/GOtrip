@@ -24,9 +24,19 @@ public class MainController {
     }
     @RequestMapping(value = {"/TourList"}, method = RequestMethod.GET)
    public ModelAndView TourList(){
-    	ModelAndView model = new ModelAndView("Tour/TourList");
+    	ModelAndView model = new ModelAndView("Tour/tourList");
 	   return model;
    }
+    @RequestMapping(value = {"/TourInfo"}, method = RequestMethod.GET)
+    public ModelAndView TourInfo(){
+     	ModelAndView model = new ModelAndView("Tour/tourInfo");
+ 	   return model;
+    }
+    @RequestMapping(value = {"/SpotSearch"}, method = RequestMethod.GET)
+    public ModelAndView SpotSearch(){
+     	ModelAndView model = new ModelAndView("Tour/spotSearch");
+ 	   return model;
+    }
     
 
 }
