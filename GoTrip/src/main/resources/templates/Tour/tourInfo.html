@@ -68,8 +68,8 @@
 	
 		
 		<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
-			<h1 class="text-center" style="font-weight:lighter;" >行程列表</h1>
-			  <p class="text-center" style="font-weight:lighter;">新增、自訂行程</p>
+			<h1 class="text-center" style="font-weight:lighter;" >行程提籃</h1>
+			  <p class="text-center" style="font-weight:lighter;">自訂行程日程表</p>
 		</div>
     
 		</div>
@@ -97,46 +97,41 @@
 
 	<div class="dd">
 
-	  <ol class="kanban To-do">
+	  <ol class="kanban progress">
 		<div class="kanban__title">
-		  <h2><i class="material-icons">report_problem</i>第一天</h2></div>
+		  <h2>第一天</h2></div>
 	   <li class="dd-item" data-id="1">
 		  <h3 class="title dd-handle" >台北101<i class=" material-icons ">filter_none</i></h3>
-			
+			 <div class="text" contenteditable="true"></div>
       
     </li>
 	
-	  <li class="dd-item" data-id="1">
-      <h3 class="title dd-handle" >台北101<i class=" material-icons ">filter_none</i></h3>
-        <div class="text" contenteditable="true">
-     </div> <i class="material-icons"></i><div class="actions">
-        <i class="material-icons">palette</i><i class="material-icons">edit</i><i class="material-icons">insert_link</i><i class="material-icons">attach_file</i></div>
-      
+	  <li class="dd-item" data-id="2">
+		  <h3 class="title dd-handle" >台北101<i class=" material-icons ">filter_none</i></h3>
+		   <div class="text" contenteditable="true"></div>
     </li>
   
     <div class="actions">
-      <button class="addbutt"><i class="material-icons">control_point</i> Add new</button>
+      <button class="addbutt"  onclick="location='SpotSearch'"><i class="material-icons" >control_point</i> Add new</button>
     </div>
   </ol>
 	
   <ol class="kanban progress">
-    <h2><i class="material-icons">build</i>第二天</h2>
+    <h2>第二天</h2>
       <li class="dd-item" data-id="5">
-      <h3 class="title dd-handle"><i class=" material-icons ">filter_none</i>木柵動物園</h3>
-        <div class="text" contenteditable="true"></div><div class="actions">
-        <i class="material-icons">palette</i><i class="material-icons">edit</i><i class="material-icons">insert_link</i><i class="material-icons">attach_file</i></div>
+      <h3 class="title dd-handle">木柵動物園<i class=" material-icons ">filter_none</i></h3>
+        <div class="text" contenteditable="true"></div>
       
     </li>
 	  
 	  <li class="dd-item" data-id="1">
       <h3 class="title dd-handle" >台北101<i class=" material-icons ">filter_none</i></h3>
         <div class="text" contenteditable="true">
-     </div> <i class="material-icons" id="label blue">label</i><div class="actions">
-        <i class="material-icons" id="color">palette</i><i class="material-icons">edit</i><i class="material-icons">insert_link</i><i class="material-icons">attach_file</i></div>
+     </div>
       
     </li>
 	   <div class="actions">
-      <button class="addbutt"><i class="material-icons">control_point</i> Add new</button>
+      <button class="addbutt"  onclick="location='SpotSearch'"><i class="material-icons">control_point</i> Add new</button>
     </div>
   </ol>
   
@@ -179,8 +174,8 @@
 		
 			<ul class="list-group">
 					<h4 style="text-align: center">行程功能</h4>
-				  <li class="list-group-item title dd-handle">新增行程</li>
-				  <li class="list-group-item title dd-handle">新增行程</li>
+				  <li class="list-group-item">新增行程</li>
+				  <li class="list-group-item">新增行程</li>
   
 </ul>
 			

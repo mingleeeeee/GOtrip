@@ -37,6 +37,12 @@ public class MainController {
      	ModelAndView model = new ModelAndView("Tour/spotSearch");
  	   return model;
     }
+    @RequestMapping(value = {"/Test"}, method = RequestMethod.GET)
+    public ModelAndView Test(){
+     	ModelAndView model = new ModelAndView("Test/123");
+ 	   return model;
+    }
+    
     
 
 }
