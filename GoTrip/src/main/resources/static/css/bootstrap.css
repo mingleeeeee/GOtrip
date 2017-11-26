@@ -8372,12 +8372,11 @@ nav {
     height: 160px;
     border: 2px solid #e5e5e5;
 }
-  footer{
+ footer{
             position: relative;
             background-color: #0C2033;
             height: 100px;
             z-index:99;
 			
         }
-
 /*# sourceMappingURL=bootstrap.css.map */
