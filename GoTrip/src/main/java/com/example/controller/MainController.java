@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class MainController {
-
+//
 	
 	
     @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
