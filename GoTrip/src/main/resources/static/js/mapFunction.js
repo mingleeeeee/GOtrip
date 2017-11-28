@@ -121,8 +121,13 @@
       }
 
       function createAttraction(placeId){
+    	
         var basket = $('#basket');
         basket.append('<li class="dd-item" id=' + placeId + '><h5 class="title dd-handle" >' + placeName + '<i class=" material-icons ">filter_none</i></h5><span class="glyphicon glyphicon-trash" onclick="removeAttraction(\'' + placeId + '\')" style="color:red"></span> <input type="hidden" value=' + placeId + '> <input type="hidden" value=' + placeName + '> </li>');
+        
+       
+      
+      
       }
 
       function removeAttraction(placeId){
