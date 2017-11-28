@@ -96,8 +96,8 @@
           if(status == google.maps.places.PlacesServiceStatus.OK){
             var base = '名稱: ' + place.name + '<br>地址: ' + placeDetail.formatted_address + 
                             '<br>評價: ' + place.rating.toString() + '<br>' + isOpen;
-            var create = '<br><a href="#" id="infoWinBtn" onclick="createAttraction(\'' + place.place_id + '\')">' + 
-                          '<span class="glyphicon glyphicon-plus-sign" style="font-size:16px"></span></a>'
+            var create = '<br><span class="glyphicon glyphicon-plus-sign" style="font-size:16px" onclick="createAttraction(\'' + place.place_id + '\')">' + 
+                          '</span>'
                           //
             var website = placeDetail.website;
             if(website != null){
@@ -109,8 +109,8 @@
           }
           else
             singleContent = '名稱: ' + place.name + '<br>評價: ' + place.rating.toString() + '<br>' + isOpen + 
-                            '<br><a href="#" id="infoWinBtn" onclick="createAttraction(\'' + place.place_id + 
-                            '\')"><span class="glyphicon glyphicon-plus-sign" style="font-size:16px"></span> </a>';
+                            '<br><span class="glyphicon glyphicon-plus-sign" style="font-size:16px" onclick="createAttraction(\'' + place.place_id + 
+                            '\')"></span>';
         });
 
         marker.addListener('click', function() {
@@ -121,8 +121,13 @@
       }
 
       function createAttraction(placeId){
+    	
         var basket = $('#basket');
-        basket.append('<li class="dd-item" id=' + placeId + '><h5 class="title dd-handle" >' + placeName + '<i class=" material-icons ">filter_none</i></h5> <a href="#""><span class="glyphicon glyphicon-trash" onclick="removeAttraction(\'' + placeId + '\')" style="color:red"></span></a> <input type="hidden" value=' + placeId + '> <input type="hidden" value=' + placeName + '> </li>');
+        basket.append('<li class="dd-item" id=' + placeId + '><h5 class="title dd-handle" >' + placeName + '<i class=" material-icons ">filter_none</i></h5><span class="glyphicon glyphicon-trash" onclick="removeAttraction(\'' + placeId + '\')" style="color:red"></span> <input type="hidden" value=' + placeId + '> <input type="hidden" value=' + placeName + '> </li>');
+        
+       
+      
+      
       }
 
       function removeAttraction(placeId){
