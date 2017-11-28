@@ -99,11 +99,11 @@
         <input type="submit" value="搜尋" class="btn btn-default"/>
       </div>
     </form>
-    <button id="positionBtn" onclick="positionSearch()" class="btn btn-primary">定位搜尋</button>
-      
+    <button id="positionBtn" onclick="start()" class="btn btn-primary">定位</button>
+    <button id="searchBtn" onclick="positionSearch()" class="btn btn-primary">景點</button>
+    <button onclick="clearMarker()" class="btn btn-primary">清除標記</button>
     <div id="map">
     	loading map ...
-
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWvAaiXtcAtlyhzMODu-VgnV4KhJaRSA&amp;libraries=places&amp;callback=start" async ="defer"></script>
 	
