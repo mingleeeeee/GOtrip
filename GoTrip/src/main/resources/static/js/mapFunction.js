@@ -1,15 +1,14 @@
-    var map;
+      var map;
       var infowindow;
       var placeName;
       var lat = 0;
       var lng = 0;
 
       function start(){
-        //alert("enter start");
         initalLocation();  
       }
 
-      function textSearch(){ 
+      function textSearch(){
         var service = new google.maps.places.PlacesService(map);
         var value = document.getElementById("input").value;
         var pyrmont = {lat: lat, lng: lng};
@@ -21,46 +20,50 @@
         service.textSearch(request, callback1);
       }
 
-      function positionSearch(){
-        //alert("enter position");
+      function positionSearch(query){
         var pyrmont = map.getCenter();
         var zoom = map.getZoom();
         initMap(pyrmont, zoom);  
-        
-        
-        map.addListener('idle', performSearch);
-        //service.nearbySearch(request, callback2);
+        performSearch(query);
+        //map.addListener('idle', performSearch(query));
       }
 
-      function performSearch(){
-        //alert("fuck");
-        var request = {
-          bounds: map.getBounds(),
-          keyword: '景點'
-        };
-
-        var service = new google.maps.places.PlacesService(map);
-        service.radarSearch(request, callback2);
+      function performSearch(query){
+        if(query == "0")
+          clearMarker();
+        else{
+          if(query == "1") query = "景點";
+          else if(query == "2")query = "公園";
+          else if(query == "3")query = "夜市";
+          else if(query == "4")query = "購物";
+          else if(query == "5")query = "古蹟";
+          else if(query == "6")query = "美食";
+          else query = "景點";
+       
+          var request = {
+            bounds: map.getBounds(),
+            keyword: query
+          };
+          var service = new google.maps.places.PlacesService(map);
+          service.radarSearch(request, callback2);
+        }
       }
 
       function initalLocation() {
-        //alert("enter initalLocation");
         if (navigator.geolocation) {
-          //alert("fuck");
             navigator.geolocation.getCurrentPosition(function(position) {
               var pyrmont = {lat: 0, lng: 0};
-              //alert(pyrmont.lat);
               pyrmont.lat = position.coords.latitude;
               pyrmont.lng = position.coords.longitude;
               lat = position.coords.latitude;
               lng = position.coords.longitude;
+
               initMap(pyrmont, 16);
           });
         }
       }
 
       function initMap(pyrmont, zoom){
-        //alert("enter initMap");
         map = new google.maps.Map(document.getElementById('map'), {
           center: pyrmont,
           zoom: zoom
@@ -69,39 +72,42 @@
         infowindow = new google.maps.InfoWindow();
       }
 
-      function callback2(results, status){
+      function callback1(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-            //alert(results[i].name);
+          var markers = [];
+          pyrmont = results[0].geometry.location;
+          initMap(pyrmont, 12);
+          for (var i = 0; i < results.length; i++){
+            markers.push(createMarker(results[i]));
           }
+          var markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         }
       }
-      
-      function callback1(results, status) {
-        //alert("enter");
+
+      function callback2(results, status){
+        var markers = [];
         if (status === google.maps.places.PlacesServiceStatus.OK) {
-          pyrmont = results[0].geometry.location;
-          initMap(pyrmont, 16);
-          for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
+          for (var i = 0; i < results.length; i++){
+            markers.push(createMarker(results[i]));
           }
+          var markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         }
       }
 
       function createMarker(place){
+        //var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         var marker = new google.maps.Marker({
           position: place.geometry.location,
-          map: map,
           //draggable: true,
           //animation: google.maps.Animation.DROP
         });
         createInfoWindow(marker, place);
+
+        return marker;
       }
 
       function createInfoWindow(marker, place){
         var service = new google.maps.places.PlacesService(map);
-        //alert(place.place_id);
         google.maps.event.addListener(marker, 'click', function(){
           service.getDetails({placeId: place.place_id}, function(detail, status){
             
@@ -127,49 +133,11 @@
               }
               
               infowindow.setContent(content);
-              infowindow.open(map, marker);//alert("no");
+              infowindow.open(map, marker);
             }
           });
         });
-
-
-
-
-        /*var isOpen;
-        if(place.opening_hours)
-          isOpen = "營業中";
-        else
-          isOpen = "目前非營業時間";
-
-        var request = {placeId: place.place_id};
-        var singleContent;
-        //var service = new google.maps.places.PlacesService(map);
-        service.getDetails(request, function(placeDetail, status){
-          if(status == google.maps.places.PlacesServiceStatus.OK){
-            var base = '名稱: ' + place.name + '<br>地址: ' + placeDetail.formatted_address + 
-                            '<br>評價: ' + place.rating.toString() + '<br>' + isOpen;
-            var create = '<br><span class="glyphicon glyphicon-plus-sign" style="font-size:16px" onclick="createAttraction(\'' + place.place_id + '\')">' + 
-                          '</span>';
-                          //
-            var website = placeDetail.website;
-            if(website !== null){
-              website = '<br>連結: <a href=' + website + '>相關網站</a>';
-              singleContent = base + website + create;
-            }
-            else
-              singleContent = base + create;
-          }
-          else
-            singleContent = '名稱: ' + place.name + '<br>評價: ' + place.rating.toString() + '<br>' + isOpen + 
-                            '<br><span class="glyphicon glyphicon-plus-sign" style="font-size:16px" onclick="createAttraction(\'' + place.place_id + 
-                            '\')"></span>';
-        });
-
-        marker.addListener('click', function() {
-          infowindow.setContent(singleContent);
-          placeName = place.name;
-          infowindow.open(map, this);
-        });*/
+        
       }
 
       function createAttraction(placeId){
@@ -188,5 +156,9 @@
       function clearMarker(){
         initMap(map.getCenter(), map.getZoom());
       }
-      
-      
+
+      function specialSearch(){
+        //var kind = document.querySelector('input[name="kind"]:checked').value;;
+        var kind = $("#kind").val();
+        positionSearch(kind);
+      }

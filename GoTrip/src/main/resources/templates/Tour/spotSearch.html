@@ -95,19 +95,31 @@
 	
 	<form action="javascript:textSearch();">
       <div class="form-group">
-        <input type="text" id="input" class="form-control" size="20"/>
+        <input type="text" id="input" class="form-control"/>
         <input type="submit" value="搜尋" class="btn btn-default"/>
       </div>
     </form>
     <button id="positionBtn" onclick="start()" class="btn btn-primary">定位</button>
-    <button id="searchBtn" onclick="positionSearch()" class="btn btn-primary">景點</button>
-    <button onclick="clearMarker()" class="btn btn-primary">清除標記</button>
+    <!--  <button id="searchBtn" onclick="positionSearch()" class="btn btn-primary">顯示景點</button>-->
+    <button onclick="clearMarker()" class="btn btn-danger">清除標記</button><br/><br/>
+    <form action="javascript:specialSearch();" >
+    	<div class="form-group">
+    		<select id="kind" onchange="this.form.submit()" class="form-control">
+    			<option value="0">請選擇...</option>
+    			<option value="1">景點</option>
+    			<option value="2">公園</option>
+    			<option value="3">夜市</option>
+    			<option value="4">購物</option>
+    			<option value="5">古蹟</option>
+    			<option value="6">美食</option>
+    		</select>
+    	</div>
+    </form>
     <div id="map">
     	loading map ...
     </div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWvAaiXtcAtlyhzMODu-VgnV4KhJaRSA&amp;libraries=places&amp;callback=start" async ="defer"></script>
-	
-    
+	<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
      
       </div>     
       </div>
