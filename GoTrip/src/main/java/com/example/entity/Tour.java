@@ -20,21 +20,26 @@ public class Tour {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
+	
+	@Column(name="name")
 	private String name;
 	
 	@Column(name = "begin_date")
 	private Date beginDate;
+	
+	@Column(name="days")
 	private int days;
+	
+	@Column(name="note")
 	private String note;
 	
-	/*
+	
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "users_username")
 	private Account account;
-	*/
 	
 	@OneToMany(mappedBy = "tour")
-	private List<Attraction> attractions;
+	private List<Spot> spots;
 	
 	public int getId() {
 		return id;
@@ -75,7 +80,7 @@ public class Tour {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	/*
+	
 	public Account getAccount(){
 		return account;
 	}
@@ -83,10 +88,9 @@ public class Tour {
 	public void setAccount(Account account){
 		this.account = account;
 	}
-	 */
 	
-	public Iterable<Attraction> getAttractions(){
-		return attractions;
+	public Iterable<Spot> getSpots(){
+		return spots;
 	}
 	
 }
