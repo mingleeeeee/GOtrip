@@ -1,7 +1,5 @@
 package com.example.entity;
 
-import java.sql.Time;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,18 +10,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "attraction")
-public class Attraction {
+@Table(name = "spot")
+public class Spot {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
+	@Column(name="name")
 	private String name;
-	private int day;
 	
-	@Column(name = "delay_time")
-	private Time delayTime;
+	@Column(name="on_which_day")
+	private int on_which_day;
+	
+	@Column(name = "duration")
+	private String duration;
+	
+	@Column(name="note")
+	private String note;
 	
 	@ManyToOne
 	@JoinColumn(name = "tour_id")
@@ -45,19 +49,35 @@ public class Attraction {
 		this.name = name;
 	}
 
-	public int getDay() {
-		return day;
+	public int getOn_which_day() {
+		return on_which_day;
 	}
 
-	public void setDay(int day) {
-		this.day = day;
+	public void setOn_which_day(int on_which_day) {
+		this.on_which_day = on_which_day;
 	}
 
-	public Time getDelayTime() {
-		return delayTime;
+	public String getDuration() {
+		return duration;
 	}
 
-	public void setDelayTime(Time delayTime) {
-		this.delayTime = delayTime;
+	public void setDuration(String duration) {
+		this.duration = duration;
+	}
+
+	public String getNote() {
+		return note;
+	}
+
+	public void setNote(String note) {
+		this.note = note;
+	}
+
+	public Tour getTour() {
+		return tour;
+	}
+
+	public void setTour(Tour tour) {
+		this.tour = tour;
 	}
 }

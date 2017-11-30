@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,11 +17,18 @@ public class Hot {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 
+	@Column(name="name")
 	private String name;
+		
 	private transient MultipartFile photoFile;
 	private String photo;
+	
+	@Column(name="description")
 	private String description;
 
+	@Column(name="address")
+	private String address;
+	
 	public int getId() {
 		return id;
 	}
@@ -65,4 +73,12 @@ public class Hot {
 		this.photo = photo;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 }
