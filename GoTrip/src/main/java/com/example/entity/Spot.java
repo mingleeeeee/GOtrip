@@ -20,6 +20,9 @@ public class Spot {
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="placeId")
+	private String placeId;
+	
 	@Column(name="on_which_day")
 	private int on_which_day;
 	
@@ -71,6 +74,14 @@ public class Spot {
 
 	public void setNote(String note) {
 		this.note = note;
+	}
+	
+	public String getPlaceId(){
+		return placeId;
+	}
+	
+	public void setPlaceId(String placeId){
+		this.placeId = placeId;
 	}
 
 	public Tour getTour() {

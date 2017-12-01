@@ -33,7 +33,6 @@ public class Tour {
 	@Column(name="note")
 	private String note;
 	
-	
 	@ManyToOne
 	@JoinColumn(name = "users_username")
 	private Account account;

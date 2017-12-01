@@ -8379,4 +8379,16 @@ nav {
             z-index:99;
 			
         }
+   html, body {
+			max-width: 100%;
+			overflow-x: hidden;
+			/* 防止畫面水平超過尺寸 */
+		}
+
+/* google map */
+#map {
+        height: 500px;
+        width: 100%;
+        display: block;
+      	}
 /*# sourceMappingURL=bootstrap.css.map */
