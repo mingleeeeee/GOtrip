@@ -9,7 +9,7 @@
 
 <!-- Bootstrap -->
 
-<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 	<script src="//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js"></script>	
 	<script src="//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js"></script>
 	
@@ -17,10 +17,10 @@
 	<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
 	<link rel="canonical" href="https://codepen.io/Aniboaz/pen/vKOXPa?depth=everything&amp;limit=all&amp;order=popularity&amp;page=47&amp;q=material+&amp;show_forks=false" />
 
-<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
-<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
-<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Arbutus+Slab"/>
-<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"/>
+	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
+	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Arbutus+Slab"/>
+	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"/>
 	<link rel="stylesheet" href="css/blockCSS.css"/>
 	<link rel="stylesheet" href="css/bootstrap.css"/>
 	
@@ -31,173 +31,80 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-	
-	<style>
-		
-	
-	
-	
-	</style>
-	<script>
-	
-	</script>
-
-	</head>
+</head>
 <body>
 	
 	<!-- Navbar -->
 <div th:replace="Shared/layout :: nav"></div>
-	
-	
-	<div class="jumbotron" style="background-image: url(images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" >
- 			
-		<div class="container">
-	
-		
-		<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
-			<h1 class="text-center" style="font-weight:lighter;" >行程提籃</h1>
-			  <p class="text-center" style="font-weight:lighter;">自訂行程日程表</p>
-		</div>
+	<div class="jumbotron" style="background-image: url(images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" > 			
+		<div class="container">		
+			<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
+				<h1 class="text-center" style="font-weight:lighter;" >行程提籃</h1>
+			  	<p class="text-center" style="font-weight:lighter;">自訂行程日程表</p>
+			</div>
     
 		</div>
 	</div>
-
-
-	
 <hr/>
-	
 		
 	<!-- 自訂行程 -->
-<div class="container" >
-	
-	
-  <div class="row">
-    <div class="col-lg-9 col-md-12">
-<div class="row">
-        
-	<div class="tourInfo">
-		<div id="Day1">
-			
-			
+	<div class="container" >
+  		<div class="row">
+    		<div class="col-lg-9 col-md-12">
+				<div class="row">   
+					<div class="tourInfo">
+					<div id="Day1">
+						
 <!-- Simple MDL Progress Bar -->
 
-
-	<div class="dd">
-
-	  <ol class="kanban progress">
-		<div class="kanban__title">
-		  <h2>第一天</h2></div>
-	   <li class="dd-item" data-id="1">
-		  <h3 class="title dd-handle" >台北101<i class=" material-icons ">filter_none</i></h3>
-			 <div class="text" contenteditable="true"></div>
-      
-    </li>
-	
-	  <li class="dd-item" data-id="2">
-		  <h3 class="title dd-handle" >自由廣場<i class=" material-icons ">filter_none</i></h3>
-		   <div class="text" contenteditable="true"></div>
-    </li>
-    
-    <li class="dd-item" data-id="2">
-		  <h3 class="title dd-handle" >國家音樂廳<i class=" material-icons ">filter_none</i></h3>
-		   <div class="text" contenteditable="true"></div>
-    </li>
-    
-    <li class="dd-item" data-id="2">
-		  <h3 class="title dd-handle" >Blue Note Jazz Bar<i class=" material-icons ">filter_none</i></h3>
-		   <div class="text" contenteditable="true"></div>
-    </li>
-  
-    <div class="actions">
-      <button class="addbutt"  onclick="location='SpotSearch'"><i class="material-icons" >control_point</i> Add new</button>
-    </div>
-  </ol>
-	
-  <ol class="kanban progress">
-    <h2>第二天</h2>
-     
-      <li class="dd-item" data-id="5">
-      <h3 class="title dd-handle">故宮博物院<i class=" material-icons ">filter_none</i></h3>
-        <div class="text" contenteditable="true"></div>
-      
-    </li>
-    
-    <li class="dd-item" data-id="2">
-		  <h3 class="title dd-handle" >花博<i class=" material-icons ">filter_none</i></h3>
-		   <div class="text" contenteditable="true"></div>
-    </li>
-	  
-	  <li class="dd-item" data-id="2">
-		  <h3 class="title dd-handle" >陽明山夜景<i class=" material-icons ">filter_none</i></h3>
-		   <div class="text" contenteditable="true"></div>
-    </li>
-    
-	  <li class="dd-item" data-id="1">
-      <h3 class="title dd-handle" >士林夜市<i class=" material-icons ">filter_none</i></h3>
-        <div class="text" contenteditable="true">
-     </div>
-      
-    </li>
-	   <div class="actions">
-      <button class="addbutt"  onclick="location='SpotSearch'"><i class="material-icons">control_point</i> Add new</button>
-    </div>
-  </ol>
-  
-    
-
-  
-
-</div>
+					<div class="dd">
+	  				<ol class="kanban progress" th:each="day : ${alldays}" th:object="${day}">
+						<div class="kanban__title">
+		  					<h2 style="text-align: center;">第<span th:text="${day[0].day}"></span>天</h2>
+		  				</div>
+	   					<li class="dd-item" data-id="1" th:each="spot : ${day}" th:object="${spot}">
+		  					<h3 class="title dd-handle" th:text="*{name}"><i class=" material-icons ">filter_none</i></h3>
+			 				<div class="text" contenteditable="true"></div>
+    					</li>
+    					<div class="actions">
+      						<a th:href="@{SpotSearch(whichDay=${day[0].day})}"><button class="addbutt"><i class="material-icons">control_point</i> Add new</button></a>
+    					</div>		
+	  				</ol>
+					</div>
 
 <!-- important javascipt move block -->		
 	<script src="//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-	<script src="js/blockFunction.js"></script>
-			
+	<script src="js/blockFunction.js"></script>			
 		</div>
-	
-	</div>
-	
-        
-      </div>
-      </div>
+	</div>  
+   </div>
+</div>
 		
-     
-    
-	  
-	  
 	  <!-- 篩選範圍表格-->
-    <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
-      <div class="well">
-        <h3 class="text-center">cow，您好！</h3>
-		  <br/>
-		  
-		  
-		  <!-- important javascipt move block -->		
-		<script src="js/blockFunction.js"></script>
-			
-		   
+<div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
+	<div class="well">
+    	<h3 class="text-center">cow，您好！</h3>
+		<br/>
+
+ <!-- important javascipt move block -->		
+		<script src="js/blockFunction.js"></script>  
         <form class="form-horizontal">
-		
 			<ul class="list-group">
-					<h4 style="text-align: center">行程功能</h4>
-				  <li class="list-group-item">新增行程</li>
-				  <li class="list-group-item">新增行程</li>
-  
-</ul>
-			
+				<h4 style="text-align: center">行程功能</h4>
+				<li class="list-group-item">新增行程</li>
+				<li class="list-group-item">新增行程</li>
+			</ul>
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			  <li class="list-group-item">會員資料修改</li>
-			  <li class="list-group-item">密碼修改</li>
-			  <li class="list-group-item">電子郵件修改</li>
-			  <li class="list-group-item">聯絡客服</li>
-			  <li class="list-group-item">查看景點收藏</li>
-</ul>
-			
-         
-			
+			  	<li class="list-group-item">會員資料修改</li>
+			  	<li class="list-group-item">密碼修改</li>
+			  	<li class="list-group-item">電子郵件修改</li>
+			  	<li class="list-group-item">聯絡客服</li>
+			  	<li class="list-group-item">查看景點收藏</li>
+			</ul>
+
 			<!-- 輸入價格欄位 ， 適合旅館篩選
           <div class="form-group">
             <label for="pricefrom" class="control-label">Price From</label>
@@ -207,22 +114,13 @@
             </div>
           </div>
           -->
-			
-         
         </form>
       </div>
-		
       <hr/>
-	
-		<!-- -->
-      
-	  
   </div>
 </div>
-	</div>
+</div>
 <hr/>
-	
-	
 	
 <!-- information -->
 <div th:replace="Shared/layout :: section"></div>	

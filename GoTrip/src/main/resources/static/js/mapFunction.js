@@ -5,7 +5,7 @@
       var lng = 0;
 
       /*以裝置位置定位*/
-      function initalLocation() {
+      function initialLocation() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
               var pyrmont = {lat: 0, lng: 0};
@@ -54,11 +54,11 @@
           clearMarker();
         else{
           if(query == "1") query = "景點";
-          else if(query == "2")query = "公園";
+          else if(query == "2")query = "美食";
           else if(query == "3")query = "夜市";
           else if(query == "4")query = "購物";
           else if(query == "5")query = "古蹟";
-          else if(query == "6")query = "美食";
+          else if(query == "6")query = "公園";
           else query = "景點";
        
           var request = {
@@ -153,14 +153,13 @@
         var basket = $('#basket');
         //將景點加入SpotSearch.html右欄
         basket.append('<li class="dd-item" id=' + placeId + '><h5 class="title dd-handle" >' + placeName + 
-          /*'<i class=" material-icons ">filter_none</i>*/'</h5><span class="glyphicon glyphicon-trash" ' + 
-          'onclick="removeAttraction(\'' + placeId + '\')" style="color:red"></span> <input type="hidden" value=' + 
-          placeId + '> <input type="hidden" value=' + placeName + '> </li>');
+          /*'<i class=" material-icons ">filter_none</i>*/'</h5><span style="display:none">' + placeId + 
+          '</span><span style="display:none">-1</span><span class="glyphicon glyphicon-trash" onclick="removeAttraction(this)" style="color:red"></span></li>');
       }
 
       /*移除SpotSearch.html右欄的某一景點*/
-      function removeAttraction(placeId){
-       $("#" + placeId).remove();
+      function removeAttraction(delBtn){
+        $(delBtn).parent().remove();
       }
 
       /*清除目前地圖所有標記*/
@@ -178,10 +177,13 @@
       /*更新提籃內容(儲存到資料庫)*/
       function UpdateBasket(){
         var basket = [];
-        $("ol li").each(function(){                       //取得<ol>中所有<li>
-          var name = $(this).text().trim();               //取得<li>的文字，此處為place name
-          var placeId = $(this).attr('id').trim();        //取得<li>的id，此處為place Id
-          basket.push({name: name, placeId: placeId});    //以name及placeId為屬性初始化物件，push到basket陣列
+        var i = 1;
+        $("ol li").each(function(){                       			 //取得<ol>中所有<li>
+          var name = $(this).find('h5').text().trim();               //取得<li>中<h5>的文字，此處為place name
+          var placeId = $(this).children('span').text().trim();      //取得<li>中<span>的文字，此處為place Id(隱藏)
+          var id = $(this).children('span').next().text().trim();
+          basket.push({id: id, name: name, placeId: placeId, sequence: i});     //以name及placeId為屬性初始化物件，push到basket陣列
+          i++;     
         });
 
         //以ajax post動態傳送basket陣列回controller

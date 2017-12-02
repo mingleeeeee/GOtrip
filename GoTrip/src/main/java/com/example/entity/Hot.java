@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,11 +9,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "hot")
-public class Hot {
+@SessionScope
+@Component
+public class Hot implements Serializable{
+
+	private static final long serialVersionUID = -6721441658405233765L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -8,10 +9,17 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 @Entity
 @Table(name = "users")
-public class Account {
+@SessionScope
+@Component
+public class Account implements Serializable{
 	
+	private static final long serialVersionUID = 6813281572200532922L;
+
 	@Id
 	@Column(name="username")
 	private String username;
