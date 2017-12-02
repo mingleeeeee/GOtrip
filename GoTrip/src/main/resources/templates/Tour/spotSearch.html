@@ -60,25 +60,30 @@
 				<div class="row">
 				<form action="javascript:textSearch();">
       				<div class="form-group">
-        			<input type="text" id="input" class="form-control"/>
-        			<input type="submit" value="搜尋" class="btn btn-default"/>
+      				<div class="col-xs-4">
+        			<input type="text" id="input" class="form-control"/></div>
+        			<input type="submit" value="搜尋" class="btn btn-default"/>	
       				</div>
     			</form>
-    			<button id="positionBtn" onclick="start()" class="btn btn-primary">定位</button>
-    			<button onclick="clearMarker()" class="btn btn-danger">清除標記</button><br/><br/>
+    			
     			<form action="javascript:specialSearch();" >
     				<div class="form-group">
+    				<div class="col-xs-4">
     				<select id="kind" onchange="this.form.submit()" class="form-control">
     				<option value="0">請選擇...</option>
     				<option value="1">景點</option>
-    				<option value="2">公園</option>
+    				<option value="2">美食</option>
     				<option value="3">夜市</option>
     				<option value="4">購物</option>
     				<option value="5">古蹟</option>
-    				<option value="6">美食</option>
+    				<option value="6">公園</option>
     				</select>
     				</div>
+    				</div>
     			</form>
+    			
+    				<button id="positionBtn" onclick="initialLocation()" class="btn btn-primary pull-right" style="margin-left: 10px">定位</button>
+    				<button onclick="clearMarker()" class="btn btn-danger pull-right">清除標記</button><br/><br/>	
     			<div id="map">
     				loading map ...
     			</div>
@@ -86,7 +91,7 @@
       	</div>
       	
 <!-- google map places api -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWvAaiXtcAtlyhzMODu-VgnV4KhJaRSA&amp;libraries=places&amp;callback=initalLocation" async ="defer"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWvAaiXtcAtlyhzMODu-VgnV4KhJaRSA&amp;libraries=places&amp;callback=initialLocation" async ="defer"></script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
  
 	<!-- 行程表-->
@@ -95,10 +100,17 @@
         <h2 class="text-center">臺北自由行</h2>
 		  <div class="dd" th:action="basketUpdate">
 	 		 <ol class="kanban To-do" id="basket" style="width: 100%;position: relative;height: auto;min-height: 500px !important;">	
-		  		<h4 style="text-align: center;padding-top:10px">第一天</h4> 
+		  		<h4 style="text-align: center;padding-top:10px">第<span th:text="${session.whichDay}"></span>天</h4> 
 		  		<hr/>
+		  		<li class="dd-item" th:each="spot : ${spots}" th:object="${spot}">
+		  			<h5 class="title dd-handle"><span th:text="*{name}"></span></h5>
+		  			<span th:text="*{placeId}" style="display:none"></span>
+		  			<span th:text="*{id}" style="display:none"></span>
+		  			<span class="glyphicon glyphicon-trash" onclick="removeAttraction(this)" style="color:red"></span>
+		  		</li>
 			</ol>
-			<button type="button" onclick="updateBasket()">儲存</button>
+			<button type="button" onclick="UpdateBasket()">儲存</button>
+			<button type="button" onclick="location='TourInfo'" style="text-decoration:none;" class="pull-right">旅遊提籃</button>
 		  </div>
 		  <!-- important javascipt move block -->		
 		<script src="js/blockFunction.js"></script>      

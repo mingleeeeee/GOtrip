@@ -1,8 +1,8 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +13,20 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 @Entity
 @Table(name = "tour")
-public class Tour {
+@SessionScope
+@Component
+public class Tour implements Serializable{
+
+	private static final long serialVersionUID = -645007220877687859L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 	@Column(name="name")
 	private String name;
@@ -40,11 +47,11 @@ public class Tour {
 	@OneToMany(mappedBy = "tour")
 	private List<Spot> spots;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 	
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	

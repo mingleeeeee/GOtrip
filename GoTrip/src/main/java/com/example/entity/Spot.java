@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,22 +10,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 @Entity
 @Table(name = "spot")
-public class Spot {
+@SessionScope
+@Component
+public class Spot implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 	
 	@Column(name="name")
 	private String name;
 	
-	@Column(name="placeId")
+	@Column(name="place_id")
 	private String placeId;
 	
-	@Column(name="on_which_day")
-	private int on_which_day;
+	@Column(name="day")
+	private int day;
 	
 	@Column(name = "duration")
 	private String duration;
@@ -32,15 +40,30 @@ public class Spot {
 	@Column(name="note")
 	private String note;
 	
+	@Column(name = "sequence")
+	private int sequence;
+	
 	@ManyToOne
 	@JoinColumn(name = "tour_id")
 	private Tour tour;
 
-	public int getId() {
+	public Spot(){
+		
+	}
+	
+	public Spot(String name, int day, String placeId, int sequence, Tour tour){
+		this.name = name;
+		this.day = day;
+		this.placeId = placeId;
+		this.sequence = sequence;
+		this.tour = tour;
+	}
+	
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -52,12 +75,20 @@ public class Spot {
 		this.name = name;
 	}
 
-	public int getOn_which_day() {
-		return on_which_day;
+	public String getPlaceId() {
+		return placeId;
 	}
 
-	public void setOn_which_day(int on_which_day) {
-		this.on_which_day = on_which_day;
+	public void setPlaceId(String placeId) {
+		this.placeId = placeId;
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
 	}
 
 	public String getDuration() {
@@ -75,13 +106,13 @@ public class Spot {
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	public String getPlaceId(){
-		return placeId;
+
+	public int getSequence() {
+		return sequence;
 	}
-	
-	public void setPlaceId(String placeId){
-		this.placeId = placeId;
+
+	public void setSequence(int sequence) {
+		this.sequence = sequence;
 	}
 
 	public Tour getTour() {
@@ -91,4 +122,8 @@ public class Spot {
 	public void setTour(Tour tour) {
 		this.tour = tour;
 	}
+
+	
+
+	
 }
