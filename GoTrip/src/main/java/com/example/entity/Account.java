@@ -7,27 +7,40 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
 public class Account {
 	
+	@NotNull
+	@Size(min=1)
 	@Id
 	@Column(name="username")
 	private String username;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="password")
 	private String password;
 	
+
 	@Column(name="enabled")
 	private boolean enabled;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="name")
 	private String name;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="email")
 	private String email;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="phone")
 	private String phone;
 	
