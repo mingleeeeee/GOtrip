@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -18,24 +20,33 @@ import org.springframework.web.context.annotation.SessionScope;
 @Component
 public class Account implements Serializable{
 	
-	private static final long serialVersionUID = 6813281572200532922L;
-
+	@NotNull
+	@Size(min=1)
 	@Id
 	@Column(name="username")
 	private String username;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="password")
 	private String password;
 	
+
 	@Column(name="enabled")
 	private boolean enabled;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="name")
 	private String name;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="email")
 	private String email;
 	
+	@NotNull
+	@Size(min=1)
 	@Column(name="phone")
 	private String phone;
 	
