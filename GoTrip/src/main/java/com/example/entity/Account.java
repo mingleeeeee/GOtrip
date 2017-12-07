@@ -20,6 +20,8 @@ import org.springframework.web.context.annotation.SessionScope;
 @Component
 public class Account implements Serializable{
 	
+	private static final long serialVersionUID = 6813281572200532922L;
+
 	@NotNull
 	@Size(min=1)
 	@Id
