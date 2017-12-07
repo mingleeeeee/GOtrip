@@ -1,5 +1,6 @@
 package com.example.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,9 +11,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
 @Entity
 @Table(name = "users")
-public class Account {
+@SessionScope
+@Component
+public class Account implements Serializable{
 	
 	@NotNull
 	@Size(min=1)
