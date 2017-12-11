@@ -88,9 +88,7 @@ public class MainController {
 		JSONObject jsonObj = new JSONObject(json);
 		System.out.println(jsonObj.get("nextDay").toString());
 		
-		
-		JSONArray jsonArr = jsonObj.getJSONArray("things");
-		
+		JSONArray jsonArr = jsonObj.getJSONArray("things");	
 		Type listType = new TypeToken<ArrayList<Spot>>() {}.getType();
 		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType);
 		ArrayList<Spot> list = (ArrayList<Spot>)basket.getSpots();
