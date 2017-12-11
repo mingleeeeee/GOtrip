@@ -1,38 +1,26 @@
 package com.example.controller;
 
 import java.lang.reflect.Type;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-
-import org.assertj.core.util.Lists;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import antlr.collections.List;
-
 import com.example.dao.SpotDAO;
 import com.example.dao.TourDAO;
 import com.example.entity.Basket;
 import com.example.entity.Spot;
 import com.example.entity.Tour;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -63,7 +51,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = { "/TourInfo" }, method = RequestMethod.GET)
-	public ModelAndView tourInfo(/*get tour id*/HttpSession session){
+	public ModelAndView tourInfo(HttpSession session){
 		ModelAndView model = new ModelAndView("Tour/tourInfo");
 		
 		Tour tour = tourDao.findOne(new Long(1));
@@ -74,7 +62,7 @@ public class MainController {
 		}
 		session.setAttribute("whichTour", 1);
 		model.addObject("alldays", daysArr);
-
+		
 		return model;
 	}
 
@@ -92,13 +80,17 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = { "/SaveBasket" }, method = RequestMethod.POST)
-	public ModelAndView basketSave(@RequestBody String json, HttpSession session) throws Exception {
-		ModelAndView model = new ModelAndView("redirect:/TourInfo");
+	@ResponseBody
+	public List<Spot> basketSave(@RequestBody String json, HttpSession session) throws Exception {
 		
 		/*handle json string*/
 		Gson gson = new Gson();
 		JSONObject jsonObj = new JSONObject(json);
+		System.out.println(jsonObj.get("nextDay").toString());
+		
+		
 		JSONArray jsonArr = jsonObj.getJSONArray("things");
+		
 		Type listType = new TypeToken<ArrayList<Spot>>() {}.getType();
 		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType);
 		ArrayList<Spot> list = (ArrayList<Spot>)basket.getSpots();
@@ -128,6 +120,12 @@ public class MainController {
 			spotDao.save(newSpot);
 		}
 		
-		return model;
+		List<Spot> s = new ArrayList<>();
+		
+		s.add(spotDao.findOne(new Long(25)));
+		s.add(spotDao.findOne(new Long(26)));
+		
+		return s;
+
 	}
 }

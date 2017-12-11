@@ -182,7 +182,7 @@
           var name = $(this).find('h5').text().trim();               //取得<li>中<h5>的文字，此處為place name
           var placeId = $(this).children('span').text().trim();      //取得<li>中<span>的文字，此處為place Id(隱藏)
           var id = $(this).children('span').next().text().trim();
-          basket.push({id: id, name: name, placeId: placeId, sequence: i});     //以name及placeId為屬性初始化物件，push到basket陣列
+          basket.push({id: id, name: name, placeId: placeId, day: 3, sequence: i});     //以name及placeId為屬性初始化物件，push到basket陣列
           i++;     
         });
 
@@ -191,12 +191,15 @@
           url: "/SaveBasket",
           type: "POST",
           contentType: 'application/json; charset=utf-8',
-          data: JSON.stringify({'things': basket}),
-          success: function(response){
-            alert("儲存成功");
+          data: JSON.stringify({'things': basket, 'nextDay': '5'}),
+          success: function(s){
+			  alert("儲存成功");
+			  $.each(s, function(){
+				  alert(this.name);
+			  });
           },
           error: function(e){
-            alert('儲存失敗');
+            alert('儲存失敗1');
           }
         });
       }

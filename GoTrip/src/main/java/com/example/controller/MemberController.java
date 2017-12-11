@@ -34,7 +34,6 @@ import com.mysql.fabric.xmlrpc.base.Member;
 @Controller
 public class MemberController {
 	
-
 	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
 	public  ModelAndView registration() {
 		ModelAndView model = new ModelAndView("Member/registration");
@@ -42,6 +41,7 @@ public class MemberController {
 		model.addObject("account", account);
 		return model;
 	}
+	
 	@RequestMapping(value = { "/registration" }, method = RequestMethod.POST)
 	public  ModelAndView handleRegistration(@Valid @ModelAttribute Account account, BindingResult bindingResult) {
 		ModelAndView model = new ModelAndView();
@@ -60,6 +60,7 @@ public class MemberController {
 
 		return model;
 	}
+	
 	@RequestMapping(value = { "/update" }, method = RequestMethod.POST)
 	public ModelAndView update() {
 		ModelAndView model = new ModelAndView("Member/update");

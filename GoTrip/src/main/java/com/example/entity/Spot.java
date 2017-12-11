@@ -13,6 +13,9 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "spot")
 @SessionScope
@@ -43,6 +46,7 @@ public class Spot implements Serializable{
 	@Column(name = "sequence")
 	private int sequence;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "tour_id")
 	private Tour tour;
