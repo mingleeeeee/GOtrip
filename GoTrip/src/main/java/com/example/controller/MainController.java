@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,11 +53,11 @@ public class MainController {
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public ModelAndView openForm() {
 		ModelAndView model = new ModelAndView("Index/index");
-
+		
 		return model;
 	}
 
-	@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "user/TourList" }, method = RequestMethod.GET)
 	public ModelAndView tourList() {
 		ModelAndView model = new ModelAndView("Tour/tourList");
 
