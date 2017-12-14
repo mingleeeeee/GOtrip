@@ -55,12 +55,12 @@ public class MainController {
 		return model;
 	}
 
-	@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
 	public ModelAndView tourList() {
 		ModelAndView model = new ModelAndView("Tour/tourList");
 
 		return model;
-	}
+	}*/
 
 	@RequestMapping(value = { "/TourInfo" }, method = RequestMethod.GET)
 	public ModelAndView tourInfo(/*get tour id*/HttpSession session){
@@ -77,6 +77,8 @@ public class MainController {
 
 		return model;
 	}
+	
+	
 
 	@RequestMapping(value = { "/SpotSearch" }, method = RequestMethod.GET)
 	public ModelAndView spotSearch(@RequestParam(value="whichDay", required=false, defaultValue="1") 
