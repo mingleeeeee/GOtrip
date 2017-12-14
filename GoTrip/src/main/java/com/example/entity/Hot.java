@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -23,25 +25,32 @@ public class Hot implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
+	private Long id;
 
-	@Column(name="name")
+	@Column(name="name")	
+	@Size(min=1, message="不能是空白")
 	private String name;
 		
 	private transient MultipartFile photoFile;
+	@NotNull
+	@Size(min=1,message="不能是空白")
 	private String photo;
 	
 	@Column(name="description")
+	@NotNull
+	@Size(min=1,message="不能是空白")
 	private String description;
 
+	@NotNull
+	@Size(min=1,message="不能是空白")
 	@Column(name="address")
 	private String address;
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
