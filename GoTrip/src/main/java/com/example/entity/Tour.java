@@ -12,9 +12,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "tour")
@@ -27,15 +32,17 @@ public class Tour implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	
+	@NotNull
+	 @Size(min=1)
 	@Column(name="name")
 	private String name;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "begin_date")
 	private Date beginDate;
-	
+	@Min(0)
 	@Column(name="days")
-	private int days;
+	private Long days;
 	
 	@Column(name="note")
 	private String note;
@@ -46,6 +53,10 @@ public class Tour implements Serializable{
 	
 	@OneToMany(mappedBy = "tour")
 	private List<Spot> spots;
+	
+	 private transient MultipartFile photoFile;
+	 
+	 private String photo;
 	
 	public Long getId() {
 		return id;
@@ -71,11 +82,11 @@ public class Tour implements Serializable{
 		this.beginDate = beginDate;
 	}
 	
-	public int getDays() {
+	public Long getDays() {
 		return days;
 	}
 	
-	public void setDays(int days) {
+	public void setDays(Long days) {
 		this.days = days;
 	}
 	
@@ -98,5 +109,25 @@ public class Tour implements Serializable{
 	public Iterable<Spot> getSpots(){
 		return spots;
 	}
+	
+	public MultipartFile getPhotoFile() {
+		  return photoFile;
+		 }
+		 
+		 public void setPhotoFile(MultipartFile photoFile) {
+		  this.photoFile = photoFile;
+		 }
+
+		  public void setPhoto() {
+		  this.photo = photoFile.getOriginalFilename();
+		 }
+
+		 public String getPhoto() {
+		  return photo;
+		 }
+
+		 public void setPhoto(String photo) {
+		  this.photo = photo;
+		 }
 	
 }
