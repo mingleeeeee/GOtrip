@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
@@ -28,9 +29,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import antlr.collections.List;
 
+import com.example.dao.HotSpotDAO;
 import com.example.dao.SpotDAO;
 import com.example.dao.TourDAO;
 import com.example.entity.Basket;
+import com.example.entity.Hot;
 import com.example.entity.Spot;
 import com.example.entity.Tour;
 import com.google.gson.Gson;
@@ -47,20 +50,23 @@ public class MainController {
 	
 	@Autowired
 	TourDAO tourDao;
+	@Autowired
+	 HotSpotDAO dao;
 	
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
-	public ModelAndView openForm() {
-		ModelAndView model = new ModelAndView("Index/index");
-
-		return model;
-	}
-
-	/*@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
+    public ModelAndView index() throws SQLException{
+    Iterable<Hot> hot = dao.findAll();
+       ModelAndView model = new ModelAndView("index/index");
+       model.addObject("hots",hot);
+       return model;
+    }
+	
+	@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
 	public ModelAndView tourList() {
 		ModelAndView model = new ModelAndView("Tour/tourList");
 
 		return model;
-	}*/
+	}
 
 	@RequestMapping(value = { "/TourInfo" }, method = RequestMethod.GET)
 	public ModelAndView tourInfo(/*get tour id*/HttpSession session){
@@ -79,7 +85,6 @@ public class MainController {
 	}
 	
 	
-
 	@RequestMapping(value = { "/SpotSearch" }, method = RequestMethod.GET)
 	public ModelAndView spotSearch(@RequestParam(value="whichDay", required=false, defaultValue="1") 
 					Integer whichDay, HttpSession session) {
@@ -92,6 +97,8 @@ public class MainController {
 		
 		return model;
 	}
+	
+	
 	
 	@RequestMapping(value = { "/SaveBasket" }, method = RequestMethod.POST)
 	public ModelAndView basketSave(@RequestBody String json, HttpSession session) throws Exception {
@@ -132,4 +139,5 @@ public class MainController {
 		
 		return model;
 	}
+	
 }
