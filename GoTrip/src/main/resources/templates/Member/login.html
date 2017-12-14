@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>GoTrip</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="css/bootstrap.css"/>
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+</head>
+<body>
+
+<div th:substituteby="header::header"></div>
+        <div class = "container topMove">
+	        	<div class="wrapper">
+	        		<form th:action="@{/login}" method="post" name="Login_Form" class="form-signin">
+	        			<h3 class="form-signin-heading">Welcome! Please Sign In</h3>
+				  		<hr class="colorgraph"/><br/>
+	            		<p th:if="${loginError}" class="error">Wrong user or password</p>
+	            		<input type="text" id="username" name="username" autofocus="autofocus" class="form-control" placeholder="Username"/> <br />
+	            		<input type="password" id="password" name="password" class="form-control" placeholder="Password"/> <br />
+	            		<button class="btn btn-lg btn-primary btn-block"  name="Submit" value="Login" type="Submit">Login</button> 
+	        		</form>
+	        	</div>
+        </div>
+
+
+</body>
+</html>
