@@ -7,7 +7,7 @@
     <title>Update the spot</title>
 </head>
 <body>
-  <form th:action="hotUpdate" th:object="${hot}" enctype="multipart/form-data" method ="post">
+  <form th:action="@{/admin/hotUpdate}" th:object="${hot}" enctype="multipart/form-data" method ="post">
 
    	景點名稱:<input type="text" name="name" th:field="*{name}"/><br/>
  		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>

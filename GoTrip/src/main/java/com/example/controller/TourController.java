@@ -13,6 +13,7 @@ import com.example.entity.Tour;
 import com.example.storage.StorageService;
 
 @Controller
+@RequestMapping(value = "/user")
 public class TourController {
 	
 	@Autowired
@@ -34,7 +35,7 @@ public class TourController {
 
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.POST)
 	public ModelAndView processFormCreate(@ModelAttribute Tour list) {
-		ModelAndView model = new ModelAndView("redirect:/tourRetrieveAll");
+		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 
 		MultipartFile pic = list.getPhotoFile();
 		// 更改檔名後再儲存
@@ -73,7 +74,7 @@ public class TourController {
 
 	@RequestMapping(value = "/tourUpdate", method = RequestMethod.POST)
 	public ModelAndView processFormUpdate(@ModelAttribute Tour list) throws SQLException {
-		ModelAndView model = new ModelAndView("redirect:/tourRetrieveAll");
+		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 		
 		if (!("").equals(list.getPhotoFile().getOriginalFilename())) {
 			storageService.store(list.getPhotoFile());
@@ -87,7 +88,7 @@ public class TourController {
 	@RequestMapping(value = "/tourDelete", method = RequestMethod.GET)
 	public ModelAndView deleteTour(
 			@RequestParam(value = "id", required = false, defaultValue = "1") Long id) {
-		ModelAndView model = new ModelAndView("redirect:/tourRetrieveAll");
+		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 		dao.delete(id);
 		return model;
 	}

@@ -30,7 +30,7 @@ public class HotSpotController {
 		this.storageService = storageService;
 	}
 
-	@RequestMapping(value = { "/hotRetrieveAll", }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/admin/hotRetrieveAll"}, method = RequestMethod.GET)
 	public ModelAndView HotRead() throws SQLException {
 		ModelAndView model = new ModelAndView("Hotspot/hotList");
 		Iterable<Hot> hots = dao.findAll();
@@ -49,7 +49,7 @@ public class HotSpotController {
 		return model;
 	}*/
 
-	@RequestMapping(value = "/hotUpdate", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/hotUpdate", method = RequestMethod.GET)
 	public ModelAndView openFormUpdate(@Valid @RequestParam(value = "id", required = false, 
 				defaultValue = "1") Long id) {
 		ModelAndView model = new ModelAndView("Hotspot/hotUpdate");
@@ -59,10 +59,10 @@ public class HotSpotController {
 		return model;
 	}
 
-	@RequestMapping(value = "/hotUpdate", method = RequestMethod.POST)
+	@RequestMapping(value = "/admin/hotUpdate", method = RequestMethod.POST)
 	public ModelAndView processFormUpdate(@Valid @ModelAttribute Hot hot,
 			BindingResult bindingResult) throws SQLException {
-		ModelAndView model = new ModelAndView("redirect:/hotRetrieveAll");
+		ModelAndView model = new ModelAndView("redirect:/admin/hotRetrieveAll");
 		
 		if (bindingResult.hasErrors()) 
 			model = new ModelAndView("Hotspot/hotList");

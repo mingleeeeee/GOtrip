@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -21,10 +24,10 @@ import org.springframework.web.context.annotation.SessionScope;
 public class Account implements Serializable{
 	
 	private static final long serialVersionUID = 6813281572200532922L;
-
+	
+	@Id
 	@NotNull
 	@Size(min=1)
-	@Id
 	@Column(name="username")
 	private String username;
 	
@@ -32,7 +35,6 @@ public class Account implements Serializable{
 	@Size(min=1)
 	@Column(name="password")
 	private String password;
-	
 
 	@Column(name="enabled")
 	private boolean enabled;
@@ -52,7 +54,10 @@ public class Account implements Serializable{
 	@Column(name="phone")
 	private String phone;
 	
-	@OneToMany(mappedBy = "account")
+	@OneToMany(mappedBy = "accountAutho")
+	private List<Authority> authorities;
+	
+	@OneToMany(mappedBy = "accountTour")
 	private List<Tour> tours;
 	
 	public String getUsername(){
@@ -101,6 +106,10 @@ public class Account implements Serializable{
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public Iterable<Authority> getAuthority(){
+		return authorities;
 	}
 	
 	public Iterable<Tour> getTours(){
