@@ -110,9 +110,9 @@
 			<p>天數：<span th:text = "*{days}"> </span></p>
               <hr/>
                <p class="text-center">
-				  <a href="#" class="btn btn-info" role="button" onclick="location='TourInfo'">查看</a>
-				<a th:href="@{tourListUpdate(id=*{id})}" class="btn btn-info" role="button" >編輯</a>
-				<a th:href="@{tourListDelete(id=*{id})}" class="btn btn-info" role="button">刪除</a></p>
+				  <a th:href="@{/TourInfo(id=*{id})}" class="btn btn-info" role="button">查看</a>
+				<a th:href="@{tourUpdate(id=*{id})}" class="btn btn-info" role="button" >編輯</a>
+				<a th:href="@{tourDelete(id=*{id})}" class="btn btn-info" role="button">刪除</a></p>
             </div>
           </div>
         </div>
@@ -133,7 +133,7 @@
 		
 			<ul class="list-group">
 					<h4 style="text-align: center">行程功能</h4>
-				<li class="list-group-item"><a href="#"  role="button" onclick="location='tourListCreate'">新增行程</a></li>
+				<li class="list-group-item"><a href="#"  role="button" onclick="location='tourCreate'">新增行程</a></li>
 				
   			
   

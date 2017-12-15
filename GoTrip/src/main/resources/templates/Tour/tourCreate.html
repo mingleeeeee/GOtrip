@@ -26,26 +26,21 @@
 </head>
 <body>
 
-
 	<!-- Navbar -->
 	<div th:replace="Shared/layout :: nav"></div>
 
-<form action="tourListCreate" enctype="multipart/form-data"  method="POST">
-   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>
-   
+	<form action="tourCreate" enctype="multipart/form-data"  method="POST"> 
 
-   <input type="file" name="photoFile" /><br/>
-   旅遊名稱:<input type="text" name = "name" /><br/>
-   出發日期:<input type="date" name = "beginDate"/><br/>
-   
-   旅遊天數:<input type="number" name = "days"/><br/>
-   
-   備註       :<br/>
-   <textarea name ="comment" rows="10" cols="30"></textarea>
-   
- <input type="submit" class="btn btn-info" value="確定新增"/>
+   		<input type="file" name="photoFile" /><br/>
+   		旅遊名稱:<input type="text" name = "name" /><br/>
+   		出發日期:<input type="date" name = "beginDate"/><br/> 
+   		旅遊天數:<input type="number" name = "days"/><br/>
+ 		備註       :<br/>
+   		<textarea name ="comment" rows="10" cols="30"></textarea>
+   	 
+ 		<input type="submit" class="btn btn-info" value="確定新增"/>
 
-</form>
-<!-- -->
+	</form>
+
 </body>
 </html>

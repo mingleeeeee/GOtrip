@@ -137,16 +137,10 @@
               <h3 th:text="*{name}"></h3>
               <p th:text="*{address}"></p>
               <hr/>
-              <p class="text-center"><a th:href="@{readbyid(id=${hot.id})}" class="btn btn-success" role="button">查看詳情</a></p>
+              <p class="text-center"><a th:href="@{hotDetail(id=${hot.id})}" class="btn btn-success" role="button">查看詳情</a></p>
             </div>
           </div>
         </div>
-
-        
-        
-	
-	
-		  
         
       </div>
     </div>
@@ -161,9 +155,7 @@
 					
 			 <div style="text-align: center">
 					<h3 class="text-center">開始規劃旅程！</h3>
-				<button type="button" class="btn btn-primary" style="width: 155px" onclick="location='TourList'">Go</button>
-			
-
+				<button type="button" class="btn btn-primary" style="width: 155px" onclick="location='tourRetrieveAll'">Go</button>
 	  </div>
 		</div>
 		
