@@ -31,11 +31,11 @@
 	<!-- bootstrap w3c-->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<!-- 可移動div之css -->
-	<link rel="stylesheet" href="css/blockCSS.css"/>
+	<link rel="stylesheet" href="/css/blockCSS.css"/>
 	<!--  主要版面css -->
-	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<link rel="stylesheet" href="/css/bootstrap.css"/>
 	<!--  google api地圖 -->
-	<script src="js/mapFunction.js"></script>
+	<script src="/js/mapFunction.js"></script>
 
 </head>
 <body>
@@ -43,7 +43,7 @@
 	<!-- Navbar -->
 	<div th:replace="Shared/layout :: nav"></div>
 	<!-- 主題圖片 -->
-	<div class="jumbotron" style="background-image: url(images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" >
+	<div class="jumbotron" style="background-image: url(/images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" >
 		<div class="container">
 			<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
 				<h1 class="text-center" style="font-weight:lighter;" >景點查詢</h1>
@@ -98,7 +98,7 @@
     <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
       <div class="well" style="height:auto; min-height: 620px">
         <h2 class="text-center">臺北自由行</h2>
-		  <div class="dd" th:action="basketUpdate">
+		  <div class="dd" th:action="@{/user/basketUpdate}">
 	 		 <ol class="kanban To-do" id="basket" style="width: 100%;position: relative;height: auto;min-height: 500px !important;">	
 		  		<h4 style="text-align: center;padding-top:10px">第<span th:text="${session.whichDay}"></span>天</h4> 
 		  		<hr/>
@@ -110,10 +110,10 @@
 		  		</li>
 			</ol>
 			<button type="button" onclick="UpdateBasket()">儲存</button>
-			<button type="button" onclick="location='TourInfo'" style="text-decoration:none;" class="pull-right">旅遊提籃</button>
+			<button type="button" onclick="location='/user/tourInfo'" style="text-decoration:none;" class="pull-right">旅遊提籃</button>
 		  </div>
 		  <!-- important javascipt move block -->		
-		<script src="js/blockFunction.js"></script>      
+		<script src="/js/blockFunction.js"></script>      
       </div>	
       <hr/>  
   	</div>
@@ -127,9 +127,9 @@
 <div th:replace="Shared/layout :: footer"></div>
 	
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="/js/jquery-1.11.3.min.js"></script> 
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script src="js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 	
 </body>
 </html>

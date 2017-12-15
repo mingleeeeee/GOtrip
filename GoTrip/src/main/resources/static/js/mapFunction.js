@@ -188,7 +188,7 @@
 
         //以ajax post動態傳送basket陣列回controller
         $.ajax({
-          url: "/SaveBasket",
+          url: "/user/SaveBasket",
           type: "POST",
           contentType: 'application/json; charset=utf-8',
           data: JSON.stringify({'things': basket}),

@@ -28,7 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Table(name = "tour")
 @SessionScope
 @Component
-public class Tour implements Serializable{
+public class Tour implements Serializable {
 
 	private static final long serialVersionUID = -645007220877687859L;
 
@@ -36,102 +36,102 @@ public class Tour implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	@NotNull
-	 @Size(min=1)
-	@Column(name="name")
+	@Size(min = 1)
+	@Column(name = "name")
 	private String name;
-	
+
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Column(name = "begin_date")
 	private Date beginDate;
 	@Min(0)
-	@Column(name="days")
+	@Column(name = "days")
 	private Long days;
-	
-	@Column(name="note")
+
+	@Column(name = "note")
 	private String note;
-	
+
 	@ManyToOne
-	@JoinColumn(name = "users_username")
-	private Account account;
-	
+	@JoinColumn(name = "usernametour")
+	private Account accountTour;
+
 	@OneToMany(mappedBy = "tour")
 	private List<Spot> spots;
-	
-	 private transient MultipartFile photoFile;
-	 
-	 private String photo;
-	
+
+	private transient MultipartFile photoFile;
+
+	private String photo;
+
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public Date getBeginDate() {
 		return beginDate;
 	}
-	
+
 	public void setBeginDate(Date beginDate) {
 		this.beginDate = beginDate;
 	}
-	
+
 	public Long getDays() {
 		return days;
 	}
-	
+
 	public void setDays(Long days) {
 		this.days = days;
 	}
-	
+
 	public String getNote() {
 		return note;
 	}
-	
+
 	public void setNote(String note) {
 		this.note = note;
 	}
-	
-	public Account getAccount(){
-		return account;
+
+	public Account getAccountTour() {
+		return accountTour;
 	}
-	
-	public void setAccount(Account account){
-		this.account = account;
+
+	public void setAccountTour(Account accountTour) {
+		this.accountTour = accountTour;
 	}
-	
-	public Iterable<Spot> getSpots(){
+
+	public Iterable<Spot> getSpots() {
 		return spots;
 	}
-	
+
 	public MultipartFile getPhotoFile() {
-		  return photoFile;
-		 }
-		 
-		 public void setPhotoFile(MultipartFile photoFile) {
-		  this.photoFile = photoFile;
-		 }
+		return photoFile;
+	}
 
-		  public void setPhoto() {
-		  this.photo = photoFile.getOriginalFilename();
-		 }
+	public void setPhotoFile(MultipartFile photoFile) {
+		this.photoFile = photoFile;
+	}
 
-		 public String getPhoto() {
-		  return photo;
-		 }
+	public void setPhoto() {
+		this.photo = photoFile.getOriginalFilename();
+	}
 
-		 public void setPhoto(String photo) {
-		  this.photo = photo;
-		 }
-	
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
 }

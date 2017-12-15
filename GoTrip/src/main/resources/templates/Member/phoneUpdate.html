@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>GoTrip</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="/css/bootstrap.css"/>
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+	
+</head>
+<body>
+	
+	<!-- Navbar -->
+	<div th:replace="Shared/layout :: nav"></div>
+	<div class="jumbotron" style="background-image: url(/images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" >
+		<div class="container">	
+		<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
+			<h1 class="text-center" style="font-weight:lighter;" >會員資料修改</h1>
+			  <p class="text-center" style="font-weight:lighter;">聯絡電話</p>
+		</div>
+		</div>
+	</div>
+<hr/>
+
+<!-- 自訂行程 -->
+<div class="container" >
+	
+	
+  <div class="row">
+    <div class="col-lg-9 col-md-12">
+		<div class="row">
+			<form th:action="@{/user/updatePhone}" method="post" id="phoneForm">
+    			<div class="form-group">
+    			<div class="col-xs-4 col-md-offset-4">
+      				<label for="phone">請輸入連絡電話:</label>
+      				<input type="text" class="form-control" id="phone" name="phone"/>
+      				<br/>
+      				<button type="button" class="btn btn-default" id="phoneBtn" onclick="checkPhone()">送出</button>
+      			</div>
+      			</div>
+  			</form>
+        </div>
+      </div>
+
+<script>
+	function checkPhone(){
+		var phone = $('#phone').val();
+		
+		if(!phone.trim())
+			alert("電話請勿空白");	
+		else{
+			alert("修改成功");
+			$("#phoneForm").submit();	
+		}
+	}
+</script>
+
+	  <!-- 篩選範圍表格-->
+    <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
+      <div class="well">
+        <h3 class="text-center">cow，您好！</h3>
+		  <br/>
+        <form class="form-horizontal">
+			<ul class="list-group">
+					<h4 style="text-align: center">行程功能</h4>
+				<li class="list-group-item" role="button" onclick="location='tourCreate'">新增行程</li>	
+			</ul>
+			<ul class="list-group">
+				<h4 style="text-align: center">會員功能</h4>
+			  <li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
+			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  <li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
+			  <li class="list-group-item">聯絡客服</li>
+			  <li class="list-group-item">查看景點收藏</li>
+			</ul>     
+        </form>
+      </div>
+      <hr/>	  
+  	</div>
+	</div>
+</div>
+<hr/>
+	
+	
+<!-- information -->
+<div th:replace="Shared/layout :: section"></div>	
+<!-- footer -->
+<div th:replace="Shared/layout :: footer"></div>
+	
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="/js/jquery-1.11.3.min.js"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="/js/bootstrap.js"></script>
+	
+</body>
+</html>

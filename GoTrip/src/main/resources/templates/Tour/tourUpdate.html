@@ -8,7 +8,7 @@
 <title>GoTrip</title>
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="css/bootstrap.css"/>
+<link rel="stylesheet" href="/css/bootstrap.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 	
 	
@@ -28,9 +28,9 @@
 <body>
 
 	<!-- Navbar -->
-	<div th:replace="Shared/layout :: nav"></div>
-
-	<form action="tourUpdate" enctype="multipart/form-data" method ="post">
+	<!-- <div th:replace="Shared/layout :: nav"></div> -->
+	
+	<form th:action="@{/user/tourUpdate}" enctype="multipart/form-data" method ="post">
 
 		<input type="file" name="photoFile"  /><br/>
   		旅遊名稱:<input type="text" name = "name" th:field="${Tour.name}"/><br/>

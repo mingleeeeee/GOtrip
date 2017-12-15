@@ -1,10 +1,12 @@
 package com.example.controller;
 
 import java.lang.reflect.Type;
+import java.security.Principal;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.json.JSONArray;
@@ -30,8 +32,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import antlr.collections.List;
 
+import com.example.dao.AuthorityDAO;
 import com.example.dao.MemberDAO;
 import com.example.entity.Account;
+import com.example.entity.Authority;
 import com.example.entity.Basket;
 import com.example.entity.Spot;
 import com.google.gson.Gson;
@@ -40,61 +44,144 @@ import com.mysql.fabric.xmlrpc.base.Member;
 
 @Controller
 public class MemberController {
+
+	@Autowired
+	MemberDAO dao;
 	
 	@Autowired
-	 MemberDAO dao;
-	
+	AuthorityDAO authoDao;
 
-	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
-	public  ModelAndView registration() {
-		ModelAndView model = new ModelAndView("Member/registration");
-		Account account = new Account();
-		model.addObject("account", account);
-		return model;
-	}
-	@RequestMapping(value = { "/registration" }, method = RequestMethod.POST)
-		public  ModelAndView handleRegistration(@Valid @ModelAttribute Account account, BindingResult bindingResult) {
-		ModelAndView model = new ModelAndView("Index/index");
-	         if (bindingResult.hasErrors()) {
-	         model = new ModelAndView("Member/registration");
-	         return model;
-	       }
-	         
-	       dao.save(account);
-	       model.addObject(account);
-
-		return model;
-	}
-	
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
 		ModelAndView model = new ModelAndView("Member/login");
 
 		return model;
 	}
+
 	@RequestMapping("/login-error")
-	 public String loginError(Model model) {
-	  model.addAttribute("loginError", true);
-	  return "Member/login";
-	 }
-	
-	@RequestMapping(value = { "/update" }, method = RequestMethod.GET)
+	public String loginError(Model model) {
+		model.addAttribute("loginError", true);
+		return "Member/login";
+	}
+
+	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
+	public ModelAndView registration() {
+		ModelAndView model = new ModelAndView("Member/registration");
+		Account account = new Account();
+		model.addObject("account", account);
+		return model;
+	}
+
+	@RequestMapping(value = { "/registration" }, method = RequestMethod.POST)
+	public ModelAndView handleRegistration(
+			@Valid @ModelAttribute Account account, BindingResult bindingResult) {
+		ModelAndView model = new ModelAndView("Index/index");
+		if (bindingResult.hasErrors()) {
+			model = new ModelAndView("Member/registration");
+			return model;
+		}
+		account.setEnabled(true);
+		dao.save(account);
+		
+		Authority autho = new Authority();
+		autho.setAuthority("ROLE_USER");
+		autho.setAccountAutho(account);
+		authoDao.save(autho);
+		
+		model.addObject(account);
+
+		return model;
+	}
+
+	@RequestMapping(value = { "/user/update" }, method = RequestMethod.GET)
 	public ModelAndView update() {
 		ModelAndView model = new ModelAndView("Member/update");
-		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-	      String userName = user.getUsername(); //get logged in username
-	      Account account = dao.findOne(userName);
-	       model.addObject(account);
-	      
-		  
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		String userName = user.getUsername(); // get logged in username
+		Account account = dao.findOne(userName);
+		model.addObject(account);
+
+		return model;
+	}
+
+	@RequestMapping(value = { "/user/update" }, method = RequestMethod.POST)
+	public ModelAndView processFormUpdate(@ModelAttribute Account account)
+			throws SQLException {
+		ModelAndView model = new ModelAndView("redirect:/");
+		dao.save(account);
 		return model;
 	}
 	
-	@RequestMapping(value = { "/update" }, method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@ModelAttribute Account account) throws SQLException{
-		ModelAndView model = new ModelAndView("redirect:/");
-	       dao.save(account);             
-	       return model;
+	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.GET)
+	public ModelAndView passwordUpdate(){
+		ModelAndView model = new ModelAndView("Member/passwordUpdate");
+		
+		return model;
 	}
-
+	
+	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.POST)
+	public ModelAndView saveNewPassword(@ModelAttribute("pwd2") String pwd, Principal principal){
+		ModelAndView model = new ModelAndView("redirect:/");
+		String username = principal.getName();
+		Account account = dao.findOne(username);
+		account.setPassword(pwd);
+		dao.save(account);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updateEmail", method = RequestMethod.GET)
+	public ModelAndView emailUpdate(){
+		ModelAndView model = new ModelAndView("Member/emailUpdate");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updateEmail", method = RequestMethod.POST)
+	public ModelAndView saveNewEmail(@ModelAttribute("email") String email, Principal principal){
+		ModelAndView model = new ModelAndView("redirect:/");
+		String username = principal.getName();
+		Account account = dao.findOne(username);
+		account.setEmail(email);
+		dao.save(account);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updateName", method = RequestMethod.GET)
+	public ModelAndView nameUpdate(){
+		ModelAndView model = new ModelAndView("Member/nameUpdate");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updateName", method = RequestMethod.POST)
+	public ModelAndView saveNewName(@ModelAttribute("memberName") String memberName, Principal principal){
+		ModelAndView model = new ModelAndView("redirect:/");
+		String username = principal.getName();
+		Account account = dao.findOne(username);
+		account.setName(memberName);
+		dao.save(account);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updatePhone", method = RequestMethod.GET)
+	public ModelAndView phoneUpdate(){
+		ModelAndView model = new ModelAndView("Member/phoneUpdate");
+		
+		return model;
+	}
+	
+	@RequestMapping(value = "/user/updatePhone", method = RequestMethod.POST)
+	public ModelAndView saveNewPhone(@ModelAttribute("phone") String phone, Principal principal){
+		ModelAndView model = new ModelAndView("redirect:/");
+		String username = principal.getName();
+		Account account = dao.findOne(username);
+		account.setPhone(phone);
+		dao.save(account);
+		
+		return model;
+	}
 }

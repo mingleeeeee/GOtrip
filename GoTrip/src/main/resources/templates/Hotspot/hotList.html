@@ -18,12 +18,12 @@
         <td th:text="*{id}">1</td>
         <td th:text="*{name}">台北101</td>
         <td>
-        	<img th:src="'files/'+*{photo}" width="100px"/>
+        	<img th:src="'/files/'+*{photo}" width="100px"/>
         </td>
         <td th:text="*{address}">信義區</td>
         <td th:text="*{description}">很高</td>
         <td>
-        	<a th:href="@{hotUpdate(id=${hot.id})}">修改</a>
+        	<a th:href="@{/admin/hotUpdate(id=${hot.id})}">修改</a>
         </td>
     </tr>
 </table>

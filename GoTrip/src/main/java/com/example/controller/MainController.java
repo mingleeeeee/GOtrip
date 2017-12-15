@@ -62,7 +62,7 @@ public class MainController {
        return model;
     }
 
-	@RequestMapping(value = { "/TourInfo" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/user/tourInfo" }, method = RequestMethod.GET)
 	public ModelAndView tourInfo(@ModelAttribute("id") Long id, HttpSession session){
 		ModelAndView model = new ModelAndView("Tour/tourInfo");
 		Tour tour = tourDao.findOne(id);
@@ -78,7 +78,7 @@ public class MainController {
 	}
 	
 	
-	@RequestMapping(value = { "/SpotSearch" }, method = RequestMethod.GET)
+	@RequestMapping(value = { "/user/spotSearch" }, method = RequestMethod.GET)
 	public ModelAndView spotSearch(@RequestParam(value="whichDay", required=false, defaultValue="1") 
 					Integer whichDay, HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/spotSearch");
@@ -93,7 +93,7 @@ public class MainController {
 	
 	
 	
-	@RequestMapping(value = { "/SaveBasket" }, method = RequestMethod.POST)
+	@RequestMapping(value = { "/user/SaveBasket" }, method = RequestMethod.POST)
 	public ModelAndView basketSave(@RequestBody String json, HttpSession session) throws Exception {
 		ModelAndView model = new ModelAndView("redirect:/TourInfo");
 		
@@ -133,7 +133,7 @@ public class MainController {
 		return model;
 	}
 	
-	@RequestMapping(value = "route", method = RequestMethod.GET)
+	@RequestMapping(value = "/user/route", method = RequestMethod.GET)
 	public ModelAndView handleRoute(){
 		ModelAndView model = new ModelAndView("Tour/outputPage");
 		

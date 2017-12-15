@@ -21,8 +21,8 @@
 	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Arbutus+Slab"/>
 	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"/>
-	<link rel="stylesheet" href="css/blockCSS.css"/>
-	<link rel="stylesheet" href="css/bootstrap.css"/>
+	<link rel="stylesheet" href="/css/blockCSS.css"/>
+	<link rel="stylesheet" href="/css/bootstrap.css"/>
 	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -124,7 +124,7 @@ flag:hover{
 	
 	<!-- Navbar -->
 <div th:replace="Shared/layout :: nav"></div>
-	<div class="jumbotron" style="background-image: url(images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" > 			
+	<div class="jumbotron" style="background-image: url(/images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" > 			
 		<div class="container">		
 			<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
 				<h1 class="text-center" style="font-weight:lighter;" >行程提籃</h1>
@@ -161,7 +161,7 @@ flag:hover{
 					</li>
 					<li th:unless="${iterStat2.last}">
 						
-						<img src="images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
+						<img src="/images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
 						
 					</li>
 				</div>
@@ -194,15 +194,15 @@ flag:hover{
 		
 			<ul class="list-group">
 					<h4 style="text-align: center">行程功能</h4>
-				  <a href="SpotSearch"><li class="list-group-item" role="button">新增景點</li></a>
+				  <li class="list-group-item" onclick="location='/user/spotSearch'" role="button">新增景點</li>
   
-</ul>
+			</ul>
 			
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
 			  <li class="list-group-item">會員資料修改</li>
-			  <li class="list-group-item">密碼修改</li>
-			  <li class="list-group-item">電子郵件修改</li>
+			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
 			  <li class="list-group-item">聯絡客服</li>
 			  <li class="list-group-item">查看景點收藏</li>
 </ul>
@@ -231,9 +231,9 @@ flag:hover{
 <div th:replace="Shared/layout :: footer"></div>
 	
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="js/jquery-1.11.3.min.js"></script> 
+<script src="/js/jquery-1.11.3.min.js"></script> 
 <!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script src="js/bootstrap.js"></script>
+<script src="/js/bootstrap.js"></script>
 	
 </body>
 </html>
