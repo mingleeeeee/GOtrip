@@ -47,6 +47,8 @@
     		<version>20171018</version>
 		</dependency>
 		
+		
+		
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
@@ -83,6 +85,17 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+   <groupId>org.springframework.boot</groupId>
+   <artifactId>spring-boot-starter-security</artifactId>
+  </dependency>
+  
+  <dependency>
+   <groupId>org.thymeleaf.extras</groupId>
+   <artifactId>thymeleaf-extras-springsecurity4</artifactId>
+   </dependency>
+   
+   
 		
 	</dependencies>
 
@@ -94,6 +107,7 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 
 
 </project>
