@@ -67,7 +67,7 @@
   background: #446AA0;
 	opacity: 0.7;
   color: white;
-  font-size: 11px;
+  font-size: 15px;
   letter-spacing: 0.2em;
   text-align: center;
   text-transform: uppercase;
@@ -75,8 +75,11 @@
    /* 控制旗幟上下間距 */
 	margin-bottom: 20px;
 	/* 控制旗幟左右間距 */
-	margin-right: 0px; 
-	margin-left: 0px;
+	margin-right: 5px; 
+	margin-left: 5px;
+}
+flag:hover{
+	background-color: #3B5A87;
 }
 .flag:before {
   content: ' ';
@@ -107,7 +110,15 @@
 		
 	</style>
 	
-	
+	<script>
+	function handleRoute(btn){
+        var origin = $(btn).closest('div').children('span').text().trim();
+        var destination = $(btn).closest('div').next('.spotDiv').children('span').text().trim();
+        sessionStorage.setItem("origin", origin);
+        sessionStorage.setItem("destination", destination);
+        window.open('route', "_blank");
+      }
+	</script>
 </head>
 <body>
 	
@@ -132,35 +143,31 @@
   <div class="row">
     <div class="col-lg-9 col-md-12">
 		<div class="row">
-        
 		<div class="tourInfo">
-	
-		 <div class="row">
-   		 <div class="col-lg-12 page-header text-center" style="width: 97%">
-          <h3>第一天</h3>
-			 </div>	
+		<div class="row" th:each="day, iterStat1 : ${allDays}" th:object="${day}">
+		
+   		<div class="col-lg-12 page-header text-center" style="width: 97%" >
+          <h3>第<span th:text="${iterStat1.count}"></span>天</h3>
+		</div>	
 		
 		<!-- tour表  旗幟樣式在head ( class = flag )-->
 		<div id="tour" >
 		&nbsp;
 			<ol style="list-style-type: none">
-			<li class="flag">
-			  台北101
-			</li>
-			
-			<li class="flag">
-			  象山
-			</li>
-			
-			<li class="flag">
-			  木柵動物園
-			</li>
-			
-			<li class="flag">
-			  深坑
-			</li>
-		
-				</ol>
+				<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
+				<span style="display:none" th:text="*{placeId}"></span>
+					<li class="flag">
+			  			<span th:text="*{name}"></span>
+					</li>
+					<li th:unless="${iterStat2.last}">
+						
+						<img src="images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
+						
+					</li>
+				</div>
+				
+				
+			</ol>
 			<!-- 
 			<script>
 			$( ".flag" ).before( "<li><a href=""> <span class="glyphicon glyphicon-arrow-right"></span></a></li>" );
@@ -187,8 +194,7 @@
 		
 			<ul class="list-group">
 					<h4 style="text-align: center">行程功能</h4>
-				  <li class="list-group-item">新增行程</li>
-				  <li class="list-group-item">新增行程</li>
+				  <a href="SpotSearch"><li class="list-group-item" role="button">新增景點</li></a>
   
 </ul>
 			

@@ -7,7 +7,5 @@ import com.example.entity.Spot;
 import com.example.entity.Tour;
 
 public interface HotSpotDAO extends CrudRepository<Hot, Long>{
-
-
 	
 }

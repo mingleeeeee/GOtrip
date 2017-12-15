@@ -1,0 +1,24 @@
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Update the spot</title>
+</head>
+<body>
+	<form th:action="hotDetail" th:object="${hot}" enctype="multipart/form-data" method ="post">
+<!-- <input type="text" name="name" th:field="*{name}"/> -->
+
+   		景點名稱:<span th:text="*{name}"></span><br/>
+   		景點地址:<span th:text="*{address}"></span><br/>
+   		景點描述:<span th:text="*{description}"></span><br/>
+ 
+ 		<td><img th:src="'files/'+*{photo}" width="100px"/></td> 
+ 		<input type="hidden" name ="id" th:field="*{id}"/>
+ 
+	</form>
+</body>
+</html>
+
+

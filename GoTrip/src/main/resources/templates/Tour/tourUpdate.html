@@ -27,24 +27,22 @@
 </head>
 <body>
 
-
 	<!-- Navbar -->
 	<div th:replace="Shared/layout :: nav"></div>
 
-<form action="tourListUpdate" enctype="multipart/form-data" method ="post">
-   <br/>   <br/>   <br/>   <br/>   <br/>   <br/>
+	<form action="tourUpdate" enctype="multipart/form-data" method ="post">
 
-<input type="file" name="photoFile"  /><br/>
-   旅遊名稱:<input type="text" name = "name" th:field="${Tour.name}"/><br/>
-   出發日期:<input type="date" name = "beginDate" th:field="${Tour.beginDate}"/><br/>
-   旅遊天數:<input type="number" name = "days" th:field="${Tour.days}"/><br/>
-   備註       :<br/>
-   <textarea name ="comment" rows="10" cols="30" th:field="${Tour.note}"></textarea>
- <input type="hidden" name ="id" th:field="${Tour.id}"/>
+		<input type="file" name="photoFile"  /><br/>
+  		旅遊名稱:<input type="text" name = "name" th:field="${Tour.name}"/><br/>
+   		出發日期:<input type="date" name = "beginDate" th:field="${Tour.beginDate}"/><br/>
+   		旅遊天數:<input type="number" name = "days" th:field="${Tour.days}"/><br/>
+   		備註       :<br/>
+   		<textarea name ="comment" rows="10" cols="30" th:field="${Tour.note}"></textarea>
+ 		<input type="hidden" name ="id" th:field="${Tour.id}"/>
 
- <input type="submit" class="btn btn-info" value="確定更改"/>
+ 		<input type="submit" class="btn btn-info" value="確定更改"/>
 
-</form>
-<!-- -->
+	</form>
+
 </body>
 </html>

@@ -58,29 +58,22 @@ public class MainController {
     Iterable<Hot> hot = dao.findAll();
        ModelAndView model = new ModelAndView("index/index");
        model.addObject("hots",hot);
+       
        return model;
     }
-	
-	@RequestMapping(value = { "/TourList" }, method = RequestMethod.GET)
-	public ModelAndView tourList() {
-		ModelAndView model = new ModelAndView("Tour/tourList");
-
-		return model;
-	}
 
 	@RequestMapping(value = { "/TourInfo" }, method = RequestMethod.GET)
-	public ModelAndView tourInfo(/*get tour id*/HttpSession session){
+	public ModelAndView tourInfo(@ModelAttribute("id") Long id, HttpSession session){
 		ModelAndView model = new ModelAndView("Tour/tourInfo");
-		
-		Tour tour = tourDao.findOne(new Long(1));
+		Tour tour = tourDao.findOne(id);
 		ArrayList<Iterable> daysArr = new ArrayList<Iterable>();
 		for(int i = 0; i < tour.getDays(); i++){
 			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, i+1);
 			daysArr.add(spots);
 		}
 		session.setAttribute("whichTour", 1);
-		model.addObject("alldays", daysArr);
-
+		model.addObject("allDays", daysArr);
+		
 		return model;
 	}
 	
@@ -140,4 +133,10 @@ public class MainController {
 		return model;
 	}
 	
+	@RequestMapping(value = "route", method = RequestMethod.GET)
+	public ModelAndView handleRoute(){
+		ModelAndView model = new ModelAndView("Tour/outputPage");
+		
+		return model;
+	}
 }
