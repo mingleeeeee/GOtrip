@@ -8,7 +8,7 @@
 <title>GoTrip</title>
 
 <!-- Bootstrap -->
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 	<script src="//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js"></script>	
 	<script src="//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js"></script>
@@ -31,6 +31,94 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
+	<style>
+		
+		html, body {
+			max-width: 100%;
+			overflow-x: hidden;
+			/* 防止畫面水平超過尺寸 */
+		}
+		th {
+    		text-align: left;
+}
+		th, td {
+    		border-bottom: 1px solid #ddd;
+}
+		tourInfo{
+			
+		}
+		
+		 #A ul li {
+		 display:inline;
+		}
+		
+		* {
+  box-sizing: border-box;
+}
+.tourInfo li{
+  float:left;
+}
+.flag {
+  width: 200px;
+  height: 50px;
+  margin: 0 auto;
+  padding-top: 15px;
+  position: relative; 
+  background: #446AA0;
+	opacity: 0.7;
+  color: white;
+  font-size: 15px;
+  letter-spacing: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+  list-style:none;
+   /* 控制旗幟上下間距 */
+	margin-bottom: 20px;
+	/* 控制旗幟左右間距 */
+	margin-right: 5px; 
+	margin-left: 5px;
+}
+flag:hover{
+	background-color: #3B5A87;
+}
+.flag:before {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-left: 25px solid white;
+  border-top: 25px solid transparent;
+  border-bottom: 25px solid transparent;
+}
+.flag:after {
+  content: ' ';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  border-top: 25px solid white;
+  border-left: 25px solid transparent;
+  border-bottom: 25px solid white;
+}
+		.glyphicon-arrow-right{
+			margin-top: 14px;
+		}
+		
+		
+	</style>
+	
+	<script>
+	function handleRoute(btn){
+        var origin = $(btn).closest('div').children('span').text().trim();
+        var destination = $(btn).closest('div').next('.spotDiv').children('span').text().trim();
+        sessionStorage.setItem("origin", origin);
+        sessionStorage.setItem("destination", destination);
+        window.open('route', "_blank");
+      }
+	</script>
 </head>
 <body>
 	
@@ -47,79 +135,94 @@
 	</div>
 <hr/>
 		
+	
 	<!-- 自訂行程 -->
-	<div class="container" >
-  		<div class="row">
-    		<div class="col-lg-9 col-md-12">
-				<div class="row">   
-					<div class="tourInfo">
-					<div id="Day1">
-						
-<!-- Simple MDL Progress Bar -->
-
-					<div class="dd">
-	  				<ol class="kanban progress" th:each="day : ${alldays}" th:object="${day}">
-						<div class="kanban__title">
-		  					<h2 style="text-align: center;">第<span th:text="${day[0].day}"></span>天</h2>
-		  				</div>
-	   					<li class="dd-item" data-id="1" th:each="spot : ${day}" th:object="${spot}">
-		  					<h3 class="title dd-handle" th:text="*{name}"><i class=" material-icons ">filter_none</i></h3>
-			 				<div class="text" contenteditable="true"></div>
-    					</li>
-    					<div class="actions">
-      						<a th:href="@{SpotSearch(whichDay=${day[0].day})}"><button class="addbutt"><i class="material-icons">control_point</i> Add new</button></a>
-    					</div>		
-	  				</ol>
-					</div>
-
-<!-- important javascipt move block -->		
-	<script src="//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
-	<script src="js/blockFunction.js"></script>			
-		</div>
-	</div>  
-   </div>
-</div>
+<div class="container" >
+	
+	
+  <div class="row">
+    <div class="col-lg-9 col-md-12">
+		<div class="row">
+		<div class="tourInfo">
+		<div class="row" th:each="day, iterStat1 : ${allDays}" th:object="${day}">
 		
+   		<div class="col-lg-12 page-header text-center" style="width: 97%" >
+          <h3>第<span th:text="${iterStat1.count}"></span>天</h3>
+		</div>	
+		
+		<!-- tour表  旗幟樣式在head ( class = flag )-->
+		<div id="tour" >
+		&nbsp;
+			<ol style="list-style-type: none">
+				<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
+				<span style="display:none" th:text="*{placeId}"></span>
+					<li class="flag">
+			  			<span th:text="*{name}"></span>
+					</li>
+					<li th:unless="${iterStat2.last}">
+						
+						<img src="images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
+						
+					</li>
+				</div>
+				
+				
+			</ol>
+			<!-- 
+			<script>
+			$( ".flag" ).before( "<li><a href=""> <span class="glyphicon glyphicon-arrow-right"></span></a></li>" );
+			</script>
+			 -->
+		</div> <!-- tour -->
+	</div>
+	
+	</div>
+	    
+      </div>
+    </div>
+	
+	  
 	  <!-- 篩選範圍表格-->
-<div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
-	<div class="well">
-    	<h3 class="text-center">cow，您好！</h3>
-		<br/>
-
- <!-- important javascipt move block -->		
-		<script src="js/blockFunction.js"></script>  
+    <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0" style="padding-right: 0px">
+      <div class="well">
+        <h3 class="text-center">cow，您好！</h3>
+		  <br/>
+		  
+			
+		   
         <form class="form-horizontal">
+		
 			<ul class="list-group">
-				<h4 style="text-align: center">行程功能</h4>
-				<li class="list-group-item">新增行程</li>
-				<li class="list-group-item">新增行程</li>
-			</ul>
+					<h4 style="text-align: center">行程功能</h4>
+				  <a href="SpotSearch"><li class="list-group-item" role="button">新增景點</li></a>
+  
+</ul>
+			
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			  	<li class="list-group-item">會員資料修改</li>
-			  	<li class="list-group-item">密碼修改</li>
-			  	<li class="list-group-item">電子郵件修改</li>
-			  	<li class="list-group-item">聯絡客服</li>
-			  	<li class="list-group-item">查看景點收藏</li>
-			</ul>
-
-			<!-- 輸入價格欄位 ， 適合旅館篩選
-          <div class="form-group">
-            <label for="pricefrom" class="control-label">Price From</label>
-            <div class="input-group">
-              <div class="input-group-addon" id="basic-addon1">$</div>
-              <input type="text" class="form-control" id="pricefrom" aria-describedby="basic-addon1">
-            </div>
-          </div>
-          -->
+			  <li class="list-group-item">會員資料修改</li>
+			  <li class="list-group-item">密碼修改</li>
+			  <li class="list-group-item">電子郵件修改</li>
+			  <li class="list-group-item">聯絡客服</li>
+			  <li class="list-group-item">查看景點收藏</li>
+</ul>
+			
+        
         </form>
       </div>
+		
       <hr/>
+	
+		<!-- -->
+      
+	  
   </div>
 </div>
-</div>
+	</div>
+	
+	
+      <hr/>
+
 <hr/>
 	
 <!-- information -->
