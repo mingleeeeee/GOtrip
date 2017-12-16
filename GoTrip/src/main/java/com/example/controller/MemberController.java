@@ -184,4 +184,11 @@ public class MemberController {
 		
 		return model;
 	}
+	
+	@RequestMapping(value = "/user/collection", method = RequestMethod.GET)
+	public ModelAndView collection(){
+		ModelAndView model = new ModelAndView("Member/collection");
+		
+		return model;
+	}
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"><head>
 <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -8,9 +7,10 @@
 <title>GoTrip</title>
 
 <!-- Bootstrap -->
+
 <link rel="stylesheet" href="/css/bootstrap.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
-	
+
 	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,30 +19,138 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-	
-	<style>
-	
-	</style>
-	
 </head>
 <body>
-
-	<!-- Navbar -->
-	<!-- <div th:replace="Shared/layout :: nav"></div> -->
 	
-	<form th:action="@{/user/tourUpdate}" enctype="multipart/form-data" method ="post">
+	<!-- Navbar -->
+	<div th:replace="Shared/layout :: nav"></div>
+	
+	
+	<div class="jumbotron" style="background-image: url(/images/trip.jpeg); background-size: 100% 800px ; width: 100%;height: 400px;margin-bottom: 70px" >
+ 			
+		<div class="container">
+	
+		
+		<div id="rectangle" style="background-color: #1B1B1B;opacity: 0.8;border: 0px;margin-top: 220px; margin-left: auto;margin-right: auto; color: #e7e7e7;">
+			<h1 class="text-center" style="font-weight:lighter;" >行程列表</h1>
+			  <p class="text-center" style="font-weight:lighter;">新增、自訂行程</p>
+		</div>
+   
+		</div>
+	</div>
 
-		<input type="file" name="photoFile"  /><br/>
-  		旅遊名稱:<input type="text" name = "name" th:field="${Tour.name}"/><br/>
-   		出發日期:<input type="date" name = "beginDate" th:field="${Tour.beginDate}"/><br/>
-   		旅遊天數:<input type="number" name = "days" th:field="${Tour.days}"/><br/>
-   		備註       :<br/>
-   		<textarea name ="comment" rows="10" cols="30" th:field="${Tour.note}"></textarea>
- 		<input type="hidden" name ="id" th:field="${Tour.id}"/>
 
- 		<input type="submit" class="btn btn-info" value="確定更改"/>
-
-	</form>
-
+	
+<hr/>
+	
+		
+	<!-- 自訂行程 -->
+<div class="container" >
+	
+  <div class="row">
+    <div class="col-lg-9 col-md-12">
+<div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6" >
+	
+        
+	<form class="form-horizontal" th:action="@{/user/tourUpdate}" enctype="multipart/form-data" method ="post" >
+   
+    <div class="form-group">
+       <h3> 旅遊名稱:</h3>
+       <input type="text" class="form-control" name = "name" th:field="${Tour.name}"/>
+    </div>
+      <div class="form-group">
+       <h3> 出發日期:</h3>
+      <input type="date" class="form-control" name = "beginDate" th:field="${Tour.beginDate}"/><br/>
+    </div>
+    <div class="form-group">
+        <h3> 旅遊天數:</h3>
+        <input type="number" class="form-control" name = "days" th:field="${Tour.days}"/>
+    </div>
+     <div class="form-group">
+       <h3>圖片：</h3>
+		    <input type="file" class="form-control" name="photoFile"  />
+    </div>
+   <div class="form-group">
+        <h3> 備註: </h3> 
+   		<textarea name ="comment" class="form-control" rows="10" cols="30" th:field="${Tour.note}"></textarea>
+ 		<input type="hidden"  name ="id" th:field="${Tour.id}"/>
+    </div>
+    <input type="submit" class="btn btn-default" value="確定更改"/>
+    <button type="button" class="btn btn-default" onclick="history.back()">取消</button>
+</form>	
+       
+	
+		
+        </div>
+	
+        </div>
+      </div>
+		
+     
+    
+	  
+	  
+	  <!-- 篩選範圍表格-->
+    <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
+      <div class="well">
+        <h3 class="text-center">cow，您好！</h3>
+		  <br/>
+        <form class="form-horizontal">
+		
+			<ul class="list-group">
+					<h4 style="text-align: center">行程功能</h4>
+				<li class="list-group-item" role="button" onclick="location='tourCreate'">新增行程</li>
+				
+  			
+  
+</ul>
+			
+			<ul class="list-group">
+				<h4 style="text-align: center">會員功能</h4>
+			  <li class="list-group-item">會員資料修改</li>
+			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  <li class="list-group-item">聯絡客服</li>
+			  <li class="list-group-item">查看景點收藏</li>
+</ul>
+			
+         
+			
+			<!-- 輸入價格欄位 ， 適合旅館篩選
+          <div class="form-group">
+            <label for="pricefrom" class="control-label">Price From</label>
+            <div class="input-group">
+              <div class="input-group-addon" id="basic-addon1">$</div>
+              <input type="text" class="form-control" id="pricefrom" aria-describedby="basic-addon1">
+            </div>
+          </div>
+          -->
+			
+         
+        </form>
+      </div>
+		
+      <hr/>
+	
+		<!-- -->
+      
+	  
+  </div>
+</div>
+	</div>
+<hr/>
+	
+	
+<!-- information -->
+<div th:replace="Shared/layout :: section"></div>	
+<!-- footer -->
+<div th:replace="Shared/layout :: footer"></div>
+	
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+<script src="/js/jquery-1.11.3.min.js"></script> 
+<!-- Include all compiled plugins (below), or include individual files as needed --> 
+<script src="/js/bootstrap.js"></script>
+	
 </body>
 </html>
