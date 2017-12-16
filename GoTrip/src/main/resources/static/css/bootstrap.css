@@ -8392,3 +8392,7 @@ nav {
         display: block;
       	}
 /*# sourceMappingURL=bootstrap.css.map */
+.list-group-item:hover{
+	background-color: 	#E3E3E3;
+}
+
