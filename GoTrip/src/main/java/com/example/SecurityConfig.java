@@ -17,7 +17,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin/**").hasRole("ADMIN").and().formLogin()
 				.loginPage("/login").failureUrl("/login-error").and()
 				.exceptionHandling().accessDeniedPage("/");
-
+		http.csrf().disable();
 	}
 
 	@Autowired
