@@ -1,5 +1,7 @@
 package com.example.controller;
+import java.security.Principal;
 import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.dao.MemberDAO;
 import com.example.dao.TourDAO;
+import com.example.entity.Account;
 import com.example.entity.Tour;
 import com.example.storage.StorageService;
 
@@ -18,7 +23,10 @@ public class TourController {
 	
 	@Autowired
 	TourDAO dao;
-
+	
+	@Autowired
+	MemberDAO memberDao;
+	
 	private final StorageService storageService;
 
 	@Autowired
@@ -34,18 +42,15 @@ public class TourController {
 	}
 
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.POST)
-	public ModelAndView processFormCreate(@ModelAttribute Tour list) {
+	public ModelAndView processFormCreate(@ModelAttribute Tour list, Principal principal) {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 
 		MultipartFile pic = list.getPhotoFile();
 		// 更改檔名後再儲存
 		storageService.store(pic);
 		list.setPhoto();// copy file name to the field photo
-
-		// Authentication authentication =
-		// SecurityContextHolder.getContext().getAuthentication();
-		// String currentUserName = authentication.getname();
-		// list.setAccount(); 等譽升
+		Account account = memberDao.findOne(principal.getName());
+		list.setAccountTour(account);
 		dao.save(list);
 
 		// model.addObject(list);
@@ -53,9 +58,10 @@ public class TourController {
 	}
 
 	@RequestMapping(value = { "/tourRetrieveAll" }, method = RequestMethod.GET)
-	public ModelAndView retrieveTour() throws SQLException {
-		Iterable<Tour> list = dao.findAll();
+	public ModelAndView retrieveTour(Principal principal) throws SQLException {	
 		ModelAndView model = new ModelAndView("Tour/tourList");
+		Account account = memberDao.findOne(principal.getName());
+		Iterable<Tour> list = account.getTours();
 		model.addObject("tourlists", list);
 		
 		return model;
@@ -73,13 +79,14 @@ public class TourController {
 	}
 
 	@RequestMapping(value = "/tourUpdate", method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@ModelAttribute Tour list) throws SQLException {
+	public ModelAndView processFormUpdate(@ModelAttribute Tour list, Principal principal) throws SQLException {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 		
 		if (!("").equals(list.getPhotoFile().getOriginalFilename())) {
 			storageService.store(list.getPhotoFile());
 			list.setPhoto();
 		}
+		list.setAccountTour(memberDao.findOne(principal.getName()));
 		dao.save(list);
 		
 		return model;
@@ -92,5 +99,10 @@ public class TourController {
 		dao.delete(id);
 		return model;
 	}
+	
+	/*public void getUserName(Principal principal){
+		String name = principal.getName();
+		username = memberDao.findOne(name).getName();
+	}*/
 
 }

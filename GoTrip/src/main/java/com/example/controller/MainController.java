@@ -40,7 +40,7 @@ public class MainController {
 
 	@Autowired
 	TourDAO tourDao;
-	
+
 	@Autowired
 	HotSpotDAO dao;
 
@@ -60,10 +60,11 @@ public class MainController {
 		Tour tour = tourDao.findOne(id);
 		ArrayList<Iterable> daysArr = new ArrayList<Iterable>();
 		for (int i = 0; i < tour.getDays(); i++) {
-			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, i + 1);
+			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(
+					tour, i + 1);
 			daysArr.add(spots);
 		}
-		//session.setAttribute("whichTour", tour.getId());
+		// session.setAttribute("whichTour", tour.getId());
 		model.addObject("tourId", tour.getId());
 		model.addObject("allDays", daysArr);
 
@@ -71,63 +72,68 @@ public class MainController {
 	}
 
 	@RequestMapping(value = { "/user/spotSearch" }, method = RequestMethod.GET)
-	public ModelAndView spotSearch(@ModelAttribute("id") int tourId, HttpSession session) {
+	public ModelAndView spotSearch(@ModelAttribute("id") int tourId,
+			HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/spotSearch");
 		Tour tour = tourDao.findOne(new Long(tourId));
-		Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, 1);
+		Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour,
+				1);
 		model.addObject("spots", spots);
 		model.addObject("tour", tour);
-		
+
 		ArrayList<Integer> dayList = new ArrayList<>();
-		for(int i = 1; i <= tour.getDays(); i++)
+		for (int i = 1; i <= tour.getDays(); i++)
 			dayList.add(i);
 		model.addObject("daysList", dayList);
-		
-		//session.setAttribute("whichDay", whichDay);
-		//basket.setSpots((ArrayList<Spot>) spots);
-		
+
+		// session.setAttribute("whichDay", whichDay);
+		// basket.setSpots((ArrayList<Spot>) spots);
+
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/user/saveBasket" }, method = RequestMethod.POST)
 	public ModelAndView updateBasket(@RequestBody String json) throws Exception {
 		ModelAndView model = new ModelAndView("redirect:/");
 		JSONObject jsonObj = new JSONObject(json);
-		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
-		basketSave(jsonObj, whichTour);
-		
+		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId")
+				.toString()));
+		Integer thisDay = new Integer(jsonObj.get("thisDay").toString());
+		basketSave(jsonObj, whichTour, thisDay);
+
 		return model;
 	}
-	
+
 	@RequestMapping(value = { "/user/retrieveNextSopts" }, method = RequestMethod.POST)
 	@ResponseBody
 	public List<Spot> nextSpots(@RequestBody String json) throws Exception {
 		JSONObject jsonObj = new JSONObject(json);
 		Integer nextDay = new Integer(jsonObj.get("nextDay").toString());
+		Integer thisDay = new Integer(jsonObj.get("thisDay").toString());
 		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
-		basketSave(jsonObj, whichTour);
-		
+		basketSave(jsonObj, whichTour, thisDay);
+
 		ArrayList<Spot> nextSpots = new ArrayList<Spot>();
-		nextSpots = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
-		
+		nextSpots = (ArrayList<Spot>) spotDao
+				.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
+
 		return nextSpots;
 	}
-	
-	private void basketSave(JSONObject jsonObj, Tour whichTour) throws Exception {
-		
+
+	private void basketSave(JSONObject jsonObj, Tour whichTour, Integer whichDay)
+			throws Exception {
+
 		System.out.println("enter");
-		
+
 		/* handle json string */
 		Gson gson = new Gson();
-		//JSONObject jsonObj = new JSONObject(json);
+		// JSONObject jsonObj = new JSONObject(json);
 		JSONArray jsonArr = jsonObj.getJSONArray("things");
-		Type listType = new TypeToken<ArrayList<Spot>>() {}.getType();
+		Type listType = new TypeToken<ArrayList<Spot>>() {
+		}.getType();
 		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType);
-		ArrayList<Spot> list = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, spots.get(0).getDay());
-		//int whichDay = (int) session.getAttribute("whichDay");
-		//Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
-		//Integer nextDay = new Integer(jsonObj.get("nextDay").toString());
-		
+
+		ArrayList<Spot> list = (ArrayList<Spot>) spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, whichDay);
 		for (int k = 0; k < list.size(); k++) {
 			Spot spot1 = list.get(k);
 			boolean isFind = false;
@@ -151,12 +157,15 @@ public class MainController {
 					s.getSequence(), whichTour);
 			spotDao.save(newSpot);
 		}
-		
-		/*ArrayList<Spot> nextSpots = new ArrayList<Spot>();
-		nextSpots = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
-		
-		return nextSpots;*/
 
+		/*
+		 * ArrayList<Spot> nextSpots = new ArrayList<Spot>(); nextSpots =
+		 * (ArrayList
+		 * <Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour,
+		 * nextDay);
+		 * 
+		 * return nextSpots;
+		 */
 
 	}
 

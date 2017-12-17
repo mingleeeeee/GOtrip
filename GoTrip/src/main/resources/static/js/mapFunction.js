@@ -127,7 +127,7 @@
               placeName = detail.name;
               var isOpen = detail.opening_hours ? "營業中" : "非營業時間";  
               var base = '名稱: ' + detail.name + '<br>地址: ' + detail.formatted_address + '<br>' + isOpen + '<br>';           
-              var create = '<span class="glyphicon glyphicon-plus-sign" style="font-size:16px"' + 
+              var create = '<span class="glyphicon glyphicon-plus-sign" role="button" style="font-size:16px"' + 
                            'onclick="createAttraction(\'' + detail.place_id + '\')">' + '</span>';      
               var website = detail.website;
               var content;
@@ -152,9 +152,10 @@
       function createAttraction(placeId){
         var basket = $('#basket');
         // 將景點加入SpotSearch.html右欄
+       
         basket.append('<li class="dd-item spotli" id=' + placeId + '><h5 class="title dd-handle" >' + placeName + 
-          /* '<i class=" material-icons ">filter_none</i> */'</h5><span style="display:none">' + placeId + 
-          '</span><span style="display:none">-1</span><span class="glyphicon glyphicon-trash" onclick="removeAttraction(this)" style="color:red"></span></li>');
+          /* '<i class=" material-icons ">filter_none</i> */'</h5><span style="display:none" class="pid">' + placeId + 
+          '</span><span style="display:none">-1</span><span class="glyphicon glyphicon-trash" role="button" onclick="removeAttraction(this)" style="color:red"></span></li>');
       }
 
       /* 移除SpotSearch.html右欄的某一景點 */
@@ -179,16 +180,15 @@
           var thisDay = $("#thisDay").text();
           var basket = [];
           var i = 1;
-          alert("thisDay = " + thisDay);
+      
           $("ol li").each(function(){                       			 // 取得<ol>中所有<li>
-            var name = $(this).find('h5').text().trim();               // 取得<li>中<h5>的文字，此處為place
-																		// name
-            var placeId = $(this).children('span').text().trim();      // 取得<li>中<span>的文字，此處為place
-																		// Id(隱藏)
+            var name = $(this).find('h5').text().trim();               	// 取得<li>中<h5>的文字，此處為place												// name
+            var placeId = $(this).children('.pid').text().trim(); 		// 取得<li>中<span>的文字，此處為place																	// Id(隱藏)
             var id = $(this).children('span').next().text().trim();
             basket.push({id: id, name: name, placeId: placeId, day: thisDay, sequence: i});     // 以name及placeId為屬性初始化物件，push到basket陣列
             i++;     
           });
+          
           
           return basket;
       }
@@ -197,31 +197,34 @@
       function UpdateBasket(){
     	  var basket = getCurrentSpots();
     	  var tourId = $("#tourId").text();
-          
+    	  var thisDay = $("#thisDay").text();
+    	  
           // 以ajax post動態傳送basket陣列回controller
           $.ajax({ 
             url: "/user/saveBasket",
             type: "POST",
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({'things': basket, tourId: tourId}),
+            data: JSON.stringify({'things': basket, tourId: tourId, thisDay: thisDay}),
             success: function(s){alert("儲存成功");},
             error: function(e){alert('儲存失敗');}
           });
+          
       }
       
       function findNextDaySpots(){
     	  var basket = getCurrentSpots();
     	  var nextDay = $('#nextDay').val();
     	  var tourId = $("#tourId").text();
-    	  //alert("nextDay = " + nextDay);
+    	  var thisDay = $("#thisDay").text();
+    	  
     	// 以ajax post動態傳送basket陣列回controller
           $.ajax({ 
             url: "/user/retrieveNextSopts",
             type: "POST",
             contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({'things': basket, 'nextDay': nextDay, tourId: tourId}),
+            data: JSON.stringify({'things': basket, 'nextDay': nextDay, 'thisDay': thisDay, tourId: tourId}),
             success: function(s){
-  			  alert("儲存成功");
+
   			  $('.spotli').remove();
   			  
   			  $.each(s, function(){
@@ -229,7 +232,7 @@
   				createAttraction(this.placeId);
   			  });
   			  $("#thisDay").text(nextDay);
-  			  alert($("#thisDay").text())
+  			  
             },
             error: function(e){
               alert('儲存失敗');

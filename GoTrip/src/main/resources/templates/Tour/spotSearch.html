@@ -101,22 +101,22 @@
 		  <div class="dd" th:action="@{/user/basketUpdate}">
 	 		 <ol class="kanban To-do" id="basket" style="width: 100%;position: relative;height: auto;min-height: 500px !important;">	
 		  		<!-- <h4 style="text-align: center;padding-top:10px">第<span th:text="${session.whichDay}"></span>天</h4> -->
-		  		
-		  		 <select onchange="findNextDaySpots()" id="nextDay">
+		  		<br/><div class="form-group">
+		  		 <select onchange="findNextDaySpots()" id="nextDay" class="form-control" style="text-align-last: center;">
   					<option th:each="eachDay,iterStat : ${daysList}" th:value="${iterStat.count}">第<span th:text="${iterStat.count}"></span>天</option>
 				</select> 
-				
+				</div>
 		  		<hr/>
 		  		
 		  		<li class="dd-item spotli" th:each="spot : ${spots}" th:object="${spot}">
 		  			<h5 class="title dd-handle"><span th:text="*{name}"></span></h5>
-		  			<span th:text="*{placeId}" style="display:none"></span>
+		  			<span th:text="*{placeId}" style="display:none" class="pid"></span>
 		  			<span th:text="*{id}" style="display:none"></span>
-		  			<span class="glyphicon glyphicon-trash" onclick="removeAttraction(this)" style="color:red"></span>
+		  			<span class="glyphicon glyphicon-trash" role="button" onclick="removeAttraction(this)" style="color:red"></span>
 		  		</li>
 			</ol>
-			<button type="button" onclick="UpdateBasket()">儲存</button>
-			<button type="button" onclick="location='/user/tourInfo'" style="text-decoration:none;" class="pull-right">旅遊提籃</button>
+			<button type="button" onclick="UpdateBasket()" style="color:black;">儲存</button>
+			<a th:href="@{/user/tourInfo(id=${tour.id})}"><button type="button" style="text-decoration:none; color:black;" class="pull-right">旅遊提籃</button></a>
 		  </div>
 		  <!-- important javascipt move block -->		
 		<script src="/js/blockFunction.js"></script>      

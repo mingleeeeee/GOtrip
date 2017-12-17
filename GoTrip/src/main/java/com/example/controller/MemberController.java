@@ -75,7 +75,7 @@ public class MemberController {
 	@RequestMapping(value = { "/registration" }, method = RequestMethod.POST)
 	public ModelAndView handleRegistration(
 			@Valid @ModelAttribute Account account, BindingResult bindingResult) {
-		ModelAndView model = new ModelAndView("Index/index");
+		ModelAndView model = new ModelAndView("redirect:/");
 		if (bindingResult.hasErrors()) {
 			model = new ModelAndView("Member/registration");
 			return model;
@@ -106,8 +106,8 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = { "/user/update" }, method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@ModelAttribute Account account)
-			throws SQLException {
+	public ModelAndView processFormUpdate(@ModelAttribute Account account) throws SQLException {
+		System.out.println("enter accont update");
 		ModelAndView model = new ModelAndView("redirect:/");
 		dao.save(account);
 		return model;
