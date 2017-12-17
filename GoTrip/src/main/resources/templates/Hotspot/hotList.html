@@ -144,7 +144,7 @@
 			  		<th>景點名稱</th>
 			  		<th>景點照片</th>
 			  		<th>景點地址</th>
-			  		<th>景點描述</th>
+			  		<!--  <th>景點描述</th>-->
 			  		<th></th>
 			 	</tr>
 			    <tr th:each="hot : ${hots} " th:object="${hot}">
@@ -154,7 +154,7 @@
 			        	<img th:src="'/files/'+*{photo}" width="100px"/>
 			        </td>
 			        <td th:text="*{address}">信義區</td>
-			        <td th:text="*{description}">很高</td>
+			       <!-- <td th:text="*{description}">很高</td>-->
 			        <td>
 			        	<a th:href="@{/admin/hotUpdate(id=${hot.id})}">修改</a>
 			        </td>

@@ -194,15 +194,16 @@ flag:hover{
 		
 			<ul class="list-group">
 				  <h4 style="text-align: center">行程功能</h4>
-				  <a th:href="@{/user/spotSearch(id=${tourId.intValue()})}" role="button"><li class="list-group-item">新增景點</li></a>
+				  <a th:href="@{/user/spotSearch(id=${tourId.intValue()})}" role="button" style='color: black;'><li class="list-group-item">新增景點</li></a>
   
 			</ul>
 			
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			  <li class="list-group-item">會員資料修改</li>
+			  <li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
 			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
 			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  <li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
 			  <li class="list-group-item">聯絡客服</li>
 			  <li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
 </ul>
