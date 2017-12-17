@@ -97,12 +97,18 @@
 	<!-- 行程表-->
     <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
       <div class="well" style="height:auto; min-height: 620px">
-        <h2 class="text-center">臺北自由行</h2>
+        <h2 class="text-center" th:text="${tour.name}"></h2>
 		  <div class="dd" th:action="@{/user/basketUpdate}">
 	 		 <ol class="kanban To-do" id="basket" style="width: 100%;position: relative;height: auto;min-height: 500px !important;">	
-		  		<h4 style="text-align: center;padding-top:10px">第<span th:text="${session.whichDay}"></span>天</h4> 
+		  		<!-- <h4 style="text-align: center;padding-top:10px">第<span th:text="${session.whichDay}"></span>天</h4> -->
+		  		
+		  		 <select onchange="findNextDaySpots()" id="nextDay">
+  					<option th:each="eachDay,iterStat : ${daysList}" th:value="${iterStat.count}">第<span th:text="${iterStat.count}"></span>天</option>
+				</select> 
+				
 		  		<hr/>
-		  		<li class="dd-item" th:each="spot : ${spots}" th:object="${spot}">
+		  		
+		  		<li class="dd-item spotli" th:each="spot : ${spots}" th:object="${spot}">
 		  			<h5 class="title dd-handle"><span th:text="*{name}"></span></h5>
 		  			<span th:text="*{placeId}" style="display:none"></span>
 		  			<span th:text="*{id}" style="display:none"></span>
@@ -121,6 +127,8 @@
 </div>
 <hr/>
 
+<span th:text="${tour.id}" style="display:none" id="tourId"></span>
+<span id="thisDay" style="display:none">1</span>
 <!-- information -->
 <div th:replace="Shared/layout :: section"></div>	
 <!-- footer -->

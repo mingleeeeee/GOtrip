@@ -23,7 +23,7 @@
 	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"/>
 	<link rel="stylesheet" href="/css/blockCSS.css"/>
 	<link rel="stylesheet" href="/css/bootstrap.css"/>
-	<link rel="stylesheet" href="/css/HideDiv.css"/>
+	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -78,8 +78,8 @@
 	margin-right: 5px; 
 	margin-left: 5px;
 }
-.flag:hover{
-	background-color:#385885;
+flag:hover{
+	background-color: #3B5A87;
 }
 .flag:before {
   content: ' ';
@@ -156,11 +156,9 @@
 			<ol style="list-style-type: none">
 				<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
 				<span style="display:none" th:text="*{placeId}"></span>
-					<a href="#" data-toggle="modal" data-target="#login-modal">
 					<li class="flag">
 			  			<span th:text="*{name}"></span>
 					</li>
-					</a>
 					<li th:unless="${iterStat2.last}">
 						
 						<img src="/images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
@@ -175,32 +173,6 @@
 			$( ".flag" ).before( "<li><a href=""> <span class="glyphicon glyphicon-arrow-right"></span></a></li>" );
 			</script>
 			 -->
-			 
-			 
-			 <!-- 旅遊編輯雛形 -->
-			 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;margin-top: 100px">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>旅遊編輯</h1><br/>
-				  <form>
-					  <h4>景點名稱：</h4>
-					<input type="text" class="form-control" name="user" placeholder="台北101"/>
-					  <h4>預估停留時間：</h4>
-					<input type="text" class="form-control" name="user" placeholder="5 Days"/>
-					  <h4>備註：</h4>
-					  <input type="text" class="form-control" name="user" placeholder="逛街！"/>
-					  
-					<input type="submit"  class="loginmodal-submit" value="儲存" style="background-color: #446AA0;opacity: 0.9"  />
-				  </form>
-					
-				  <div class="login-help">
-					  <a href="#" ><h4>Cancel</h4></a>
-				  </div>
-				</div>
-			</div>
-		  </div>
-			 
-			 
 		</div> <!-- tour -->
 	</div>
 	
@@ -221,8 +193,8 @@
         <form class="form-horizontal">
 		
 			<ul class="list-group">
-					<h4 style="text-align: center">行程功能</h4>
-				  <li class="list-group-item" onclick="location='/user/spotSearch'" role="button">新增景點</li>
+				  <h4 style="text-align: center">行程功能</h4>
+				  <a th:href="@{/user/spotSearch(id=${tourId.intValue()})}" role="button"><li class="list-group-item">新增景點</li></a>
   
 			</ul>
 			

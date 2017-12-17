@@ -1,6 +1,7 @@
 package com.example.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,8 @@ import javax.persistence.Table;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "spot")
@@ -43,6 +46,7 @@ public class Spot implements Serializable{
 	@Column(name = "sequence")
 	private int sequence;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "tour_id")
 	private Tour tour;

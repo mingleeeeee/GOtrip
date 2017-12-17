@@ -2,32 +2,22 @@ package com.example.controller;
 
 import java.lang.reflect.Type;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
+import java.util.*;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.assertj.core.util.Lists;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.http.ResponseEntity;
-import org.springframework.session.Session;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
-
-import antlr.collections.List;
 
 import com.example.dao.HotSpotDAO;
 import com.example.dao.SpotDAO;
@@ -44,76 +34,107 @@ public class MainController {
 
 	@Autowired
 	SpotDAO spotDao;
-	
+
 	@Autowired
 	Basket basket;
-	
+
 	@Autowired
 	TourDAO tourDao;
-	@Autowired
-	 HotSpotDAO dao;
 	
+	@Autowired
+	HotSpotDAO dao;
+
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
-    public ModelAndView index() throws SQLException{
-    Iterable<Hot> hot = dao.findAll();
-       ModelAndView model = new ModelAndView("index/index");
-       model.addObject("hots",hot);
-       
-       return model;
-    }
+	public ModelAndView index() throws SQLException {
+		Iterable<Hot> hot = dao.findAll();
+		ModelAndView model = new ModelAndView("index/index");
+		model.addObject("hots", hot);
+
+		return model;
+	}
 
 	@RequestMapping(value = { "/user/tourInfo" }, method = RequestMethod.GET)
-	public ModelAndView tourInfo(@ModelAttribute("id") Long id, HttpSession session){
+	public ModelAndView tourInfo(@ModelAttribute("id") Long id,
+			HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/tourInfo");
 		Tour tour = tourDao.findOne(id);
 		ArrayList<Iterable> daysArr = new ArrayList<Iterable>();
-		for(int i = 0; i < tour.getDays(); i++){
-			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, i+1);
+		for (int i = 0; i < tour.getDays(); i++) {
+			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, i + 1);
 			daysArr.add(spots);
 		}
-		session.setAttribute("whichTour", 1);
+		//session.setAttribute("whichTour", tour.getId());
+		model.addObject("tourId", tour.getId());
 		model.addObject("allDays", daysArr);
-		
+
 		return model;
 	}
-	
-	
+
 	@RequestMapping(value = { "/user/spotSearch" }, method = RequestMethod.GET)
-	public ModelAndView spotSearch(@RequestParam(value="whichDay", required=false, defaultValue="1") 
-					Integer whichDay, HttpSession session) {
+	public ModelAndView spotSearch(@ModelAttribute("id") int tourId, HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/spotSearch");
-		Tour tour = tourDao.findOne(new Long(1));
-		Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, whichDay);
+		Tour tour = tourDao.findOne(new Long(tourId));
+		Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, 1);
 		model.addObject("spots", spots);
-		session.setAttribute("whichDay", whichDay);
-		basket.setSpots((ArrayList<Spot>)spots);
+		model.addObject("tour", tour);
+		
+		ArrayList<Integer> dayList = new ArrayList<>();
+		for(int i = 1; i <= tour.getDays(); i++)
+			dayList.add(i);
+		model.addObject("daysList", dayList);
+		
+		//session.setAttribute("whichDay", whichDay);
+		//basket.setSpots((ArrayList<Spot>) spots);
 		
 		return model;
 	}
 	
-	
-	
-	@RequestMapping(value = { "/user/SaveBasket" }, method = RequestMethod.POST)
-	public ModelAndView basketSave(@RequestBody String json, HttpSession session) throws Exception {
-		ModelAndView model = new ModelAndView("redirect:/TourInfo");
-		
-		/*handle json string*/
-		Gson gson = new Gson();
+	@RequestMapping(value = { "/user/saveBasket" }, method = RequestMethod.POST)
+	public ModelAndView updateBasket(@RequestBody String json) throws Exception {
+		ModelAndView model = new ModelAndView("redirect:/");
 		JSONObject jsonObj = new JSONObject(json);
+		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
+		basketSave(jsonObj, whichTour);
+		
+		return model;
+	}
+	
+	@RequestMapping(value = { "/user/retrieveNextSopts" }, method = RequestMethod.POST)
+	@ResponseBody
+	public List<Spot> nextSpots(@RequestBody String json) throws Exception {
+		JSONObject jsonObj = new JSONObject(json);
+		Integer nextDay = new Integer(jsonObj.get("nextDay").toString());
+		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
+		basketSave(jsonObj, whichTour);
+		
+		ArrayList<Spot> nextSpots = new ArrayList<Spot>();
+		nextSpots = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
+		
+		return nextSpots;
+	}
+	
+	private void basketSave(JSONObject jsonObj, Tour whichTour) throws Exception {
+		
+		System.out.println("enter");
+		
+		/* handle json string */
+		Gson gson = new Gson();
+		//JSONObject jsonObj = new JSONObject(json);
 		JSONArray jsonArr = jsonObj.getJSONArray("things");
 		Type listType = new TypeToken<ArrayList<Spot>>() {}.getType();
 		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType);
-		ArrayList<Spot> list = (ArrayList<Spot>)basket.getSpots();
-		int whichDay = (int)session.getAttribute("whichDay");
-		Tour whichTour = tourDao.findOne(new Long(session.getAttribute("whichTour").toString()));
+		ArrayList<Spot> list = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, spots.get(0).getDay());
+		//int whichDay = (int) session.getAttribute("whichDay");
+		//Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
+		//Integer nextDay = new Integer(jsonObj.get("nextDay").toString());
 		
-		for(int k = 0; k < list.size(); k++){
+		for (int k = 0; k < list.size(); k++) {
 			Spot spot1 = list.get(k);
 			boolean isFind = false;
-			for(int i = 0; i < spots.size(); i++){
+			for (int i = 0; i < spots.size(); i++) {
 				Spot spot2 = spots.get(i);
-				
-				if(spot1.getId().intValue() == spot2.getId().intValue()){
+
+				if (spot1.getId().intValue() == spot2.getId().intValue()) {
 					spot1.setSequence(spot2.getSequence());
 					spotDao.save(spot1);
 					isFind = true;
@@ -121,22 +142,28 @@ public class MainController {
 					break;
 				}
 			}
-			if(!isFind)
+			if (!isFind)
 				spotDao.delete(spot1);
 		}
-		for(int j = 0; j < spots.size(); j++){
+		for (int j = 0; j < spots.size(); j++) {
 			Spot s = spots.get(j);
-			Spot newSpot = new Spot(s.getName(), whichDay, s.getPlaceId(), s.getSequence(), whichTour);
+			Spot newSpot = new Spot(s.getName(), s.getDay(), s.getPlaceId(),
+					s.getSequence(), whichTour);
 			spotDao.save(newSpot);
 		}
 		
-		return model;
-	}
-	
-	@RequestMapping(value = "/user/route", method = RequestMethod.GET)
-	public ModelAndView handleRoute(){
-		ModelAndView model = new ModelAndView("Tour/outputPage");
+		/*ArrayList<Spot> nextSpots = new ArrayList<Spot>();
+		nextSpots = (ArrayList<Spot>)spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
 		
+		return nextSpots;*/
+
+
+	}
+
+	@RequestMapping(value = "/user/route", method = RequestMethod.GET)
+	public ModelAndView handleRoute() {
+		ModelAndView model = new ModelAndView("Tour/outputPage");
+
 		return model;
 	}
 }
