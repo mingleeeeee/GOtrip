@@ -27,22 +27,23 @@ public class Hot implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	@Column(name="name")	
-	@Size(min=1, message="不能是空白")
+	@Column(name="name")
+	@NotNull
+	@Size(min=1, message="請填入景點名稱")
 	private String name;
 		
 	private transient MultipartFile photoFile;
 	@NotNull
-	@Size(min=1,message="不能是空白")
+	@Size(min=1,message="請選擇照片")
 	private String photo;
 	
 	@Column(name="description")
 	@NotNull
-	@Size(min=1,message="不能是空白")
+	@Size(min=1,message="請填入簡介")
 	private String description;
 
 	@NotNull
-	@Size(min=1,message="不能是空白")
+	@Size(min=1,message="請填入景點地址")
 	@Column(name="address")
 	private String address;
 	

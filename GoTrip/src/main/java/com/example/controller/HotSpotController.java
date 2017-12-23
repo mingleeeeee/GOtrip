@@ -39,16 +39,6 @@ public class HotSpotController {
 		return model;
 	}
 
-	// HotInfo是給一般使用者看的,無修改功能
-	/*@RequestMapping(value = { "/HotInfo", }, method = RequestMethod.GET)
-	public ModelAndView HotRead2() throws SQLException {
-		ModelAndView model = new ModelAndView("Hotspot/HotInfo");
-		Iterable<Hot> hots = dao.findAll();
-		model.addObject("hots", hots);
-		
-		return model;
-	}*/
-
 	@RequestMapping(value = "/admin/hotUpdate", method = RequestMethod.GET)
 	public ModelAndView openFormUpdate(@Valid @RequestParam(value = "id", required = false, 
 				defaultValue = "1") Long id) {
@@ -60,15 +50,18 @@ public class HotSpotController {
 	}
 
 	@RequestMapping(value = "/admin/hotUpdate", method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@Valid @ModelAttribute Hot hot,
-			BindingResult bindingResult) throws SQLException {
+	public ModelAndView processFormUpdate(@Valid @ModelAttribute Hot hot, BindingResult bindingResult) throws SQLException {
 		ModelAndView model = new ModelAndView("redirect:/admin/hotRetrieveAll");
 		
-		if (bindingResult.hasErrors()) 
-			model = new ModelAndView("Hotspot/hotList");
+		if (bindingResult.hasErrors()){
+			model = new ModelAndView("Hotspot/hotUpdate");
+			
+			return model;
+		}
 		
 		// if photo is updated
 		if (!("").equals(hot.getPhotoFile().getOriginalFilename())) {
+			storageService.delete(dao.findOne(hot.getId()).getPhoto());
 			storageService.store(hot.getPhotoFile());
 			hot.setPhoto();// copy file name to the field photo
 		}
@@ -78,8 +71,7 @@ public class HotSpotController {
 	}
 
 	@RequestMapping(value = "/hotDetail", method = RequestMethod.GET)
-	public ModelAndView openFormUpdate2(
-			@RequestParam(value = "id", required = false, defaultValue = "1") Long id) {
+	public ModelAndView openFormUpdate2(@RequestParam(value = "id", required = false, defaultValue = "1") Long id) {
 		ModelAndView model = new ModelAndView("Hotspot/hotDetail");
 		Hot hot = dao.findOne(id);
 		model.addObject("hot", hot);

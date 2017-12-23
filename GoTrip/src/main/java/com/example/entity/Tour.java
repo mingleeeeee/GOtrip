@@ -19,6 +19,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
@@ -35,16 +36,20 @@ public class Tour implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@NotNull
-	@Size(min = 1)
+	@Size(min = 1, message="請填入行程名稱")
 	@Column(name = "name")
 	private String name;
 
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message="請選擇出發日期")
 	@Column(name = "begin_date")
 	private Date beginDate;
-	@Min(0)
+	
+	@NotNull(message="請填入旅遊天數")
+	@Min(value = 1, message = "請填入正確天數")
 	@Column(name = "days")
 	private Long days;
 
@@ -59,7 +64,7 @@ public class Tour implements Serializable {
 	private List<Spot> spots;
 
 	private transient MultipartFile photoFile;
-
+	
 	private String photo;
 
 	public Long getId() {

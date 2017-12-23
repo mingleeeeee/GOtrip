@@ -30,6 +30,9 @@
 			width: 260px;
 			height: 180px;	
 		}
+		.error{
+			color: red;
+		}
 	</style>
 	<script>
 		window.onload = function(){
@@ -141,23 +144,23 @@
      <form class="form-horizontal" th:action="@{/admin/hotUpdate}" th:object="${hot}" enctype="multipart/form-data" method ="post">
 
    	<h3>景點名稱:</h3>
-   	<input type="text" name="name" class="form-control" th:field="*{name}"/><br/>
- 		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+   	<input type="text" name="name" class="form-control" th:field="*{name}"/>
+ 		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
  		   
    	<h3>地址:</h3>
-   	<input type="text" name="address" class="form-control" th:field="*{address}"/><br/>
- 		<div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+   	<input type="text" name="address" class="form-control" th:field="*{address}"/>
+ 		<div th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></div>
  	
  	<h3>圖片:</h3>
-  		<label th:text="*{photo}">photo</label><br/>
-        <input type="hidden" name="photo" th:field="*{photo}"/><br/>
+  		<!-- <label th:text="*{photo}">photo</label><br/> -->
+        <input type="hidden" name="photo" th:field="*{photo}" /><br/>
         <input type="file" class="form-control" name="photoFile"/><br/>
  
         <input type="hidden" name ="id" th:field="*{id}"/>
  	
    	<h3>景點描述:</h3>
-   	<textarea name="description" class="form-control" th:field="*{description}" rows="10" cols="30"/><br/>
- 		   <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+   	<textarea name="description" class="form-control" th:field="*{description}" rows="10" cols="30" ></textarea>
+ 		   <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></div>
 
  		<input type="submit" class="btn btn-default" value="Submit"/>
 		<button type="button" class="btn btn-default" onclick="history.back()">取消</button>

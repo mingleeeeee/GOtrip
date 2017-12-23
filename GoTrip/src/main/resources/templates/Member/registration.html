@@ -13,6 +13,11 @@
 <script>function myFunction() {
     alert("Hello! I am an alert box!");
 }</script>
+<style>
+	.error{
+		color: red;
+	}
+</style>
 </head>
 <body>
 	<!-- Navbar -->
@@ -21,38 +26,38 @@
 		<form th:action="@{/registration}" role ="form"  th:object="${account}" method ="POST">
 		<div class="container" style="padding-top: 60px;width: 100% ; padding-left: 0px;padding-right: 0px">	
 			<div class="form-group">
-			   <label>請輸入用戶名:</label>
+			   <label>請輸入帳號:</label>
 			   <input type="text" name="username" class="form-control" 
-			   th:field="*{username}" placeholder="username.."/>
-			   <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></div>
+			   th:field="*{username}" placeholder="至少6個字元"/>
+			   <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
 				</div>
 				
 			 <div class="form-group">
 			   <label>請輸入密碼:</label>
-			   <input type="text" name="password" class="form-control" 
-			   th:field="*{password}" placeholder="password.."/>
-			   <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+			   <input type="password" name="password" class="form-control" 
+			   th:field="*{password}" placeholder="至少6個字元"/>
+			   <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
 				</div>
 			 
 			 <div class="form-group">
 			   <label>請輸入姓名:</label>
 			   <input type="text" name="name" class="form-control" 
 			   th:field="*{name}" placeholder="name.."/>
-			   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></div>
 				</div>
 			 
 			 <div class="form-group">
 			   <label>請輸入E-MAIL:</label>
 			   <input type="text" name="email" class="form-control" 
 			   th:field="*{email}" placeholder="email.."/>
-			   <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+			   <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
 				</div>
 			
 			<div class="form-group">
 			   <label>請輸入電話:</label>
 			   <input type="text" name="phone" class="form-control" 
 			   th:field="*{phone}" placeholder="phone.."/>
-			   <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+			   <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="error"></div>
 				</div>
 				
 			   <button type="submit" class="btn btn-default" onclick="return confirm('確定送出?');">送出</button>
