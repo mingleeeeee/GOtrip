@@ -25,6 +25,16 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
+    public void delete(String file){
+    	try {
+    		Files.delete(this.rootLocation.resolve(file));
+    	} catch (Exception e) {
+    		System.out.println(e.toString());
+    	}
+        
+    }
+    
+    @Override
     public void store(MultipartFile file) {
     	file.getOriginalFilename();
         try {

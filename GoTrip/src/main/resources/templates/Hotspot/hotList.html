@@ -10,7 +10,6 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="/css/bootstrap.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
-	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -140,7 +139,7 @@
 
          	<table class="table">
 			  	<tr>
-			  		<th>id(編號)</th>
+			  		<th></th>
 			  		<th>景點名稱</th>
 			  		<th>景點照片</th>
 			  		<th>景點地址</th>
@@ -156,7 +155,10 @@
 			        <td th:text="*{address}">信義區</td>
 			       <!-- <td th:text="*{description}">很高</td>-->
 			        <td>
-			        	<a th:href="@{/admin/hotUpdate(id=${hot.id})}">修改</a>
+			          <a th:href="@{/admin/hotUpdate(id=${hot.id})}">
+						修改
+        			  </a>
+			        	
 			        </td>
 			    </tr>
 			</table>

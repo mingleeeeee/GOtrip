@@ -5,15 +5,13 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -27,12 +25,12 @@ public class Account implements Serializable{
 	
 	@Id
 	@NotNull
-	@Size(min=1)
+	@Size(min=6, message = "帳號不可為空白")
 	@Column(name="username")
 	private String username;
 	
 	@NotNull
-	@Size(min=1)
+	@Size(min=6, message = "密碼不可為空白")
 	@Column(name="password")
 	private String password;
 
@@ -40,17 +38,18 @@ public class Account implements Serializable{
 	private boolean enabled;
 	
 	@NotNull
-	@Size(min=1)
+	@Size(min=1, message = "姓名不可為空白")
 	@Column(name="name")
 	private String name;
 	
 	@NotNull
-	@Size(min=1)
+	@Size(min=1, message = "不符合email形式")
+	@Email
 	@Column(name="email")
 	private String email;
 	
 	@NotNull
-	@Size(min=1)
+	@Size(min=1, message = "連絡電話不可為空白")
 	@Column(name="phone")
 	private String phone;
 	
@@ -59,6 +58,9 @@ public class Account implements Serializable{
 	
 	@OneToMany(mappedBy = "accountTour")
 	private List<Tour> tours;
+	
+	@OneToMany(mappedBy = "accountCol")
+	private List<Collection> collections;
 	
 	public String getUsername(){
 		return username;
@@ -114,6 +116,10 @@ public class Account implements Serializable{
 	
 	public Iterable<Tour> getTours(){
 		return tours;
+	}
+	
+	public Iterable<Collection> getCollectinos(){
+		return collections;
 	}
 	
 	

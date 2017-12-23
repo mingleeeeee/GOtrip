@@ -1,6 +1,7 @@
       var map;
       var infowindow;
       var placeName;
+      var address;
       var lat = 0;
       var lng = 0;
 
@@ -125,19 +126,21 @@
             }
             else{
               placeName = detail.name;
+              address = detail.formatted_address;
               var isOpen = detail.opening_hours ? "營業中" : "非營業時間";  
               var base = '名稱: ' + detail.name + '<br>地址: ' + detail.formatted_address + '<br>' + isOpen + '<br>';           
-              var create = '<span class="glyphicon glyphicon-plus-sign" role="button" style="font-size:16px"' + 
-                           'onclick="createAttraction(\'' + detail.place_id + '\')">' + '</span>';      
+              var create = '<span class="glyphicon glyphicon-plus-sign" style="color: #1e90ff;" role="button" style="font-size:16px"' + 
+                           'onclick="createAttraction(\'' + detail.place_id + '\')">' + '</span>'; 
+              var collect = '<span role="button" style="color: #ffd700;" class="glyphicon glyphicon-star pull-right" onclick="addToCollection(\'' + detail.place_id + '\')"></span>';
               var website = detail.website;
               var content;
 
               // 決定資訊視窗內容(少部分detail沒提供website資訊)
               if(typeof website == "undefined")
-                content = base + create;
+                content = base + create + collect;
               else{
                 website = '連結: <a href=' + website + ' + target="_blank">相關網站</a><br>';
-                content = base + website + create;
+                content = base + website + create + collect;
               }
               
               infowindow.setContent(content);   // 設定資訊視窗內容
@@ -146,6 +149,18 @@
           });
         });
         
+      }
+
+      function addToCollection(placeId){
+        
+        $.ajax({ 
+            url: "/user/addCollection",
+            type: "POST",
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({'placeId': placeId, 'name': placeName, 'address': address}),
+            success: function(s){alert("收藏成功");},
+            error: function(e){alert('儲存失敗');}
+          });
       }
 
       /* 使用者點選新增景點紐 */

@@ -1,9 +1,16 @@
 package com.example.controller;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,23 +44,29 @@ public class TourController {
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.GET)
 	public ModelAndView openFormCreate() {
 		ModelAndView model = new ModelAndView("Tour/tourCreate");
-
+		Tour tour = new Tour();
+		model.addObject("tour", tour);
+		
 		return model;
 	}
 
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.POST)
-	public ModelAndView processFormCreate(@ModelAttribute Tour list, Principal principal) {
+	public ModelAndView processFormCreate(@Valid @ModelAttribute Tour list, BindingResult bindingResult, Principal principal) throws IllegalStateException, IOException {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
-
+		
+		if(bindingResult.hasErrors()){
+			model = new ModelAndView("Tour/tourCreate");
+			
+			return model;
+		}
+		
 		MultipartFile pic = list.getPhotoFile();
-		// 更改檔名後再儲存
 		storageService.store(pic);
 		list.setPhoto();// copy file name to the field photo
 		Account account = memberDao.findOne(principal.getName());
 		list.setAccountTour(account);
 		dao.save(list);
 
-		// model.addObject(list);
 		return model;
 	}
 
@@ -72,17 +85,24 @@ public class TourController {
 					Long id) throws SQLException {
 		ModelAndView model = new ModelAndView("Tour/tourUpdate");
 		Tour list = dao.findOne(id);
-		model.addObject("Tour", list);
+		model.addObject("tour", list);
 
 		return model;
 
 	}
 
 	@RequestMapping(value = "/tourUpdate", method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@ModelAttribute Tour list, Principal principal) throws SQLException {
+	public ModelAndView processFormUpdate(@Valid @ModelAttribute Tour list, BindingResult bindingResult
+			, Principal principal) throws SQLException {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
 		
+		if(bindingResult.hasErrors()){
+			model = new ModelAndView("Tour/tourUpdate");
+			
+			return model;
+		}
 		if (!("").equals(list.getPhotoFile().getOriginalFilename())) {
+			storageService.delete(dao.findOne(list.getId()).getPhoto());
 			storageService.store(list.getPhotoFile());
 			list.setPhoto();
 		}
@@ -96,7 +116,10 @@ public class TourController {
 	public ModelAndView deleteTour(
 			@RequestParam(value = "id", required = false, defaultValue = "1") Long id) {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
-		dao.delete(id);
+		Tour tour = dao.findOne(id);
+		storageService.delete(tour.getPhoto());
+		dao.delete(tour);
+		
 		return model;
 	}
 	
