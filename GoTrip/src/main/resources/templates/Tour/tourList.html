@@ -61,7 +61,7 @@
                <p class="text-center">
 				  <a th:href="@{/user/tourInfo(id=*{id})}" class="btn btn-info" role="button">查看</a>
 				<a th:href="@{/user/tourUpdate(id=*{id})}" class="btn btn-info" role="button" >編輯</a>
-				<a th:href="@{/user/tourDelete(id=*{id})}" class="btn btn-info" role="button">刪除</a></p>
+				<a th:href="@{/user/tourDelete(id=*{id})}" class="btn btn-info" onclick="return confirm('確定刪除行程嗎?');" role="button">刪除</a></p>
             </div>
           </div>
         </div>

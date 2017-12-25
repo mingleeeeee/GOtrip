@@ -143,23 +143,23 @@
 		<div class="form-group">
 		   <label>密碼: </label>
 		   <input type="text" name="password" class="form-control" th:field="*{password}"/>
-		   <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+		   <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="createError"></div>
 			</div>
 		 <div class="form-group">		   
 		   <label>姓名: </label>
 				<input type="text" name="name" class="form-control" th:field="*{name}"/>
-		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="createError"></div>
 		  
 		</div>
 		<div class="form-group">
 		   <label>E-MAIL: </label>
 		   <input type="text" name ="email" class="form-control" th:field="*{email}"/>
-		   <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+		   <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="createError"></div>
 	 	</div>
 		<div class="form-group">
 		   <label>電話: </label>
 		   <input type="text" name ="phone" class="form-control" th:field="*{phone}" /><br/>
-		    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></div>
+		    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="createError"></div>
 		 </div>
 		 <input type="hidden" name="username" th:field="*{username}"/>
 		   <button type="submit" class="btn btn-default" onclick="return confirm('確定送出?');">送出</button>

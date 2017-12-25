@@ -161,7 +161,7 @@
    	<h3>景點描述:</h3>
    	<textarea name="description" class="form-control" th:field="*{description}" rows="10" cols="30" ></textarea>
  		   <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></div>
-
+<br/>
  		<input type="submit" class="btn btn-default" value="Submit"/>
 		<button type="button" class="btn btn-default" onclick="history.back()">取消</button>
   </form>

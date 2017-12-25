@@ -27,7 +27,8 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void delete(String file){
     	try {
-    		Files.delete(this.rootLocation.resolve(file));
+    		if(!(file.matches("defaultImg(.*)")))
+    			Files.delete(this.rootLocation.resolve(file));
     	} catch (Exception e) {
     		System.out.println(e.toString());
     	}

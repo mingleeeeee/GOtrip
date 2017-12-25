@@ -130,6 +130,10 @@ public class Tour implements Serializable {
 	public void setPhoto() {
 		this.photo = photoFile.getOriginalFilename();
 	}
+	
+	public void setPhotoByParam(String newPhoto) {
+		this.photo = newPhoto;
+	}
 
 	public String getPhoto() {
 		return photo;
