@@ -46,7 +46,9 @@ public class MemberController {
 	
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
 	public ModelAndView login() {
-		ModelAndView model = new ModelAndView("Member/login");
+		ModelAndView model = new ModelAndView("Member/loginAndRegister");
+		Account account = new Account();
+		model.addObject("account", account);
 
 		return model;
 	}
@@ -54,14 +56,19 @@ public class MemberController {
 	@RequestMapping("/login-error")
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
-		return "Member/login";
+		Account account = new Account();
+		model.addAttribute("account", account);
+		
+		return "Member/loginAndRegister";
 	}
 
 	@RequestMapping(value = { "/registration" }, method = RequestMethod.GET)
 	public ModelAndView registration() {
-		ModelAndView model = new ModelAndView("Member/registration");
+		ModelAndView model = new ModelAndView("Member/loginAndRegister");
 		Account account = new Account();
 		model.addObject("account", account);
+		model.addObject("token", 1);
+		
 		return model;
 	}
 
@@ -70,12 +77,13 @@ public class MemberController {
 			BindingResult bindingResult) {
 		ModelAndView model = new ModelAndView("redirect:/");
 		if (bindingResult.hasErrors()) {
-			model = new ModelAndView("Member/registration");
+			model = new ModelAndView("Member/loginAndRegister");
+			model.addObject("token", 1);
+			
 			return model;
 		}
 		account.setEnabled(true);
 		memberDao.save(account);
-		
 		Authority autho = new Authority();
 		autho.setAuthority("ROLE_USER");
 		autho.setAccountAutho(account);
@@ -85,7 +93,7 @@ public class MemberController {
 		return model;
 	}
 
-	@RequestMapping(value = { "/user/update" }, method = RequestMethod.GET)
+	/*@RequestMapping(value = { "/user/update" }, method = RequestMethod.GET)
 	public ModelAndView update() {
 		ModelAndView model = new ModelAndView("Member/update");
 		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -97,13 +105,18 @@ public class MemberController {
 	}
 
 	@RequestMapping(value = { "/user/update" }, method = RequestMethod.POST)
-	public ModelAndView processFormUpdate(@ModelAttribute Account account) throws SQLException {
+	public ModelAndView processFormUpdate(@Valid @ModelAttribute Account account, BindingResult bindingResult) throws SQLException {
 		ModelAndView model = new ModelAndView("redirect:/");
+		if(bindingResult.hasErrors()) {
+			model = new ModelAndView("Member/update");
+			
+			return model;
+		}
 		memberDao.save(account);
 		
 		return model;
 	}
-	
+	*/
 	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.GET)
 	public ModelAndView passwordUpdate(){
 		ModelAndView model = new ModelAndView("Member/passwordUpdate");

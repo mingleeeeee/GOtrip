@@ -53,16 +53,20 @@ public class TourController {
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.POST)
 	public ModelAndView processFormCreate(@Valid @ModelAttribute Tour list, BindingResult bindingResult, Principal principal) throws IllegalStateException, IOException {
 		ModelAndView model = new ModelAndView("redirect:/user/tourRetrieveAll");
-		
+			
 		if(bindingResult.hasErrors()){
 			model = new ModelAndView("Tour/tourCreate");
 			
 			return model;
 		}
-		
-		MultipartFile pic = list.getPhotoFile();
-		storageService.store(pic);
-		list.setPhoto();// copy file name to the field photo
+		if(list.getPhotoFile().isEmpty()) 
+			list.setPhotoByParam("defaultImg" + ((int)(Math.random()*3+1)) + ".jpg");	
+		else {
+			MultipartFile pic = list.getPhotoFile();
+			storageService.store(pic);
+			list.setPhoto();
+		}
+		// copy file name to the field photo
 		Account account = memberDao.findOne(principal.getName());
 		list.setAccountTour(account);
 		dao.save(list);

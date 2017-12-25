@@ -45,12 +45,12 @@ public class MainController {
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public ModelAndView index() throws SQLException {
 		Iterable<Hot> hot = dao.findAll();
-		ModelAndView model = new ModelAndView("index/index");
+		ModelAndView model = new ModelAndView("Index/index");
 		model.addObject("hots", hot);
 
 		return model;
 	}
-
+	
 	@RequestMapping(value = { "/user/tourInfo" }, method = RequestMethod.GET)
 	public ModelAndView tourInfo(@ModelAttribute("id") Long id, HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/tourInfo");

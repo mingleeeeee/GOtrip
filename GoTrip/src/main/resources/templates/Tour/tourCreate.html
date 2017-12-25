@@ -76,7 +76,7 @@
     
     <div class="form-group">
        <h3>圖片：</h3>
-		    <input type="file" class="form-control" name="photoFile" required="required"/>
+		    <input type="file" class="form-control" name="photoFile"/>
 		    <div th:if="${#fields.hasErrors('photo')}" th:errors="*{photo}" class="createError"></div>
     </div>
     

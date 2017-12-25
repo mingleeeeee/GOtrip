@@ -25,12 +25,12 @@ public class Account implements Serializable{
 	
 	@Id
 	@NotNull
-	@Size(min=6, message = "帳號不可為空白")
+	@Size(min=1, message = "請填入帳號")
 	@Column(name="username")
 	private String username;
 	
-	@NotNull
-	@Size(min=6, message = "密碼不可為空白")
+	@NotNull()
+	@Size(min=1, message = "請輸入密碼")
 	@Column(name="password")
 	private String password;
 
@@ -38,18 +38,18 @@ public class Account implements Serializable{
 	private boolean enabled;
 	
 	@NotNull
-	@Size(min=1, message = "姓名不可為空白")
+	@Size(min=1, message = "請輸入姓名")
 	@Column(name="name")
 	private String name;
 	
 	@NotNull
-	@Size(min=1, message = "不符合email形式")
-	@Email
+	@Size(min=1, message="請填入email")
+	@Email(message="請填入正確email格式")
 	@Column(name="email")
 	private String email;
 	
 	@NotNull
-	@Size(min=1, message = "連絡電話不可為空白")
+	@Size(min=1, message = "請填入聯絡電話")
 	@Column(name="phone")
 	private String phone;
 	

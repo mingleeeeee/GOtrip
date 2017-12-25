@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+<title>GoTrip</title>
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="/css/bootstrap.css"/>
+<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+<script src="/js/jquery-1.11.3.min.js"></script>
+<style type="text/css">
+
+</style>
+<script>
+$(function() {
+	$('#login-form-link').click(loginEvent);
+	$('#register-form-link').click(registerEvent);
+	
+	var token = $('#token').text();
+	if(token === '1'){
+		$('#register-form-link').trigger('click');
+	}
+	
+    
+
+});
+
+function loginEvent(e){
+	$("#login-form").delay(100).fadeIn(100);
+	$("#register-form").fadeOut(100);
+	$('#register-form-link').removeClass('active');
+	$(this).addClass('active');
+	e.preventDefault();
+}
+
+function registerEvent(e){
+	$("#register-form").delay(100).fadeIn(100);
+	$("#login-form").fadeOut(100);
+	$('#login-form-link').removeClass('active');
+	$(this).addClass('active');
+	e.preventDefault();
+}
+
+function checkPwd(){
+	
+	var pwd1 = $('#password2').val();
+	var pwd2 = $('#confirm-password').val();
+	if(pwd1 !== pwd2)
+		alert("密碼輸入不一致");
+	else{
+		if(confirm('確定送出?'))
+			$("#register-form").submit();
+	}
+}
+
+</script>
+</head>
+<body>
+<!-- Navbar -->
+	<div th:replace="Shared/layout :: nav"></div>
+
+	
+        <div class = "container topMove">
+        
+        		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-xs-6">
+								<a href="#" class="active" id="login-form-link">Login</a>
+							</div>
+							<div class="col-xs-6">
+								<a href="#" id="register-form-link">Register</a>
+							</div>
+						</div>
+						<hr/>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12">
+								<form id="login-form" th:action="@{/login}" method="post" role="form" style="display: block;">
+									<div class="form-group">
+										<input type="text" name="username" id="username" autofocus="autofocus" tabindex="1" class="form-control" placeholder="Username" value=""/>
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"/>
+										<p th:if="${loginError}" class="createError">Wrong user or password</p>
+									</div>
+									<!--  <div class="form-group text-center">
+										<input type="checkbox" tabindex="3" class="" name="remember" id="remember"/>
+										<label for="remember"> Remember Me</label>
+									</div>-->
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In"/>
+											</div>
+										</div>
+									</div><!--
+									<div class="form-group">
+										<div class="row">
+											<div class="col-lg-12">
+												<div class="text-center">
+													<a href="https://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
+												</div>
+											</div>
+										</div>
+									</div>-->
+								</form>
+								<form id="register-form" th:action="@{/registration}" th:object="${account}" method="post" role="form" style="display: none;">
+									<div class="form-group">
+										<input type="text" name="username" id="username" tabindex="1" th:field="*{username}" class="form-control" placeholder="Username" value=""/>
+										<div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="createError"></div>
+									</div>
+									<div class="form-group">
+										<input type="text" name="name" id="name" tabindex="1" th:field="*{name}" class="form-control" placeholder="Your name" value=""/>
+										<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="createError"></div>
+									</div>
+									<div class="form-group">
+										<input type="email" name="email" id="email" tabindex="1" th:field="*{email}" class="form-control" placeholder="Email Address" value=""/>
+										<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="createError"></div>
+									</div>
+									<div class="form-group">
+										<input type="text" name="phone" id="phone" tabindex="1" th:field="*{phone}" class="form-control" placeholder="Phone" value=""/>
+										<div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="createError"></div>
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password2" tabindex="2" th:field="*{password}" class="form-control" placeholder="Password"/>
+										<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="createError"></div>
+									</div>
+									<div class="form-group">
+										<input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password"/>
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<button type="button" onclick="checkPwd()" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" >Register Now</button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+        
+        </div>
+<span th:text="${token}" id="token" style="display:none">0</span>
+
+</body>
+</html>
