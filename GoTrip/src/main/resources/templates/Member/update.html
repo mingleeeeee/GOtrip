@@ -18,7 +18,6 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-	
 	<style>
 		
 		html, body {
@@ -44,7 +43,6 @@
 	<!-- Navbar -->
 	<div th:replace="Shared/layout :: nav"></div>
 	
-	
 	<!-- 輪播 -->
   <div class="container" style="padding-top: 60px;width: 100% ; padding-left: 0px;padding-right: 0px">
     <div class="row">
@@ -58,14 +56,13 @@
           <div class="carousel-inner" style="height: 400px ; width: 100%">
             <div class="item active">
 				<img class="img-responsive" src="/images/trip.jpeg" width="100%" height="400px" alt="thumb"/>
-				
-              <div class="carousel-caption"> Carousel caption. Here goes slide description. Lorem ipsum dolor set amet. </div>
+              	<div class="carousel-caption"> Carousel caption. Here goes slide description. Lorem ipsum dolor set amet. </div>
             </div>
             <div class="item"> <img class="img-responsive" src="/images/boy.jpeg" width="100%" height="400px" alt="thumb"/>
-              <div class="carousel-caption"> Carousel caption 2. Here goes slide description. Lorem ipsum dolor set amet. </div>
+              	<div class="carousel-caption"> Carousel caption 2. Here goes slide description. Lorem ipsum dolor set amet. </div>
             </div>
             <div class="item"> <img class="img-responsive" src="/images/camping.jpeg" width="100%" height="400px" alt="thumb"/>
-              <div class="carousel-caption"> Carousel caption 3. Here goes slide description. Lorem ipsum dolor set amet. </div>
+              	<div class="carousel-caption"> Carousel caption 3. Here goes slide description. Lorem ipsum dolor set amet. </div>
             </div>
           </div>
           <a class="left carousel-control" href="#carousel-299058" data-slide="prev"><span class="icon-prev"></span></a> <a class="right carousel-control" href="#carousel-299058" data-slide="next"><span class="icon-next"></span></a></div>
@@ -73,9 +70,8 @@
     </div>
     <hr/>
   </div>
-	
+  
 <section>
-	
 	<!-- 三個圈圈 -->	
   <div class="container">
     <div class="row">
@@ -84,7 +80,7 @@
           <div class="media">
             <div class="media-left"> <a href="#"> <img class="media-object img-circle" src="/images/101.jpeg" style="width: 140px; height: 140px;" alt="placeholder image"/> </a> </div>
             <div class="media-body">
-				<br/>
+			  <br/>
               <h4 class="media-heading">景點資訊</h4>
               &nbsp;&nbsp;熱門排行<br/>
 			  &nbsp;&nbsp;關鍵字查詢<br/>
@@ -99,82 +95,63 @@
         <div class="media">
           <div class="media-left"> <a href="#"> <img class="media-object img-circle" src="/images/navigation.jpg" style="width: 140px; height: 140px;" alt="placeholder image"/></a></div>
           <div class="media-body">
-			  <br/>
+			<br/>
             <h4 class="media-heading">路線規劃</h4>
-              
 			  &nbsp;&nbsp;詳細路徑規劃<br/>
-			  
 			  &nbsp;&nbsp;再也不迷路！
+          </div>
         </div>
-      </div>
-		</div>
+	  </div>
 		
       <div class="col-lg-4 col-md-4 col-sm-6 hidden-sm hidden-xs">
-        <div class="media">
-          <div class="media-left"> <a href="#"> <img class="media-object img-circle" src="/images/schedule.jpeg" style="width: 140px; height: 140px;" alt="placeholder image"/></a></div>
-          <div class="media-body">
-			  <br/>
-            <h4 class="media-heading">行程規劃</h4>
-              &nbsp;&nbsp;行程表<br/>
-			  &nbsp;&nbsp;詳細記錄<br/>
-			  &nbsp;&nbsp;私人收藏<br/>
-			  
-			  &nbsp;&nbsp;成為旅遊達人！
-        </div>
-        </div>
-      </div>
-		
-    </div>
+        	<div class="media">
+          		<div class="media-left"> <a href="#"> <img class="media-object img-circle" src="/images/schedule.jpeg" style="width: 140px; height: 140px;" alt="placeholder image"/></a></div>
+          			<div class="media-body">
+						<br/>
+            			<h4 class="media-heading">行程規劃</h4>
+              			&nbsp;&nbsp;行程表<br/>
+			  			&nbsp;&nbsp;詳細記錄<br/>
+			  			&nbsp;&nbsp;私人收藏<br/> 
+			  			&nbsp;&nbsp;成為旅遊達人！
+        			</div>
+        		</div>
+      		</div>	
+    	</div>
   </div>
-	
 </section>
-	
 <hr/>
-	
-
 <div class="container" >
   <div class="row">
     <div class="col-lg-9 col-md-12">
-<div class="row">
-		<form role ="form" th:action="@{/user/update}" th:object="${account}" method ="POST">
-			
-		<h2>修改會員資料</h2>
-		   
-		<div class="form-group">
-		   <label>密碼: </label>
-		   <input type="text" name="password" class="form-control" th:field="*{password}"/>
-		   <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="createError"></div>
-			</div>
-		 <div class="form-group">		   
-		   <label>姓名: </label>
-				<input type="text" name="name" class="form-control" th:field="*{name}"/>
-		   <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="createError"></div>
-		  
-		</div>
-		<div class="form-group">
-		   <label>E-MAIL: </label>
-		   <input type="text" name ="email" class="form-control" th:field="*{email}"/>
-		   <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="createError"></div>
-	 	</div>
-		<div class="form-group">
-		   <label>電話: </label>
-		   <input type="text" name ="phone" class="form-control" th:field="*{phone}" /><br/>
-		    <div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="createError"></div>
-		 </div>
-		 <input type="hidden" name="username" th:field="*{username}"/>
-		   <button type="submit" class="btn btn-default" onclick="return confirm('確定送出?');">送出</button>
-		
-		 <button type="button" class="btn btn-default" onclick="history.back()">取消</button>
-
-		</form>
-
-     
-        
-      </div>
+		<div class="row">
+			<form role ="form" th:action="@{/user/update}" th:object="${account}" method ="POST">	
+				<h2>修改會員資料</h2>   
+				<div class="form-group">
+		   			<label>密碼: </label>
+		   			<input type="text" name="password" class="form-control" th:field="*{password}"/>
+		   			<div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="createError"></div>
+				</div>
+		 		<div class="form-group">		   
+		   			<label>姓名: </label>
+					<input type="text" name="name" class="form-control" th:field="*{name}"/>
+		   			<div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="createError"></div>		  
+				</div>
+				<div class="form-group">
+		   			<label>E-MAIL: </label>
+		   			<input type="text" name ="email" class="form-control" th:field="*{email}"/>
+		   			<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="createError"></div>
+	 			</div>
+				<div class="form-group">
+		   			<label>電話: </label>
+		   			<input type="text" name ="phone" class="form-control" th:field="*{phone}" /><br/>
+		    		<div th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" class="createError"></div>
+		 		</div>
+		 		<input type="hidden" name="username" th:field="*{username}"/>
+		   		<button type="submit" class="btn btn-default" onclick="return confirm('確定送出?');">送出</button>		
+		 		<button type="button" class="btn btn-default" onclick="history.back()">取消</button>
+			</form>     
+      	</div>
     </div>
-	  
-	  
-	  
   </div>
 </div>
 <hr/>

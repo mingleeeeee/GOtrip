@@ -8,12 +8,12 @@
 
 <!-- Bootstrap -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="/css/bootstrap.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
-<link rel="stylesheet" href="/css/TableFilter.css"/>
-<script src="/js/TableFilter.js"></script>
+<link rel="stylesheet" href="/css/tableFilter.css"/>
+<script src="/js/tableFilter.js"></script>
 	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,48 +45,46 @@
   <div class="row">
     <div class="col-lg-9 col-md-12">
 		<div class="row">
-        <table class="table">
-    	<h2>景點收藏</h2>	
-    <!--  -->
-    
-    <div class="form-group row">
-    	<div class="col-xs-3">
-			<select onchange="insertDays(this)" name="tourSelected" class="form-control">
-				<option>請選擇行程</option>
-				<option th:each="tour : ${tours}" 
-						th:text="${tour.name}" 
-						th:id="${tour.id}" 
-						th:value="${tour.days}"></option>
-			</select>
-		</div>
-    	<div class="col-xs-2">
-			<select id="dayList" name="daySelected" class="form-control">
-				<option value="-1">請選擇天數</option>
-			</select>
-		</div>
+        	<table class="table">
+    			<h2>景點收藏</h2>	
+    			<div class="form-group row">
+    				<div class="col-xs-3">
+						<select onchange="insertDays(this)" name="tourSelected" class="form-control">
+							<option>請選擇行程</option>
+							<option th:each="tour : ${tours}" 
+								th:text="${tour.name}" 
+								th:id="${tour.id}" 
+								th:value="${tour.days}"></option>
+						</select>
+					</div>
+    				<div class="col-xs-2">
+						<select id="dayList" name="daySelected" class="form-control">
+							<option value="-1">請選擇天數</option>
+						</select>
+					</div>
     	<!-- style="margin-right: 8px;"  -->
-		<button type="button" onclick="getCheckedValue()" class="btn btn-default">新增</button>	
-    </div>
+					<button type="button" onclick="getCheckedValue()" class="btn btn-default">新增</button>	
+    			</div>
     
-    <thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th>景點名稱</th>
-            <th>地址</th>
-            <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
-    	<tr th:each="collection,iterStat : ${cols}" th:object="${collection}">
-    		<th><input type="checkbox" name="selectedCol" th:value="*{id}"/></th>
-    		<th scope="row" th:text="${iterStat.count}">1</th>
-    		<th th:text="*{name}">無法顯示名稱</th>
-    		<th th:text="*{address}">無法顯示地址</th>
-    		<th><span th:id="*{id}" role="button" class="glyphicon glyphicon-remove-sign" style="color:red;" onclick="removeCollection(this)"></span></th>
-    	</tr>
-    </tbody>
-</table>		
+    			<thead>
+        			<tr>
+            			<th></th>
+            			<th></th>
+            			<th>景點名稱</th>
+            			<th>地址</th>
+            			<th>操作</th>
+       	 			</tr>
+    			</thead>
+    			<tbody>
+    				<tr th:each="collection,iterStat : ${cols}" th:object="${collection}">
+    					<th><input type="checkbox" name="selectedCol" th:value="*{id}"/></th>
+    					<th scope="row" th:text="${iterStat.count}">1</th>
+    					<th th:text="*{name}">無法顯示名稱</th>
+    					<th th:text="*{address}">無法顯示地址</th>
+    					<th><span th:id="*{id}" role="button" class="glyphicon glyphicon-remove-sign" style="color:red;" onclick="removeCollection(this)"></span></th>
+    				</tr>
+    			</tbody>
+			</table>		
        <script>
        	function removeCollection(btn){
        		var id = $(btn).attr('id');
@@ -97,6 +95,7 @@
                 data: JSON.stringify({'id': id}),
                 success: function(s){
                 	$(btn).closest('tr').remove();
+                	/*location.reload();*/
                 },
                 error: function(e){alert('失敗');}
               });
@@ -109,33 +108,29 @@
 	  <!-- 篩選範圍表格-->
     <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
       <div class="well">
-        <h3 class="text-center">cow，您好！</h3>
-		  <br/>
+        <h3 class="text-center"><span th:text="${curName}"></span>，您好！</h3>
+		<br/>
         <form class="form-horizontal">
-		
 			<ul class="list-group">
-					<h4 style="text-align: center">行程功能</h4>
+				<h4 style="text-align: center">行程功能</h4>
 				<li class="list-group-item" role="button" onclick="location='tourCreate'">新增行程</li>
-</ul>		
+			</ul>		
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			 <li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
-			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
-			  <li class="list-group-item">聯絡客服</li>
-			  <li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
-</ul>     
+			 	<li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
+			  	<li class="list-group-item">聯絡客服</li>
+			  	<li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
+			</ul>     
         </form>
       </div>	
       <hr/>
-		<!-- -->
   </div>
 </div>
-	</div>
-	
+</div>
 <hr/>
-	
 	
 <!-- information -->
 <div th:replace="Shared/layout :: section"></div>	

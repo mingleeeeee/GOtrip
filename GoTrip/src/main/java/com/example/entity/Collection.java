@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "collection")
 @SessionScope
@@ -35,6 +37,7 @@ public class Collection implements Serializable{
 	@Column(name = "address")
 	private String address;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "usernamecol")
 	private Account accountCol;

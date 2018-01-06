@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.springframework.org/security/tags">
-
-
 <head>
-<meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<meta charset="UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-<title>GoTrip</title>
+	<title>GoTrip</title>
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="/css/bootstrap.css"/>
-<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+	<link rel="stylesheet" href="/css/bootstrap.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -45,13 +43,11 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
 		  <ul class="nav navbar-nav">
 			<!--<li class=""><a th:href="@{/user/spotSearch}">景點搜尋</a> </li> -->
-			<li>
-				<a th:href="@{/user/tourRetrieveAll}">我的行程</a>  
-			</li>
-			<li><a href="#">旅遊提籃</a> </li>
-			<li><a href="#">景點搜尋</a> </li>
+			<li sec:authorize="hasAnyAuthority('ROLE_ANONYMOUS','ROLE_USER')"><a th:href="@{/user/tourRetrieveAll}">我的行程</a></li>
+			<li sec:authorize="hasAnyAuthority('ROLE_ANONYMOUS','ROLE_USER')"><a th:href="@{/user/collection}">景點收藏</a></li>
 			<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a th:href="@{/admin/hotRetrieveAll}">修改景點</a> </li>
-			   
+			<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a th:href="@{/admin/memberList}">會員列表</a> </li>
+			<li sec:authorize="hasAuthority('ROLE_ADMIN')"><a th:href="@{/admin/adminList}">管理員列表</a> </li>
 		  </ul>
 		  <form class="navbar-form navbar-right" role="search">
 			<div class="form-group">
@@ -61,31 +57,26 @@
 			</div>
 			<button type="submit" class="btn btn-default">Submit</button>
 	-->
-			  </div>
+			</div>
 		  </form>
-		  		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >
-		  
-		  
-		  	<div sec:authorize="isAnonymous()">	  
-		  <ul class="nav navbar-nav navbar-right">
-			  <li><a th:href="@{/registration}">註冊</a></li>
-			  <li><a th:href="@{/login}">登入</a> </li>
-			  
-		   </ul>
-		    </div>
-		    <div  sec:authorize="isAuthenticated()">		   
-		  <ul class="nav navbar-nav navbar-right">
-			  <!-- <li><a th:href="@{/user/update}">修改會員資料</a> </li> -->
-			 <li>
-      					 <form th:action="@{/logout}" method="post">
-      						<button type="submit" class="btn btn-info" style="margin-top:15px;">Logout</button>
-      					 </form>
-      				</li>
-
-			 </ul>
-		  	</div>
-		  
-		  </div>
+		  		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1" >	  
+		  			<div sec:authorize="isAnonymous()">	  
+		  				<ul class="nav navbar-nav navbar-right">
+			  				<li><a th:href="@{/registration}">註冊</a></li>
+			  				<li><a th:href="@{/login}">登入</a> </li>
+		   				</ul>
+		    		</div>
+		    		<div  sec:authorize="isAuthenticated()">		   
+		  				<ul class="nav navbar-nav navbar-right">
+			  			<!-- <li><a th:href="@{/user/update}">修改會員資料</a> </li> -->
+			 				<li>
+      					 	<form th:action="@{/logout}" method="post">
+      							<button type="submit" class="btn btn-info" style="margin-top:15px;">Logout</button>
+      					 	</form>
+      						</li>
+			 			</ul>
+		  			</div>
+		  		</div>
 		  
 		  <!-- <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">Dropdown <span class="caret"></span></a>
 
@@ -111,62 +102,51 @@
 <!-- 大公告區塊-->
 <section>
 	<div class="container well">
-	  <div class="row">
-	<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4"> <span class="text-right">
-	      </span>
-	  <h3>關於我們</h3>
-	  <hr/>
-	  
-	  <p>旅遊規劃團隊</p>
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4"> <span class="text-right"></span>
+	  			<h3>關於我們</h3>
+	  			<hr/>
+	  			<p>旅遊規劃團隊</p>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4 hidden-sm hidden-xs"> <span class="text-right"> </span>
+	  			<h3>最新資訊</h3>
+	  			<hr/>
+	  			<div class="media-object-default">
+	  				<div class="media">
+	  					<div class="media-body">
+	        				<h4 class="media-heading">沒資訊</h4>
+						</div>
+	      				<div class="media-right"> <a href="#"> <img class="media-object" src="/images/75X.gif" alt="placeholder image"/></a></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4"> <span class="text-right"> </span>
+	  			<h3>聯絡我們</h3>
+	  			<hr/>
+	    		<address>
+	      			<strong>Phone</strong><br/>
+					<p>40-666-888</p>
+	      		</address>	
+	      		<address>
+	        		<strong>Email</strong><br/>
+	        		<a href="mailto:#">GoTrip@gmail.com</a>
+	      		</address>
+			</div>
+	  	</div>
 	</div>
-	<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4 hidden-sm hidden-xs"> <span class="text-right"> </span>
-	  <h3>最新資訊</h3>
-	  <hr/>
-	  <div class="media-object-default">
-	  <div class="media">
-	  <div class="media-body">
-	        <h4 class="media-heading">沒資訊</h4>
-	</div>
-	      <div class="media-right"> <a href="#"> <img class="media-object" src="/images/75X.gif" alt="placeholder image"/></a></div>
-	</div>
-	
-	</div>
-	</div>
-	<div class="col-xs-6 col-sm-6 col-lg-4 col-md-4"> <span class="text-right"> </span>
-	  <h3>聯絡我們</h3>
-	  <hr/>
-	
-	    <address>
-	      <strong>Phone</strong><br/>
-			<p>40-666-888</p>
-	      </address>
-	
-	      <address>
-	        <strong>Email</strong><br/>
-	        <a href="mailto:#">GoTrip@gmail.com</a>
-	      </address>
-	</div>
-	  </div>
-	</div>
-	
 	</section>
-	
 
 	<!--  footer  -->
 		<footer class="text-center">
-		          <div class="container">
-		            <div class="row">
-		              <div class="col-xs-12">
-		                  <br/><br/>
+			<div class="container">
+		    	<div class="row">
+		        	<div class="col-xs-12">
+		            	<br/><br/>
 		                <div class = "pacifico" > GoTrip </div>
-		              </div>
 		            </div>
-		          </div>
-		        </footer>
-
-	
-	
-	
+		        </div>
+		    </div>
+		 </footer>
 	
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
 <script src="/js/jquery-1.11.3.min.js"></script> 

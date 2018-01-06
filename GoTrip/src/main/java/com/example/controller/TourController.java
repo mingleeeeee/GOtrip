@@ -1,6 +1,4 @@
 package com.example.controller;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.Principal;
 import java.sql.SQLException;
@@ -8,7 +6,8 @@ import java.sql.SQLException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,10 +41,11 @@ public class TourController {
 	}
 
 	@RequestMapping(value = "/tourCreate", method = RequestMethod.GET)
-	public ModelAndView openFormCreate() {
+	public ModelAndView openFormCreate(Principal principal) {
 		ModelAndView model = new ModelAndView("Tour/tourCreate");
 		Tour tour = new Tour();
 		model.addObject("tour", tour);
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -80,6 +80,7 @@ public class TourController {
 		Account account = memberDao.findOne(principal.getName());
 		Iterable<Tour> list = account.getTours();
 		model.addObject("tourlists", list);
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -90,6 +91,7 @@ public class TourController {
 		ModelAndView model = new ModelAndView("Tour/tourUpdate");
 		Tour list = dao.findOne(id);
 		model.addObject("tour", list);
+		model.addObject("curName", getUserName());
 
 		return model;
 
@@ -127,9 +129,12 @@ public class TourController {
 		return model;
 	}
 	
-	/*public void getUserName(Principal principal){
-		String name = principal.getName();
-		username = memberDao.findOne(name).getName();
-	}*/
+	public String getUserName(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		String name = memberDao.findOne(currentUserName).getName();
+		
+		return name;
+	}
 
 }

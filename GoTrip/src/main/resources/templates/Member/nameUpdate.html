@@ -61,30 +61,29 @@
 	  <!-- 篩選範圍表格-->
     <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0">
       <div class="well">
-        <h3 class="text-center">cow，您好！</h3>
-		  <br/>
+        <h3 class="text-center"><span th:text="${curName}"></span>，您好！</h3>
+		<br/>
         <form class="form-horizontal">
 			<ul class="list-group">
-					<h4 style="text-align: center">行程功能</h4>
+				<h4 style="text-align: center">行程功能</h4>
 				<li class="list-group-item" role="button" onclick="location='tourCreate'">新增行程</li>	
 			</ul>
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			  <li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
-			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
-			  <li class="list-group-item">聯絡客服</li>
-			  <li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
+			  	<li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
+			  	<li class="list-group-item">聯絡客服</li>
+			  	<li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
 			</ul>     
         </form>
       </div>
       <hr/>	  
   	</div>
-	</div>
+</div>
 </div>
 <hr/>
-	
 	
 <!-- information -->
 <div th:replace="Shared/layout :: section"></div>	

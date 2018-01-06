@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.dao.HotSpotDAO;
+import com.example.dao.MemberDAO;
 import com.example.entity.Hot;
 import com.example.storage.StorageService;
 
@@ -22,6 +25,9 @@ public class HotSpotController {
 	
 	@Autowired
 	HotSpotDAO dao;
+	
+	@Autowired
+	MemberDAO memberDao;
 	
 	private final StorageService storageService;
 
@@ -35,6 +41,7 @@ public class HotSpotController {
 		ModelAndView model = new ModelAndView("Hotspot/hotList");
 		Iterable<Hot> hots = dao.findAll();
 		model.addObject("hots", hots);
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -45,6 +52,7 @@ public class HotSpotController {
 		ModelAndView model = new ModelAndView("Hotspot/hotUpdate");
 		Hot hot = dao.findOne(id);
 		model.addObject("hot", hot);
+		model.addObject("curName", getUserName());
 
 		return model;
 	}
@@ -63,7 +71,7 @@ public class HotSpotController {
 		if (!("").equals(hot.getPhotoFile().getOriginalFilename())) {
 			storageService.delete(dao.findOne(hot.getId()).getPhoto());
 			storageService.store(hot.getPhotoFile());
-			hot.setPhoto();// copy file name to the field photo
+			hot.setPhoto();
 		}
 		dao.save(hot);
 
@@ -77,6 +85,14 @@ public class HotSpotController {
 		model.addObject("hot", hot);
 
 		return model;
+	}
+	
+	public String getUserName(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		String name = memberDao.findOne(currentUserName).getName();
+		
+		return name;
 	}
 
 }
