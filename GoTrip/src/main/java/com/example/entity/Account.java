@@ -15,6 +15,8 @@ import org.hibernate.validator.constraints.Email;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 @SessionScope
@@ -34,6 +36,7 @@ public class Account implements Serializable{
 	@Column(name="password")
 	private String password;
 
+	
 	@Column(name="enabled")
 	private boolean enabled;
 	
@@ -53,12 +56,15 @@ public class Account implements Serializable{
 	@Column(name="phone")
 	private String phone;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accountAutho")
 	private List<Authority> authorities;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accountTour")
 	private List<Tour> tours;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "accountCol")
 	private List<Collection> collections;
 	

@@ -68,27 +68,26 @@
     			
     			<form action="javascript:specialSearch();" >
     				<div class="form-group">
-    				<div class="col-xs-4">
-    				<select id="kind" onchange="this.form.submit()" class="form-control">
-    				<option value="0">請選擇...</option>
-    				<option value="1">景點</option>
-    				<option value="2">美食</option>
-    				<option value="3">夜市</option>
-    				<option value="4">購物</option>
-    				<option value="5">古蹟</option>
-    				<option value="6">公園</option>
-    				</select>
-    				</div>
+    					<div class="col-xs-4">
+    						<select id="kind" onchange="this.form.submit()" class="form-control">
+    							<option value="0">請選擇...</option>
+    							<option value="1">景點</option>
+    							<option value="2">美食</option>
+    							<option value="3">夜市</option>
+    							<option value="4">購物</option>
+    							<option value="5">古蹟</option>
+    							<option value="6">公園</option>
+    						</select>
+    					</div>
     				</div>
     			</form>
-    			
     				<button id="positionBtn" onclick="initialLocation()" class="btn btn-primary pull-right" style="margin-left: 10px">定位</button>
     				<button onclick="clearMarker()" class="btn btn-danger pull-right">清除標記</button><br/><br/>	
-    			<div id="map">
-    				loading map ...
-    			</div>
-    		</div>     
-      	</div>
+    				<div id="map">
+    					loading map ...
+    				</div>
+    			</div>     
+      		</div>
       	
 <!-- google map places api -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCSWvAaiXtcAtlyhzMODu-VgnV4KhJaRSA&amp;libraries=places&amp;callback=initialLocation" async ="defer"></script>

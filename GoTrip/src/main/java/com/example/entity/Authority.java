@@ -13,6 +13,8 @@ import javax.persistence.Table;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "authorities")
 @SessionScope
@@ -27,6 +29,7 @@ public class Authority implements Serializable{
 	
 	private String authority;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "username")
 	private Account accountAutho;

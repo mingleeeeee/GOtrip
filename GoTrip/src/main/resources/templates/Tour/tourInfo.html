@@ -8,15 +8,13 @@
 <title>GoTrip</title>
 
 <!-- Bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 	<script src="//production-assets.codepen.io/assets/editor/live/console_runner-079c09a0e3b9ff743e39ee2d5637b9216b3545af0de366d4b9aad9dc87e26bfd.js"></script>	
 	<script src="//production-assets.codepen.io/assets/editor/live/css_live_reload_init-2c0dc5167d60a5af3ee189d570b1835129687ea2a61bee3513dee3a50c115a77.js"></script>
-	
 	<link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
 	<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
 	<link rel="canonical" href="https://codepen.io/Aniboaz/pen/vKOXPa?depth=everything&amp;limit=all&amp;order=popularity&amp;page=47&amp;q=material+&amp;show_forks=false" />
-
 	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css"/>
 	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
 	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Arbutus+Slab"/>
@@ -118,6 +116,11 @@ flag:hover{
         sessionStorage.setItem("destination", destination);
         window.open('route', "_blank");
       }
+	
+	function loadSpotName(flag){
+		var spotName = $(flag).children('span').text();
+		$("#spotName").attr("value", spotName);
+	}
 	</script>
 </head>
 <body>
@@ -130,102 +133,103 @@ flag:hover{
 				<h1 class="text-center" style="font-weight:lighter;" >行程提籃</h1>
 			  	<p class="text-center" style="font-weight:lighter;">自訂行程日程表</p>
 			</div>
-    
 		</div>
 	</div>
 <hr/>
-		
-	
+			
 	<!-- 自訂行程 -->
-<div class="container" >
-	
-	
+<div class="container" >	
   <div class="row">
     <div class="col-lg-9 col-md-12">
 		<div class="row">
-		<div class="tourInfo">
-		<div class="row" th:each="day, iterStat1 : ${allDays}" th:object="${day}">
-		
-   		<div class="col-lg-12 page-header text-center" style="width: 97%" >
-          <h3>第<span th:text="${iterStat1.count}"></span>天</h3>
-		</div>	
-		
+			<div class="tourInfo">
+				<div class="row" th:each="day, iterStat1 : ${allDays}" th:object="${day}">
+   					<div class="col-lg-12 page-header text-center" style="width: 97%" >
+          				<h3>第<span th:text="${iterStat1.count}"></span>天</h3>
+					</div>	
+
 		<!-- tour表  旗幟樣式在head ( class = flag )-->
-		<div id="tour" >
-		&nbsp;
-			<ol style="list-style-type: none">
-				<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
-				<span style="display:none" th:text="*{placeId}"></span>
-					<li class="flag">
-			  			<span th:text="*{name}"></span>
-					</li>
-					<li th:unless="${iterStat2.last}">
-						
-						<img src="/images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>
-						
-					</li>
-				</div>
-				
-				
-			</ol>
+					<div id="tour" >
+					&nbsp;
+						<ol style="list-style-type: none">
+							<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
+								<span style="display:none" th:text="*{placeId}"></span>
+								<li class="flag" role="button" onclick="loadSpotName(this)" data-toggle="modal" data-target="#myModal">
+			  						<span th:text="*{name}"></span>
+								</li>
+								<li th:unless="${iterStat2.last}">
+									<img src="/images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>	
+								</li>
+							</div>					
+						</ol>
 			<!-- 
 			<script>
 			$( ".flag" ).before( "<li><a href=""> <span class="glyphicon glyphicon-arrow-right"></span></a></li>" );
 			</script>
 			 -->
-		</div> <!-- tour -->
-	</div>
-	
-	</div>
-	    
-      </div>
+					</div> <!-- tour -->
+				</div>	
+			</div>    
+      	</div>
     </div>
-	
 	  
 	  <!-- 篩選範圍表格-->
     <div class="col-lg-3 col-md-6 col-md-offset-3 col-lg-offset-0" style="padding-right: 0px">
       <div class="well">
-        <h3 class="text-center">cow，您好！</h3>
-		  <br/>
-		  
-			
-		   
+        <h3 class="text-center"><span th:text="${curName}"></span>，您好！</h3>
+		<br/>   
         <form class="form-horizontal">
-		
 			<ul class="list-group">
-				  <h4 style="text-align: center">行程功能</h4>
-				  <a th:href="@{/user/spotSearch(id=${tourId.intValue()})}" role="button" style='color: black;'><li class="list-group-item">新增景點</li></a>
-  
+				<h4 style="text-align: center">行程功能</h4>
+				<a th:href="@{/user/spotSearch(id=${tourId.intValue()})}" role="button" style='color: black;'><li class="list-group-item">新增景點</li></a>
+				<li class="list-group-item" role="button">輸出行程表</li>
 			</ul>
-			
 			<ul class="list-group">
 				<h4 style="text-align: center">會員功能</h4>
-			  <li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
-			  <li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
-			  <li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
-			  <li class="list-group-item">聯絡客服</li>
-			  <li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
-</ul>
-			
-        
+			  	<li class="list-group-item" onclick="location='/user/updateName'" role='button'>會員姓名修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePassword'" role='button'>密碼修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updateEmail'" role='button'>電子郵件修改</li>
+			  	<li class="list-group-item" onclick="location='/user/updatePhone'" role='button'>連絡電話修改</li>
+			  	<li class="list-group-item">聯絡客服</li>
+			  	<li class="list-group-item" onclick="location='/user/collection'" role='button'>查看景點收藏</li>
+			</ul>     
         </form>
-      </div>
-		
-      <hr/>
-	
-		<!-- -->
-      
-	  
+      </div>		
+      <hr/>  
   </div>
 </div>
-	</div>
-	
-	
-      <hr/>
-
+</div>	
 <hr/>
-	
+<hr/>
+<div class="container">	
+	<div class="modal fade" id="myModal" role="dialog">
+    	<div class="modal-dialog">
+    
+      <!-- Modal content-->
+      	<div class="modal-content">
+        	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+          		<h4 class="modal-title">記錄遊玩資訊</h4>
+        	</div>
+        	<div class="modal-body">
+            	<div class="form-group">
+                	<label for="email">景點名稱:</label>
+                	<input type="text" class="form-control" id="spotName"/>
+             	</div>   
+            	<div class="form-group">
+                	<label for="comment">備註:</label>
+                	<textarea class="form-control" rows="5" cols="35" id="comment" style="resize: none;">開放時間：8:00~17:30</textarea>
+            	</div>
+                	<button type="submit" class="btn btn-primary">儲存</button>
+                	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">關閉</button>
+        	</div>
+        	<div class="modal-footer">          
+        </div>
+      </div> 
+    </div>
+  </div>	
+</div>	
+
 <!-- information -->
 <div th:replace="Shared/layout :: section"></div>	
 <!-- footer -->

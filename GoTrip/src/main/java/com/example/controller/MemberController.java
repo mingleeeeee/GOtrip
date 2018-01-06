@@ -2,9 +2,12 @@ package com.example.controller;
 
 import java.security.Principal;
 import java.sql.SQLException;
+
 import javax.validation.Valid;
+
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.example.dao.AuthorityDAO;
 import com.example.dao.CollectionDAO;
 import com.example.dao.MemberDAO;
@@ -120,6 +124,7 @@ public class MemberController {
 	@RequestMapping(value = "/user/updatePassword", method = RequestMethod.GET)
 	public ModelAndView passwordUpdate(){
 		ModelAndView model = new ModelAndView("Member/passwordUpdate");
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -138,6 +143,7 @@ public class MemberController {
 	@RequestMapping(value = "/user/updateEmail", method = RequestMethod.GET)
 	public ModelAndView emailUpdate(){
 		ModelAndView model = new ModelAndView("Member/emailUpdate");
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -156,6 +162,7 @@ public class MemberController {
 	@RequestMapping(value = "/user/updateName", method = RequestMethod.GET)
 	public ModelAndView nameUpdate(){
 		ModelAndView model = new ModelAndView("Member/nameUpdate");
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -174,6 +181,7 @@ public class MemberController {
 	@RequestMapping(value = "/user/updatePhone", method = RequestMethod.GET)
 	public ModelAndView phoneUpdate(){
 		ModelAndView model = new ModelAndView("Member/phoneUpdate");
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -197,6 +205,7 @@ public class MemberController {
 		Iterable<Collection> cols = account.getCollectinos();
 		model.addObject("cols", cols);
 		model.addObject("tours", account.getTours());
+		model.addObject("curName", getUserName());
 		
 		return model;
 	}
@@ -253,5 +262,13 @@ public class MemberController {
 		}
 		
 		return model;
+	}
+	
+	public String getUserName(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		String name = memberDao.findOne(currentUserName).getName();
+		
+		return name;
 	}
 }

@@ -27,8 +27,6 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
-    //After Spring 4.3, we can use @GetMapping instead of @RequestMapping(value = "/", method = RequestMethod.GET)
-    //@RequestMapping(value = "/", method = RequestMethod.GET)
     @GetMapping("/ListUpFile")
     public String listUploadedFiles(Model model) throws IOException {
 
@@ -54,7 +52,6 @@ public class FileUploadController {
                 .body(file);
     }
 
-    //After Spring 4.3, we can use @PostMapping instead of @RequestMapping(value = "/", method = RequestMethod.POST)
     @PostMapping("/")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {

@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,10 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.example.dao.HotSpotDAO;
+import com.example.dao.MemberDAO;
 import com.example.dao.SpotDAO;
 import com.example.dao.TourDAO;
-import com.example.entity.Basket;
 import com.example.entity.Hot;
 import com.example.entity.Spot;
 import com.example.entity.Tour;
@@ -34,13 +37,13 @@ public class MainController {
 	SpotDAO spotDao;
 
 	@Autowired
-	Basket basket;
-
-	@Autowired
 	TourDAO tourDao;
 
 	@Autowired
 	HotSpotDAO dao;
+	
+	@Autowired
+	MemberDAO memberDao;
 	
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public ModelAndView index() throws SQLException {
@@ -64,6 +67,7 @@ public class MainController {
 	
 		model.addObject("tourId", tour.getId());
 		model.addObject("allDays", daysArr);
+		model.addObject("curName", getUserName());
 
 		return model;
 	}
@@ -144,10 +148,17 @@ public class MainController {
 
 	@RequestMapping(value = "/user/route", method = RequestMethod.GET)
 	public ModelAndView handleRoute() {
-		ModelAndView model = new ModelAndView("Tour/outputPage");
+		ModelAndView model = new ModelAndView("Tour/direction");
 
 		return model;
 	}
 	
+	public String getUserName(){
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String currentUserName = authentication.getName();
+		String name = memberDao.findOne(currentUserName).getName();
+		
+		return name;
+	}
 	
 }
