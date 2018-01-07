@@ -20,7 +20,13 @@
 	<link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Arbutus+Slab"/>
 	<link rel="stylesheet prefetch" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css"/>
 	<link rel="stylesheet" href="/css/blockCSS.css"/>
+	<script src="/js/jquery-1.11.3.min.js"></script> 
+	<script src="/js/bootstrap.js"></script>
+	<script src="/js/jquery.validate.min.js"></script>
+	<link rel="stylesheet" href="/css/screen.css"/>
 	<link rel="stylesheet" href="/css/bootstrap.css"/>
+	<link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
+	
 	
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -109,6 +115,7 @@ flag:hover{
 	</style>
 	
 	<script>
+	var flag2;
 	function handleRoute(btn){
         var origin = $(btn).closest('div').children('span').text().trim();
         var destination = $(btn).closest('div').next('.spotDiv').children('span').text().trim();
@@ -117,10 +124,63 @@ flag:hover{
         window.open('route', "_blank");
       }
 	
-	function loadSpotName(flag){
-		var spotName = $(flag).children('span').text();
-		$("#spotName").attr("value", spotName);
+	function getSpotDetail(flag){
+		flag2 = flag;
+		var id = $(flag).find('input').val();
+		
+		$.ajax({
+			url: '/user/spotDetail',
+			type: 'POST',
+			contentType: 'application/json; charset=utf-8',
+			data: JSON.stringify({'id': id}),
+			success: function(s){
+				var spot = jQuery.parseJSON(s);
+				$('#spotDetailForm input[name="id"]').val(spot.id);
+				$('#spotName').val(spot.name);
+				$('#comment').val(spot.note);
+			},
+			error: function(e){
+				alert('存取失敗');
+			}
+		});	
 	}
+	
+	$().ready(function(){
+		
+		var validator = $("#spotDetailForm").validate({
+			rules:{
+				name:{required:true}
+			},
+			messages:{
+				name:{required:"請填入景點名稱"}
+			},
+			submitHandler:function(form){
+				var id = $('#spotId').val();
+				var name = $('#spotName').val();
+				var note = $('#comment').val();
+				
+				$.ajax({
+					url: '/user/saveSpotDetail',
+					type: 'POST',
+					contentType: 'application/json; charset=utf-8',
+					data: JSON.stringify({'id': id, 'name': name, 'note':note}),
+					success: function(s){
+						alert("儲存成功");
+						$(flag2).find('span').text(name);
+						$("#cancel").trigger( "click" );
+						
+						//$("#myModal").modal("hide");
+					},
+					error: function(e){
+						alert('存取失敗');
+					}
+				});
+			}
+		});
+		$("#cancel").click(function() {
+		    validator.resetForm();
+		});
+	});
 	</script>
 </head>
 <body>
@@ -154,8 +214,10 @@ flag:hover{
 						<ol style="list-style-type: none">
 							<div th:each="spot, iterStat2 : ${day}" th:object="${spot}" class="spotDiv">
 								<span style="display:none" th:text="*{placeId}"></span>
-								<li class="flag" role="button" onclick="loadSpotName(this)" data-toggle="modal" data-target="#myModal">
+								
+								<li class="flag" role="button" onclick="getSpotDetail(this)" data-toggle="modal" data-target="#myModal">
 			  						<span th:text="*{name}"></span>
+			  						<input type="hidden" th:value="*{id}"/>
 								</li>
 								<li th:unless="${iterStat2.last}">
 									<img src="/images/marker.png" style="height: 40px;width: 40px"  role="button" onclick="handleRoute(this)"/>	
@@ -212,16 +274,19 @@ flag:hover{
           		<h4 class="modal-title">記錄遊玩資訊</h4>
         	</div>
         	<div class="modal-body">
+        	 <form th:action="@{/user/saveSpotDetail}" id="spotDetailForm" method="POST">
+        	 	<input type="hidden" name="id" id="spotId"/>
             	<div class="form-group">
                 	<label for="email">景點名稱:</label>
-                	<input type="text" class="form-control" id="spotName"/>
+                	<input type="text" class="form-control" id="spotName" name="name"/>
              	</div>   
             	<div class="form-group">
                 	<label for="comment">備註:</label>
-                	<textarea class="form-control" rows="5" cols="35" id="comment" style="resize: none;">開放時間：8:00~17:30</textarea>
+                	<textarea class="form-control" rows="5" cols="35" id="comment" name="note" style="resize: none;"></textarea>
             	</div>
                 	<button type="submit" class="btn btn-primary">儲存</button>
-                	<button type="button" class="btn btn-default pull-right" data-dismiss="modal">關閉</button>
+                	<button type="button" id="cancel" class="btn btn-default pull-right" data-dismiss="modal">關閉</button>
+        	 </form>
         	</div>
         	<div class="modal-footer">          
         </div>
@@ -234,11 +299,6 @@ flag:hover{
 <div th:replace="Shared/layout :: section"></div>	
 <!-- footer -->
 <div th:replace="Shared/layout :: footer"></div>
-	
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="/js/jquery-1.11.3.min.js"></script> 
-<!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script src="/js/bootstrap.js"></script>
 	
 </body>
 </html>

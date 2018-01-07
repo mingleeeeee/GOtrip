@@ -1,3 +1,27 @@
+$(document).ready(function() {
+    $("#createAdminForm").validate({
+      rules:{
+        username:{required:true},
+        password:{required:true},
+        password_again:{required:true, equalTo:"#password"},
+        name:{required:true},
+        phone:{required:true},
+        email:{required:true, email:true}
+      },
+      messages:{
+        username:{required:"(必填)"},
+        password:{required:"(必填)"},
+        password_again:{required:"(必填)", equalTo:"(密碼不一致)"},
+        name:{required:"(必填)"},
+        phone:{required:"(必填)"},
+        email:{required:"(必填)", email:"(請填入正確格式)"}   
+      },
+      errorPlacement: function(error, element) {  
+    	    $(element).closest('form').find("label[for='" + element.attr("name") + "']").append(error);
+    	}
+    });
+});
+
 function setModalValue(edit){
 		var tr = $(edit).closest('tr');
 		var username = $(tr).children('td').first().text();

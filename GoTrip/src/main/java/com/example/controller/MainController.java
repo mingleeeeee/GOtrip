@@ -27,6 +27,8 @@ import com.example.dao.TourDAO;
 import com.example.entity.Hot;
 import com.example.entity.Spot;
 import com.example.entity.Tour;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -159,6 +161,35 @@ public class MainController {
 		String name = memberDao.findOne(currentUserName).getName();
 		
 		return name;
+	}
+	
+	@RequestMapping(value = "/user/spotDetail", method = RequestMethod.POST)
+	@ResponseBody
+	public String spotDetail(@RequestBody String json) throws JsonProcessingException {
+		//ModelAndView model = new ModelAndView("redirect:/");
+		JSONObject jsonObj = new JSONObject(json);
+		Long id = Long.valueOf(jsonObj.get("id").toString());
+		Spot spot = spotDao.findOne(id);
+		ObjectMapper mapper = new ObjectMapper();
+		String spotJson = mapper.writeValueAsString(spot);
+
+		return spotJson;
+	}
+	
+	@RequestMapping(value = "/user/saveSpotDetail", method = RequestMethod.POST)
+	public ModelAndView saveSpotDetail(@RequestBody String json){
+		ModelAndView model = new ModelAndView("redirect:/");
+		JSONObject jsonObj = new JSONObject(json);
+		Long id = Long.valueOf(jsonObj.get("id").toString());
+		String name = jsonObj.get("name").toString();
+		String note = jsonObj.get("note").toString();
+		Spot spot = spotDao.findOne(id);
+		spot.setName(name);
+		spot.setNote(note);
+		spotDao.save(spot);
+			
+		return model;
+		
 	}
 	
 }
