@@ -7,12 +7,16 @@
 <title>GoTrip</title>
 
 <!-- Bootstrap -->
+<link rel="stylesheet" href="/css/screen.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
 <script src="/js/jquery-1.11.3.min.js"></script>
 <link rel="stylesheet" href="/css/bootstrap.css"/>
+<script src="/js/bootstrap.js"></script>
+<script src="/js/jquery.validate.min.js"></script>
 <script src="/js/admin.js"></script>
+
 
 <style>
 	th, td{
@@ -20,33 +24,10 @@
   		font-size: 15px;
   	}
 </style>
-<!--  
+
 <script>
-$(document).ready(function() {
-    $("#createAdminForm").validate({
-      rules:{
-        username:{required:true},
-        password:{required:true},
-        password_again:{required:true, equalTo:"#password"},
-        name:{required:true},
-        phone:{required:true},
-        email:{required:true}
-      },
-      messages:{
-        username:{required:"請輸入帳號"},
-        password:{required:"請輸入密碼"},
-        password_again:{required:"請再次輸入密碼", equalTo:"密碼與上述不同"},
-        name:{required:"請輸入姓名"},
-        phone:{required:"請輸入連絡電話"},
-        email:{required:"請輸入信箱"}   
-      },
-      submitHandler:function(form){
-          alert("提交事件!");   
-          form.submit();
-      }    
-    });
-});
-</script>-->
+
+</script>
 </head>
 <body>
 	
@@ -168,32 +149,32 @@ $(document).ready(function() {
         	
         	<div class="form-group">
                 <label for="username">帳號:</label>
-                <input type="text" class="form-control" name="username" required="required"/>
+                <input type="text" class="form-control" name="username" />
             </div> 
             
             <div class="form-group">
                 <label for="password">密碼:</label>
-                <input type="password" class="form-control" name="password" id="password"  required="required"/>
+                <input type="password" class="form-control" name="password" id="password" />
             </div>
             
-            <!-- <div class="form-group">
+            <div class="form-group">
                 <label for="password_again">再次輸入密碼:</label>
                 <input type="password" class="form-control" id="password_again" name="password_again"/>
-            </div>   -->
+            </div>
         	
             <div class="form-group">
                 <label for="name">姓名:</label>
-                <input type="text" class="form-control" name="name"  required="required"/>
+                <input type="text" class="form-control" name="name"/>
             </div>   
 
             <div class="form-group">
                 <label for="email">信箱:</label>
-                <input type="email" class="form-control" name="email"  required="required"/>
+                <input type="email" class="form-control" name="email"/>
             </div>
 
             <div class="form-group">
                 <label for="phone">連絡電話:</label>
-                <input type="text" class="form-control" name="phone"  required="required"/>
+                <input type="text" class="form-control" name="phone"/>
             </div>
                 <button type="submit" class="btn btn-primary">新增</button>
                 <button type="button" class="btn btn-default pull-right" data-dismiss="modal">關閉</button>
@@ -215,11 +196,8 @@ $(document).ready(function() {
 <div th:replace="Shared/layout :: section"></div>	
 <!-- footer -->
 <div th:replace="Shared/layout :: footer"></div>
-	
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
-<script src="/js/jquery-1.11.3.min.js"></script> 
-<!-- Include all compiled plugins (below), or include individual files as needed --> 
-<script src="/js/bootstrap.js"></script>
+
+
 	
 </body>
 </html>
