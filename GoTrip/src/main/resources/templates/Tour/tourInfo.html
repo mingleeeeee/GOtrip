@@ -116,25 +116,29 @@ flag:hover{
 	
 	<script>
 	var flag2;
+	//路線規劃
 	function handleRoute(btn){
         var origin = $(btn).closest('div').children('span').text().trim();
         var destination = $(btn).closest('div').next('.spotDiv').children('span').text().trim();
-        sessionStorage.setItem("origin", origin);
-        sessionStorage.setItem("destination", destination);
-        window.open('route', "_blank");
+        sessionStorage.setItem("origin", origin); //session值設定
+        sessionStorage.setItem("destination", destination); //session值設定
+        window.open('route', "_blank"); //開新視窗顯示規劃路線
       }
 	
+	//取得景點詳細資訊
 	function getSpotDetail(flag){
 		flag2 = flag;
 		var id = $(flag).find('input').val();
 		
+		//以景點id取得詳細資訊
 		$.ajax({
 			url: '/user/spotDetail',
 			type: 'POST',
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify({'id': id}),
 			success: function(s){
-				var spot = jQuery.parseJSON(s);
+				var spot = jQuery.parseJSON(s); //json to object
+				//set input tag value
 				$('#spotDetailForm input[name="id"]').val(spot.id);
 				$('#spotName').val(spot.name);
 				$('#comment').val(spot.note);
@@ -147,6 +151,7 @@ flag:hover{
 	
 	$().ready(function(){
 		
+		//jquery validate驗證表單資料
 		var validator = $("#spotDetailForm").validate({
 			rules:{
 				name:{required:true}
@@ -165,7 +170,7 @@ flag:hover{
 					contentType: 'application/json; charset=utf-8',
 					data: JSON.stringify({'id': id, 'name': name, 'note':note}),
 					success: function(s){
-						alert("儲存成功");
+						//alert("儲存成功");
 						$(flag2).find('span').text(name);
 						$("#cancel").trigger( "click" );
 						

@@ -151,6 +151,7 @@
         
       }
 
+      //新增景點至收藏清單
       function addToCollection(placeId){
         
         $.ajax({ 
@@ -226,13 +227,14 @@
           
       }
       
+      //find所選擇天數的景點
       function findNextDaySpots(){
     	  var basket = getCurrentSpots();
     	  var nextDay = $('#nextDay').val();
     	  var tourId = $("#tourId").text();
     	  var thisDay = $("#thisDay").text();
     	  
-    	// 以ajax post動態傳送basket陣列回controller
+    	// 以ajax post傳送basket陣列回controller
           $.ajax({ 
             url: "/user/retrieveNextSopts",
             type: "POST",
