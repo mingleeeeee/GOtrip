@@ -197,11 +197,12 @@ public class MemberController {
 		return model;
 	}
 	
+	//導向收藏頁面
 	@RequestMapping(value = "/user/collection", method = RequestMethod.GET)
 	public ModelAndView collection(Principal principal){
 		ModelAndView model = new ModelAndView("Member/collection");
 		String username = principal.getName();
-		Account account = memberDao.findOne(username);
+		Account account = memberDao.findOne(username); //find所有收藏的景點
 		Iterable<Collection> cols = account.getCollectinos();
 		model.addObject("cols", cols);
 		model.addObject("tours", account.getTours());
@@ -210,6 +211,7 @@ public class MemberController {
 		return model;
 	}
 	
+	//新增景點於收藏清單
 	@RequestMapping(value = "/user/addCollection", method = RequestMethod.POST)
 	public ModelAndView addToCollection(@RequestBody String json, Principal principal){
 		ModelAndView model = new ModelAndView("redirect:/");
@@ -230,6 +232,7 @@ public class MemberController {
 		
 	}
 	
+	//刪除收藏清單內的景點
 	@RequestMapping(value = "/user/deleteCollection", method = RequestMethod.POST)
 	public ModelAndView deleteFromCollection(@RequestBody String json){
 		ModelAndView model = new ModelAndView("redirect:/");
@@ -240,16 +243,18 @@ public class MemberController {
 		return model;
 	}
 	
+	//將收藏清單的景點加入至所選擇的行程及天數
 	@RequestMapping(value = "/user/saveToBasket", method = RequestMethod.POST)
 	public ModelAndView saveColToBasket(@RequestBody String json){
 		ModelAndView model = new ModelAndView("redirect:/");
 		
 		JSONObject jsonObj = new JSONObject(json);
 		String arr[] = jsonObj.get("colList").toString().split(",");
-		int day = Integer.parseInt(jsonObj.get("day").toString());
-		Long tourId = Long.valueOf(jsonObj.get("tourId").toString());
+		int day = Integer.parseInt(jsonObj.get("day").toString()); //哪一天
+		Long tourId = Long.valueOf(jsonObj.get("tourId").toString()); //哪個行程
 		Tour tour = tourDao.findOne(tourId); 
 		
+		//初始化Spot物件並加入spot table
 		for(int i = 0; i < arr.length; i++){
 			Collection col = colDao.findOne(new Long(arr[i]));
 			Spot spot = new Spot();
@@ -264,6 +269,7 @@ public class MemberController {
 		return model;
 	}
 	
+	//回傳當前使用者姓名
 	public String getUserName(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentUserName = authentication.getName();

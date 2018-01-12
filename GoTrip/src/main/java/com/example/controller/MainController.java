@@ -47,6 +47,7 @@ public class MainController {
 	@Autowired
 	MemberDAO memberDao;
 	
+	//導向首頁
 	@RequestMapping(value = { "/", "/index" }, method = RequestMethod.GET)
 	public ModelAndView index() throws SQLException {
 		Iterable<Hot> hot = dao.findAll();
@@ -56,14 +57,14 @@ public class MainController {
 		return model;
 	}
 	
+	//導向旅遊提籃(行程表)
 	@RequestMapping(value = { "/user/tourInfo" }, method = RequestMethod.GET)
-	public ModelAndView tourInfo(@ModelAttribute("id") Long id, HttpSession session) {
+	public ModelAndView tourInfo(@ModelAttribute("id") Long id) {
 		ModelAndView model = new ModelAndView("Tour/tourInfo");
 		Tour tour = tourDao.findOne(id);
 		ArrayList<Iterable> daysArr = new ArrayList<Iterable>();
-		for (int i = 0; i < tour.getDays(); i++) {
-			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(
-					tour, i + 1);
+		for (int i = 0; i < tour.getDays(); i++) { //依不同天數取得當天景點
+			Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, i + 1);
 			daysArr.add(spots);
 		}
 	
@@ -74,14 +75,18 @@ public class MainController {
 		return model;
 	}
 
+	//導向景點搜尋頁面
 	@RequestMapping(value = { "/user/spotSearch" }, method = RequestMethod.GET)
 	public ModelAndView spotSearch(@ModelAttribute("id") int tourId, HttpSession session) {
 		ModelAndView model = new ModelAndView("Tour/spotSearch");
 		Tour tour = tourDao.findOne(new Long(tourId));
+		
+		//頁面預設顯示Day1景點
 		Iterable<Spot> spots = spotDao.findByTourAndDayOrderBySequenceAsc(tour, 1);
 		model.addObject("spots", spots);
 		model.addObject("tour", tour);
 
+		//天數資料串列
 		ArrayList<Integer> dayList = new ArrayList<>();
 		for (int i = 1; i <= tour.getDays(); i++)
 			dayList.add(i);
@@ -90,40 +95,45 @@ public class MainController {
 		return model;
 	}
 
+	//更新景點資料庫(json格式為參數)
 	@RequestMapping(value = { "/user/saveBasket" }, method = RequestMethod.POST)
 	public ModelAndView updateBasket(@RequestBody String json) throws Exception {
 		ModelAndView model = new ModelAndView("redirect:/");
-		JSONObject jsonObj = new JSONObject(json);
+		JSONObject jsonObj = new JSONObject(json); //json字串處理
 		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
 		Integer thisDay = new Integer(jsonObj.get("thisDay").toString());
-		basketSave(jsonObj, whichTour, thisDay);
+		basketSave(jsonObj, whichTour, thisDay); //呼叫方法存入資料庫
 
 		return model;
 	}
 	
+	//回傳某天的行程景點List
 	@RequestMapping(value = { "/user/retrieveNextSopts" }, method = RequestMethod.POST)
-	@ResponseBody
+	@ResponseBody //將回傳值當作回應內容
 	public List<Spot> nextSpots(@RequestBody String json) throws Exception {
 		JSONObject jsonObj = new JSONObject(json);
-		Integer nextDay = new Integer(jsonObj.get("nextDay").toString());
-		Integer thisDay = new Integer(jsonObj.get("thisDay").toString());
+		Integer nextDay = new Integer(jsonObj.get("nextDay").toString()); //取得json內的nextDay資料
+		Integer thisDay = new Integer(jsonObj.get("thisDay").toString()); //取得json內的thisDay資料
 		Tour whichTour = tourDao.findOne(new Long(jsonObj.get("tourId").toString()));
-		basketSave(jsonObj, whichTour, thisDay);
+		basketSave(jsonObj, whichTour, thisDay); //儲存修改結果
 		ArrayList<Spot> nextSpots = new ArrayList<Spot>();
+		//儲存nextDay的所有景點於串列
 		nextSpots = (ArrayList<Spot>) spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, nextDay);
 
 		return nextSpots;
 	}
 
+	//更新景點資料庫
 	private void basketSave(JSONObject jsonObj, Tour whichTour, Integer whichDay) throws Exception {;
 
 		/* handle json string */
 		Gson gson = new Gson();
 		JSONArray jsonArr = jsonObj.getJSONArray("things");
-		Type listType = new TypeToken<ArrayList<Spot>>(){}.getType();
-		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType);
+		Type listType = new TypeToken<ArrayList<Spot>>(){}.getType(); //用Gson套件設定json字串轉換格式
+		ArrayList<Spot> spots = gson.fromJson(jsonArr.toString(), listType); //轉換json字串為Spot的ArrayList
 		ArrayList<Spot> list = (ArrayList<Spot>) spotDao.findByTourAndDayOrderBySequenceAsc(whichTour, whichDay);
 		
+		//更新景點順序、刪除使用者移除的景點
 		for (int k = 0; k < list.size(); k++) {
 			Spot spot1 = list.get(k);
 			boolean isFind = false;
@@ -141,6 +151,8 @@ public class MainController {
 			if (!isFind)
 				spotDao.delete(spot1);
 		}
+		
+		//新增使用者加入的景點於資料庫
 		for (int j = 0; j < spots.size(); j++) {
 			Spot s = spots.get(j);
 			Spot newSpot = new Spot(s.getName(), s.getDay(), s.getPlaceId(), s.getSequence(), whichTour);
@@ -148,6 +160,7 @@ public class MainController {
 		}
 	}
 
+	//導向路線規劃頁面
 	@RequestMapping(value = "/user/route", method = RequestMethod.GET)
 	public ModelAndView handleRoute() {
 		ModelAndView model = new ModelAndView("Tour/direction");
@@ -155,6 +168,7 @@ public class MainController {
 		return model;
 	}
 	
+	//會傳當前使用者姓名
 	public String getUserName(){
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String currentUserName = authentication.getName();
@@ -163,6 +177,7 @@ public class MainController {
 		return name;
 	}
 	
+	//以json格式回傳單筆景點詳細資料(資料於modal顯示)
 	@RequestMapping(value = "/user/spotDetail", method = RequestMethod.POST)
 	@ResponseBody
 	public String spotDetail(@RequestBody String json) throws JsonProcessingException {
@@ -171,11 +186,12 @@ public class MainController {
 		Long id = Long.valueOf(jsonObj.get("id").toString());
 		Spot spot = spotDao.findOne(id);
 		ObjectMapper mapper = new ObjectMapper();
-		String spotJson = mapper.writeValueAsString(spot);
+		String spotJson = mapper.writeValueAsString(spot); //物件轉json字串
 
 		return spotJson;
 	}
 	
+	//儲存單筆景點資料的修改結果
 	@RequestMapping(value = "/user/saveSpotDetail", method = RequestMethod.POST)
 	public ModelAndView saveSpotDetail(@RequestBody String json){
 		ModelAndView model = new ModelAndView("redirect:/");
