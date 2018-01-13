@@ -15,6 +15,7 @@
 
 </style>
 <script>
+//頁面的切換
 $(function() {
 	$('#login-form-link').click(loginEvent);
 	$('#register-form-link').click(registerEvent);
@@ -27,7 +28,7 @@ $(function() {
     
 
 });
-
+//頁面的JS
 function loginEvent(e){
 	$("#login-form").delay(100).fadeIn(100);
 	$("#register-form").fadeOut(100);
@@ -43,7 +44,7 @@ function registerEvent(e){
 	$(this).addClass('active');
 	e.preventDefault();
 }
-
+//檢查密碼是否相符
 function checkPwd(){
 	
 	var pwd1 = $('#password2').val();
