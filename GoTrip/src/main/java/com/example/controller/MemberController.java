@@ -72,7 +72,7 @@ public class MemberController {
 		Account account = new Account();
 		model.addObject("account", account);
 		model.addObject("token", 1);
-		
+		//將token設為1讓頁面切換為註冊的頁面
 		return model;
 	}
 
@@ -88,10 +88,14 @@ public class MemberController {
 		}
 		account.setEnabled(true);
 		memberDao.save(account);
+		//會員資料存到資料庫
 		Authority autho = new Authority();
+		
 		autho.setAuthority("ROLE_USER");
+		//設定使用者的權限
 		autho.setAccountAutho(account);
-		authoDao.save(autho);		
+		authoDao.save(autho);
+		//權限存到資料庫
 		model.addObject(account);
 
 		return model;

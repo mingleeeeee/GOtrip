@@ -10,9 +10,7 @@
 <!-- Bootstrap -->
 <link rel="stylesheet" href="/css/bootstrap.css"/>
 <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet"/>
-<script>function myFunction() {
-    alert("Hello! I am an alert box!");
-}</script>
+
 <style>
 	.error{
 		color: red;
@@ -23,13 +21,17 @@
 	<!-- Navbar -->
 	<div th:replace="Shared/layout :: nav"></div>
         
-		<form th:action="@{/registration}" role ="form"  th:object="${account}" method ="POST">
-		<div class="container" style="padding-top: 60px;width: 100% ; padding-left: 0px;padding-right: 0px">	
-			<div class="form-group">
+			<form th:action="@{/registration}" role ="form"  th:object="${account}" method ="POST">
+				<div class="container" style="padding-top: 60px;width: 100% ; padding-left: 0px;padding-right: 0px">	
+					<!-- 表單的格式 -->
+					<div class="form-group">
+					<!-- 表單型態 -->
 			   <label>請輸入帳號:</label>
 			   <input type="text" name="username" class="form-control" 
 			   th:field="*{username}" placeholder="至少6個字元"/>
+			   <!-- 輸入的值要把他丟到的變數 --><!-- 提示訊息 -->
 			   <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
+				<!-- 判斷是否不符合格式 若是則輸出格式錯誤的原因 -->
 				</div>
 				
 			 <div class="form-group">
